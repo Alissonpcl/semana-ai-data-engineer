@@ -1,7 +1,8 @@
 {
   "generators": [
     {
-      "topic": "customers",
+      "name": "customers",
+      "connection": "pg",
       "table": "customers",
       "row": {
         "customer_id": { "_gen": "uuid" },
@@ -19,11 +20,12 @@
       },
       "localConfigs": {
         "maxEvents": 500,
-        "throttle": 0
+        "throttle": {"ms": 0}
       }
     },
     {
-      "topic": "products",
+      "name": "products",
+      "connection": "pg",
       "table": "products",
       "row": {
         "product_id": { "_gen": "uuid" },
@@ -38,22 +40,23 @@
       },
       "localConfigs": {
         "maxEvents": 200,
-        "throttle": 0
+        "throttle": {"ms": 0}
       }
     },
     {
-      "topic": "orders",
+      "name": "orders",
+      "connection": "pg",
       "table": "orders",
       "row": {
         "order_id": { "_gen": "uuid" },
         "customer_id": {
           "_gen": "lookup",
-          "topic": "customers",
+          "table": "customers",
           "path": ["row", "customer_id"]
         },
         "product_id": {
           "_gen": "lookup",
-          "topic": "products",
+          "table": "products",
           "path": ["row", "product_id"]
         },
         "qty": {
@@ -68,35 +71,49 @@
         },
         "status": {
           "_gen": "weightedOneOf",
-          "choices": ["delivered", "shipped", "processing", "cancelled"],
-          "weights": [0.50, 0.20, 0.20, 0.10]
+          "choices": [
+            {"weight": 0.50, "value": "delivered"},
+            {"weight": 0.20, "value": "shipped"},
+            {"weight": 0.20, "value": "processing"},
+            {"weight": 0.10, "value": "cancelled"}
+          ]
         },
         "payment": {
           "_gen": "weightedOneOf",
-          "choices": ["pix", "credit_card", "boleto"],
-          "weights": [0.45, 0.40, 0.15]
+          "choices": [
+            {"weight": 0.45, "value": "pix"},
+            {"weight": 0.40, "value": "credit_card"},
+            {"weight": 0.15, "value": "boleto"}
+          ]
         },
         "created_at": { "_gen": "now" }
       },
       "localConfigs": {
         "maxEvents": 5000,
-        "throttle": 100
+        "throttle": {"ms": 100}
       }
     },
     {
-      "topic": "reviews",
+      "name": "reviews",
+      "connection": "fs",
       "directory": "/data/reviews",
       "data": {
         "review_id": { "_gen": "uuid" },
         "order_id": {
           "_gen": "lookup",
-          "topic": "orders",
+          "connection": "pg",
+          "table": "orders",
           "path": ["row", "order_id"]
         },
         "rating": {
           "_gen": "weightedOneOf",
-          "choices": [1, 2, 3, 4, 5],
-          "weights": [0.05, 0.10, 0.20, 0.30, 0.35]
+          "choices": [
+            {"weight": 0.05, "value": 1},
+            {"weight": 0.10, "value": 2},
+            {"weight": 0.20, "value": 3},
+            {"weight": 0.30, "value": 4},
+            {"weight": 0.35, "value": 5}
+          ]
         },
         "comment": {
           "_gen": "oneOf",
@@ -135,16 +152,20 @@
         },
         "sentiment": {
           "_gen": "weightedOneOf",
-          "choices": ["positive", "neutral", "negative"],
-          "weights": [0.35, 0.30, 0.35]
+          "choices": [
+            {"weight": 0.35, "value": "positive"},
+            {"weight": 0.30, "value": "neutral"},
+            {"weight": 0.35, "value": "negative"}
+          ]
         }
       },
       "localConfigs": {
         "maxEvents": 500,
-        "throttle": 500
+        "throttle": {"ms": 500}
       },
       "fileConfigs": {
-        "fileName": "reviews.jsonl"
+        "filePrefix": "reviews-",
+        "format": "jsonl"
       }
     }
   ],
@@ -158,7 +179,7 @@
         "username": "shopagent",
         "password": "shopagent"
       },
-      "tablePolicy": "truncate"
+      "tablePolicy": "dropAndCreate"
     },
     "fs": {
       "kind": "fileSystem"
