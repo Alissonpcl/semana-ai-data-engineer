@@ -22,9 +22,7 @@
         "maxEvents": 500
       }
     },
-    {
-      "name": "products",
-      "connection": "pg",
+    {      
       "name": "products",
       "connection": "pg",
       "table": "products",
@@ -39,15 +37,12 @@
         },
         "brand": { "_gen": "string", "expr": "#{Company.name}" }
       },
-      "localConfigs": {
-        "maxEvents": 200
+      "localConfigs": {        
         "maxEvents": 200,
         "throttle": {"ms": 0}
       }
     },
-    {
-      "name": "orders",
-      "connection": "pg",
+    {      
       "name": "orders",
       "connection": "pg",
       "table": "orders",
@@ -56,12 +51,10 @@
         "customer_id": {
           "_gen": "lookup",
           "table": "customers",
-          "table": "customers",
           "path": ["row", "customer_id"]
         },
         "product_id": {
-          "_gen": "lookup",
-          "table": "products",
+          "_gen": "lookup",          
           "table": "products",
           "path": ["row", "product_id"]
         },
@@ -76,13 +69,7 @@
           "decimals": 2
         },
         "status": {
-          "_gen": "weightedOneOf",
-          "choices": [
-            {"weight": 0.50, "value": "delivered"},
-            {"weight": 0.20, "value": "shipped"},
-            {"weight": 0.20, "value": "processing"},
-            {"weight": 0.10, "value": "cancelled"}
-          ]
+          "_gen": "weightedOneOf",          
           "choices": [
             {"weight": 0.50, "value": "delivered"},
             {"weight": 0.20, "value": "shipped"},
@@ -105,9 +92,7 @@
         "throttle": {"ms": 100}
       }
     },
-    {
-      "name": "reviews",
-      "connection": "fs",
+    {      
       "name": "reviews",
       "connection": "fs",
       "directory": "/data/reviews",
