@@ -89,17 +89,26 @@ def segment_analysis() -> str:
 ```json
 {
   "mcpServers": {
-    "supabase": {
-      "type": "http",
-      "url": "http://localhost:54321/mcp"
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres",
+               "postgresql://shopagent:shopagent@localhost:5432/shopagent"]
     }
   }
 }
 ```
 
-Day 4 cloud migration — only the URL changes:
+Day 4 cloud migration — switch to Supabase MCP:
 ```json
-{ "url": "https://xxxxx.supabase.co/mcp" }
+{
+  "mcpServers": {
+    "supabase": {
+      "command": "npx",
+      "args": ["-y", "mcp-server-supabase", "--supabase-url", "https://xxxxx.supabase.co",
+               "--supabase-key", "your-anon-key"]
+    }
+  }
+}
 ```
 
 ## See Also

@@ -3187,447 +3187,264 @@
 </section>
 
 <!-- ================================================================ -->
-<!-- SLIDE 28 — SUBAGENTS DEEP DIVE: Processo Mental Estruturado     -->
-<!-- ================================================================ -->
-<section class="slide" style="justify-content:flex-start; padding-top:clamp(20px,3vh,36px); background-image: radial-gradient(ellipse at 25% 15%, rgba(248,81,73,0.05) 0%, transparent 45%), radial-gradient(ellipse at 75% 15%, rgba(74,158,255,0.07) 0%, transparent 45%), radial-gradient(ellipse at 50% 90%, rgba(212,175,55,0.04) 0%, transparent 50%);">
-  <p class="slide__label reveal">SUBAGENTS &middot; DEEP DIVE</p>
-  <h2 class="slide__heading reveal" style="font-style:italic; font-size:clamp(28px,5vw,52px);">Sem processo, o agente <span style="color:var(--red);">adivinha</span>. Com processo, ele <span style="color:var(--accent);">calcula</span>.</h2>
-
-  <!-- ===== DUAL STRATEGY: SEM PROCESSO vs COM PROCESSO ===== -->
-  <div class="reveal" style="display:grid; grid-template-columns:1fr 64px 1fr; gap:0; margin-top:clamp(4px,0.6vh,8px); min-height:0;">
-
-    <!-- ========== LEFT: SEM PROCESSO (Red/Chaos) ========== -->
-    <div style="background:rgba(248,81,73,0.03); border:1px solid rgba(248,81,73,0.12); border-radius:16px; padding:clamp(14px,2vh,22px) clamp(14px,1.8vw,20px); display:flex; flex-direction:column; transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;"
-      onmouseenter="this.style.borderColor='rgba(248,81,73,0.25)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(248,81,73,0.06)'"
-      onmouseleave="this.style.borderColor='rgba(248,81,73,0.12)';this.style.transform='none';this.style.boxShadow='none'">
-      <p style="font-family:var(--font-mono); font-size:clamp(0.62rem,0.85vw,0.72rem); font-weight:700; color:var(--red); text-transform:uppercase; letter-spacing:0.12em;">SEM PROCESSO</p>
-      <p style="font-family:var(--font-display); font-size:clamp(1.3rem,2.2vw,1.7rem); font-style:italic; margin-top:clamp(4px,0.5vh,6px);">O agente <span style="color:var(--red);">adivinha</span></p>
-
-      <!-- LARGE Chaotic SVG diagram — fills available space -->
-      <svg viewBox="0 0 520 340" style="width:100%; max-height:clamp(200px,32vh,280px); margin-top:clamp(6px,1vh,10px);">
-        <defs>
-          <filter id="s28-red-glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-          <filter id="s28-red-blur"><feGaussianBlur stdDeviation="8"/></filter>
-        </defs>
-
-        <!-- Background chaos: faint red fog -->
-        <circle cx="260" cy="150" r="140" fill="rgba(248,81,73,0.03)" filter="url(#s28-red-blur)"/>
-
-        <!-- Tangled crossing paths (drawn BEFORE nodes so nodes render on top) -->
-        <path d="M95,72 C180,20 240,180 310,55" stroke="#f85149" stroke-width="2" fill="none" opacity="0.25" stroke-dasharray="6 5"/>
-        <path d="M310,75 C250,160 380,190 440,115" stroke="#f85149" stroke-width="1.8" fill="none" opacity="0.22" stroke-dasharray="5 4"/>
-        <path d="M88,100 C140,200 350,220 450,140" stroke="#f85149" stroke-width="1.5" fill="none" opacity="0.15" stroke-dasharray="4 6"/>
-        <path d="M75,95 C30,180 200,240 280,175" stroke="#f85149" stroke-width="1.2" fill="none" opacity="0.12"/>
-        <path d="M300,80 C200,130 180,60 90,95" stroke="#f85149" stroke-width="1.3" fill="none" opacity="0.18" stroke-dasharray="7 5"/>
-        <path d="M440,140 C400,200 220,190 150,260" stroke="#f85149" stroke-width="1" fill="none" opacity="0.10" stroke-dasharray="3 5"/>
-        <path d="M165,250 C250,180 360,250 445,140" stroke="#f85149" stroke-width="1.2" fill="none" opacity="0.13"/>
-
-        <!-- Scattered question marks at varying sizes/opacities -->
-        <text x="185" y="130" font-family="'Instrument Serif',serif" font-size="36" font-style="italic" fill="#f85149" opacity="0.10">?</text>
-        <text x="360" y="175" font-family="'Instrument Serif',serif" font-size="28" font-style="italic" fill="#f85149" opacity="0.12">?</text>
-        <text x="120" y="200" font-family="'Instrument Serif',serif" font-size="42" font-style="italic" fill="#f85149" opacity="0.07">?</text>
-        <text x="400" y="80" font-family="'Instrument Serif',serif" font-size="24" font-style="italic" fill="#f85149" opacity="0.14">?</text>
-        <text x="50" y="160" font-family="'Instrument Serif',serif" font-size="20" font-style="italic" fill="#f85149" opacity="0.09">?</text>
-        <text x="460" y="210" font-family="'Instrument Serif',serif" font-size="30" font-style="italic" fill="#f85149" opacity="0.08">?</text>
-
-        <!-- NODE 1: Prompt vago (top-left, tilted feel) -->
-        <circle cx="80" cy="68" r="38" fill="rgba(248,81,73,0.07)" stroke="#f85149" stroke-width="1.5" stroke-dasharray="5 4"/>
-        <text x="80" y="62" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" fill="#e8edf5">Prompt</text>
-        <text x="80" y="80" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#c8d8e8">vago</text>
-
-        <!-- NODE 2: LLM sem contexto (top-center-right, offset) -->
-        <circle cx="290" cy="52" r="40" fill="rgba(248,81,73,0.07)" stroke="#f85149" stroke-width="1.5" stroke-dasharray="5 4"/>
-        <text x="290" y="44" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" fill="#e8edf5">LLM</text>
-        <text x="290" y="62" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#c8d8e8">sem contexto</text>
-
-        <!-- NODE 3: Output genérico (right, off-center) -->
-        <circle cx="445" cy="112" r="38" fill="rgba(248,81,73,0.07)" stroke="#f85149" stroke-width="1.5" stroke-dasharray="5 4"/>
-        <text x="445" y="106" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" fill="#e8edf5">Output</text>
-        <text x="445" y="124" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#c8d8e8">genérico</text>
-
-        <!-- NODE 4: Sem KB (bottom-left) -->
-        <circle cx="150" cy="240" r="36" fill="rgba(248,81,73,0.07)" stroke="#f85149" stroke-width="1.5" stroke-dasharray="5 4"/>
-        <text x="150" y="234" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" fill="#e8edf5">Sem KB</text>
-        <text x="150" y="248" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#c8d8e8">zero</text>
-        <text x="150" y="260" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#c8d8e8">contexto</text>
-
-        <!-- NODE 5: Sem validação (bottom-right) -->
-        <circle cx="390" cy="230" r="36" fill="rgba(248,81,73,0.07)" stroke="#f85149" stroke-width="1.5" stroke-dasharray="5 4"/>
-        <text x="390" y="222" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#e8edf5">Sem</text>
-        <text x="390" y="239" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#e8edf5">validação</text>
-
-        <!-- RESULTADO IMPREVISÍVEL label at bottom center -->
-        <rect x="145" y="290" width="230" height="36" rx="10" fill="rgba(248,81,73,0.06)" stroke="#f85149" stroke-width="1.2" stroke-dasharray="5 4"/>
-        <text x="260" y="313" text-anchor="middle" font-family="'Fira Code',monospace" font-size="13" font-weight="700" fill="#f85149">RESULTADO IMPREVISÍVEL</text>
-      </svg>
-
-      <!-- Failure traits -->
-      <div style="display:flex; flex-direction:column; gap:clamp(5px,0.6vh,8px); margin-top:clamp(6px,0.8vh,10px);">
-        <div style="display:flex; align-items:center; gap:clamp(6px,0.8vw,10px);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f85149" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          <p style="font-family:var(--font-editorial); font-size:clamp(0.82rem,1.1vw,0.95rem); font-style:italic; color:var(--text-dim);">Sem validação de fontes</p>
-        </div>
-        <div style="display:flex; align-items:center; gap:clamp(6px,0.8vw,10px);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f85149" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          <p style="font-family:var(--font-editorial); font-size:clamp(0.82rem,1.1vw,0.95rem); font-style:italic; color:var(--text-dim);">Confiança desconhecida</p>
-        </div>
-        <div style="display:flex; align-items:center; gap:clamp(6px,0.8vw,10px);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f85149" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          <p style="font-family:var(--font-editorial); font-size:clamp(0.82rem,1.1vw,0.95rem); font-style:italic; color:var(--text-dim);">Cada execução diferente</p>
-        </div>
-      </div>
-
-      <!-- Red stat bottom -->
-      <div style="margin-top:auto; padding-top:clamp(8px,1vh,12px); border-top:1px solid rgba(248,81,73,0.12);">
-        <p style="font-family:var(--font-display); font-size:clamp(2rem,3.5vw,2.8rem); font-style:italic; color:var(--red); line-height:1;">~40%</p>
-        <p style="font-family:var(--font-mono); font-size:clamp(0.62rem,0.85vw,0.72rem); color:var(--red); margin-top:clamp(2px,0.3vh,4px); letter-spacing:0.08em;">ACURÁCIA ESTIMADA</p>
-      </div>
-    </div>
-
-    <!-- ========== CENTER DIVIDER: Gold transformation circle ========== -->
-    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.5rem;">
-      <div style="width:2px; flex:1; background:linear-gradient(180deg, transparent, rgba(212,175,55,0.35), transparent); max-height:35%;"></div>
-      <div style="width:clamp(48px,6vh,60px); height:clamp(48px,6vh,60px); border-radius:50%; background:var(--gold-dim); border:2px solid rgba(212,175,55,0.35); display:flex; align-items:center; justify-content:center; animation:pulse-gold 3s ease-in-out infinite; box-shadow:0 0 24px rgba(212,175,55,0.12);">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
-      <div style="width:2px; flex:1; background:linear-gradient(180deg, transparent, rgba(212,175,55,0.35), transparent); max-height:35%;"></div>
-    </div>
-
-    <!-- ========== RIGHT: COM PROCESSO (Accent/Structured) ========== -->
-    <div style="background:linear-gradient(135deg, rgba(74,158,255,0.03) 0%, rgba(63,185,80,0.02) 100%); border:1px solid rgba(74,158,255,0.18); border-radius:16px; padding:clamp(14px,2vh,22px) clamp(14px,1.8vw,20px); display:flex; flex-direction:column; box-shadow:0 0 40px rgba(74,158,255,0.05); transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;"
-      onmouseenter="this.style.borderColor='rgba(74,158,255,0.35)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 32px rgba(74,158,255,0.1)'"
-      onmouseleave="this.style.borderColor='rgba(74,158,255,0.18)';this.style.transform='none';this.style.boxShadow='0 0 40px rgba(74,158,255,0.05)'">
-      <p style="font-family:var(--font-mono); font-size:clamp(0.62rem,0.85vw,0.72rem); font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.12em;">COM PROCESSO</p>
-      <p style="font-family:var(--font-display); font-size:clamp(1.3rem,2.2vw,1.7rem); font-style:italic; margin-top:clamp(4px,0.5vh,6px);">O agente <span style="color:var(--accent);">calcula</span></p>
-
-      <!-- Clean 5-step vertical pipeline — no curved arrows -->
-      <svg viewBox="0 0 460 340" style="width:100%; max-height:clamp(200px,32vh,280px); margin-top:clamp(6px,1vh,10px);">
-        <defs>
-          <filter id="s28-blue-glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        </defs>
-
-        <!-- ====== STEP 1: CLASSIFY (silver) ====== -->
-        <rect x="80" y="6" width="300" height="46" rx="10" fill="rgba(176,190,197,0.06)" stroke="#b0bec5" stroke-width="1.3"/>
-        <text x="100" y="24" font-family="'Fira Code',monospace" font-size="10" font-weight="700" fill="#b0bec5" letter-spacing="0.1em">01</text>
-        <text x="130" y="26" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#eaedf2">Classify</text>
-        <text x="130" y="43" font-family="'Newsreader',serif" font-size="12" font-style="italic" fill="#c8d8e8">Tipo da pergunta + limiar de confiança</text>
-
-        <!-- Connector 1→2 -->
-        <line x1="230" y1="52" x2="230" y2="64" stroke="#b0bec5" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
-        <circle cx="230" cy="64" r="2" fill="#b0bec5" opacity="0.5"/>
-
-        <!-- ====== STEP 2: LOAD KB (blue) ====== -->
-        <rect x="80" y="68" width="300" height="46" rx="10" fill="rgba(74,158,255,0.06)" stroke="#4a9eff" stroke-width="1.3"/>
-        <text x="100" y="86" font-family="'Fira Code',monospace" font-size="10" font-weight="700" fill="#4a9eff" letter-spacing="0.1em">02</text>
-        <text x="130" y="88" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#eaedf2">Load KB</text>
-        <text x="130" y="105" font-family="'Newsreader',serif" font-size="12" font-style="italic" fill="#c8d8e8">Concepts + patterns do domínio</text>
-
-        <!-- Connector 2→3 -->
-        <line x1="230" y1="114" x2="230" y2="126" stroke="#4a9eff" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
-        <circle cx="230" cy="126" r="2" fill="#4a9eff" opacity="0.5"/>
-
-        <!-- ====== STEP 3: VALIDATE (gold) ====== -->
-        <rect x="80" y="130" width="300" height="46" rx="10" fill="rgba(212,175,55,0.06)" stroke="#d4af37" stroke-width="1.3"/>
-        <text x="100" y="148" font-family="'Fira Code',monospace" font-size="10" font-weight="700" fill="#d4af37" letter-spacing="0.1em">03</text>
-        <text x="130" y="150" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#eaedf2">Validate</text>
-        <text x="130" y="167" font-family="'Newsreader',serif" font-size="12" font-style="italic" fill="#c8d8e8">MCP docs + fontes externas</text>
-
-        <!-- Connector 3→4 -->
-        <line x1="230" y1="176" x2="230" y2="188" stroke="#d4af37" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
-        <circle cx="230" cy="188" r="2" fill="#d4af37" opacity="0.5"/>
-
-        <!-- ====== STEP 4: CALCULATE (purple) ====== -->
-        <rect x="80" y="192" width="300" height="46" rx="10" fill="rgba(167,139,250,0.06)" stroke="#a78bfa" stroke-width="1.3"/>
-        <text x="100" y="210" font-family="'Fira Code',monospace" font-size="10" font-weight="700" fill="#a78bfa" letter-spacing="0.1em">04</text>
-        <text x="130" y="212" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#eaedf2">Calculate</text>
-        <text x="130" y="229" font-family="'Newsreader',serif" font-size="12" font-style="italic" fill="#c8d8e8">Base + modificadores + confiança</text>
-
-        <!-- Connector 4→5 -->
-        <line x1="230" y1="238" x2="230" y2="250" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
-        <circle cx="230" cy="250" r="2" fill="#a78bfa" opacity="0.5"/>
-
-        <!-- ====== STEP 5: DECIDE (green, hero) ====== -->
-        <rect x="80" y="254" width="300" height="50" rx="12" fill="rgba(63,185,80,0.07)" stroke="#3fb950" stroke-width="2" filter="url(#s28-blue-glow)"/>
-        <text x="100" y="274" font-family="'Fira Code',monospace" font-size="10" font-weight="700" fill="#3fb950" letter-spacing="0.1em">05</text>
-        <text x="130" y="276" font-family="'Instrument Serif',serif" font-size="17" font-style="italic" fill="#eaedf2">Decide</text>
-        <text x="130" y="295" font-family="'Newsreader',serif" font-size="12" font-style="italic" fill="#3fb950">Execute · Ask · Stop</text>
-        <!-- Pulse ring -->
-        <rect x="80" y="254" width="300" height="50" rx="12" fill="none" stroke="#3fb950" stroke-width="1" opacity="0.25" style="animation:pulse-glow 3s ease-in-out infinite;"/>
-
-        <!-- Checkmark badge -->
-        <circle cx="400" cy="279" r="14" fill="rgba(63,185,80,0.12)" stroke="#3fb950" stroke-width="1.5"/>
-        <text x="400" y="284" text-anchor="middle" font-family="'Fira Code',monospace" font-size="14" font-weight="700" fill="#3fb950">&#x2713;</text>
-
-        <!-- REPRODUZÍVEL label -->
-        <text x="230" y="330" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" font-weight="700" fill="#3fb950" letter-spacing="0.15em">REPRODUZÍVEL</text>
-      </svg>
-
-      <!-- Success traits -->
-      <div style="display:flex; flex-direction:column; gap:clamp(5px,0.6vh,8px); margin-top:clamp(6px,0.8vh,10px);">
-        <div style="display:flex; align-items:center; gap:clamp(6px,0.8vw,10px);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3fb950" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-          <p style="font-family:var(--font-editorial); font-size:clamp(0.82rem,1.1vw,0.95rem); font-style:italic; color:var(--text-dim);">KB + MCP validados antes de agir</p>
-        </div>
-        <div style="display:flex; align-items:center; gap:clamp(6px,0.8vw,10px);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3fb950" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-          <p style="font-family:var(--font-editorial); font-size:clamp(0.82rem,1.1vw,0.95rem); font-style:italic; color:var(--text-dim);">Confiança numérica calculada</p>
-        </div>
-        <div style="display:flex; align-items:center; gap:clamp(6px,0.8vw,10px);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3fb950" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-          <p style="font-family:var(--font-editorial); font-size:clamp(0.82rem,1.1vw,0.95rem); font-style:italic; color:var(--text-dim);">Resultado reproduzível e auditável</p>
-        </div>
-      </div>
-
-      <!-- Green stat bottom -->
-      <div style="margin-top:auto; padding-top:clamp(8px,1vh,12px); border-top:1px solid rgba(63,185,80,0.12);">
-        <p style="font-family:var(--font-display); font-size:clamp(2rem,3.5vw,2.8rem); font-style:italic; color:var(--green); line-height:1; animation:pulse-glow 4s ease-in-out infinite;">~95%</p>
-        <p style="font-family:var(--font-mono); font-size:clamp(0.62rem,0.85vw,0.72rem); color:var(--green); margin-top:clamp(2px,0.3vh,4px); letter-spacing:0.08em;">ACURÁCIA COM PROCESSO</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== AGREEMENT MATRIX: Horizontal Confidence Meter ===== -->
-  <div class="reveal" style="margin-top:clamp(8px,1.2vh,14px); background:linear-gradient(135deg, var(--surface) 0%, rgba(74,158,255,0.03) 100%); border:1.5px solid rgba(74,158,255,0.15); border-radius:14px; padding:clamp(10px,1.5vh,16px) clamp(14px,2vw,22px); box-shadow:0 8px 40px rgba(0,0,0,0.25), inset 0 1px 0 rgba(74,158,255,0.05); transition:transform 0.3s, border-color 0.3s;"
-    onmouseenter="this.style.borderColor='rgba(74,158,255,0.3)';this.style.transform='translateY(-2px)'"
-    onmouseleave="this.style.borderColor='rgba(74,158,255,0.15)';this.style.transform='none'">
-    <!-- Top accent bar -->
-    <div style="height:2px; background:linear-gradient(90deg, var(--green), var(--gold), var(--red)); border-radius:2px; margin-bottom:clamp(8px,1.2vh,14px);"></div>
-    <div style="display:flex; align-items:center; justify-content:space-between; gap:clamp(8px,1.2vw,14px);">
-      <p style="font-family:var(--font-mono); font-size:clamp(0.62rem,0.85vw,0.72rem); font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.12em; flex-shrink:0;">AGREEMENT MATRIX</p>
-      <!-- 3 confidence levels as horizontal meters -->
-      <div style="display:flex; align-items:center; gap:clamp(10px,1.5vw,20px); flex:1;">
-        <!-- HIGH: 0.95 -->
-        <div style="display:flex; align-items:center; gap:clamp(6px,0.8vw,10px); flex:1;">
-          <span style="font-family:var(--font-display); font-size:clamp(1.1rem,1.8vw,1.4rem); font-style:italic; color:var(--green); flex-shrink:0;">0.95</span>
-          <div style="flex:1; height:clamp(22px,3vh,30px); border-radius:8px; background:rgba(255,255,255,0.03); overflow:hidden;">
-            <div style="width:95%; height:100%; border-radius:8px; background:linear-gradient(90deg, rgba(63,185,80,0.3), rgba(63,185,80,0.55)); display:flex; align-items:center; padding-left:clamp(6px,0.8vw,10px); font-family:var(--font-mono); font-size:clamp(0.62rem,0.82vw,0.72rem); font-weight:600; color:var(--green); animation:bar-fill 1.4s cubic-bezier(0.16,1,0.3,1) both;">Executa</div>
-          </div>
-        </div>
-        <!-- MEDIUM: 0.75 -->
-        <div style="display:flex; align-items:center; gap:clamp(6px,0.8vw,10px); flex:1;">
-          <span style="font-family:var(--font-display); font-size:clamp(1.1rem,1.8vw,1.4rem); font-style:italic; color:var(--gold); flex-shrink:0;">0.75</span>
-          <div style="flex:1; height:clamp(22px,3vh,30px); border-radius:8px; background:rgba(255,255,255,0.03); overflow:hidden;">
-            <div style="width:75%; height:100%; border-radius:8px; background:linear-gradient(90deg, rgba(212,175,55,0.3), rgba(212,175,55,0.55)); display:flex; align-items:center; padding-left:clamp(6px,0.8vw,10px); font-family:var(--font-mono); font-size:clamp(0.62rem,0.82vw,0.72rem); font-weight:600; color:var(--gold); animation:bar-fill 1.4s cubic-bezier(0.16,1,0.3,1) both;">Cautela</div>
-          </div>
-        </div>
-        <!-- LOW: 0.50 -->
-        <div style="display:flex; align-items:center; gap:clamp(6px,0.8vw,10px); flex:1;">
-          <span style="font-family:var(--font-display); font-size:clamp(1.1rem,1.8vw,1.4rem); font-style:italic; color:var(--red); flex-shrink:0;">0.50</span>
-          <div style="flex:1; height:clamp(22px,3vh,30px); border-radius:8px; background:rgba(255,255,255,0.03); overflow:hidden;">
-            <div style="width:50%; height:100%; border-radius:8px; background:linear-gradient(90deg, rgba(248,81,73,0.3), rgba(248,81,73,0.55)); display:flex; align-items:center; padding-left:clamp(6px,0.8vw,10px); font-family:var(--font-mono); font-size:clamp(0.62rem,0.82vw,0.72rem); font-weight:600; color:var(--red); animation:bar-fill 1.4s cubic-bezier(0.16,1,0.3,1) both;">Pergunta</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Na pratica micro-row -->
-    <div style="display:flex; align-items:center; gap:clamp(6px,0.8vw,10px); margin-top:clamp(6px,0.8vh,10px);">
-      <p style="font-family:var(--font-mono); font-size:clamp(0.55rem,0.75vw,0.65rem); color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; flex-shrink:0;">Na prática:</p>
-      <p style="font-family:var(--font-editorial); font-size:clamp(0.78rem,1vw,0.88rem); font-style:italic; color:var(--text-dim); line-height:1.4;">Quando você pede &ldquo;Build the RAG pipeline&rdquo;, o agente carrega KB llamaindex + qdrant, calcula confiança <strong style="color:var(--green);">0.95</strong>, e executa. Modifier <strong style="color:var(--gold);">-0.15</strong> se breaking change detectada.</p>
-    </div>
-  </div>
-
-  <!-- Bottom bar -->
-  <div class="reveal" style="margin-top:auto; padding-top:clamp(12px,2vh,20px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px);">
-    <p style="font-family:var(--font-editorial); font-size:clamp(1rem,1.7vw,1.25rem); font-style:italic; color:var(--text-dim); line-height:1.5; flex:1;">Cada SubAgent tem identidade, capabilities e um sistema de validação com <strong style="color:var(--accent);">confiança calculada</strong>. Não é heurística &mdash; é um framework de decisão documentado que vocês vão usar nos Dias 3 e 4.</p>
-    <div style="display:flex; gap:0.5rem; flex-shrink:0; flex-wrap:wrap;">
-      <span class="tag tag-accent">SUBAGENTS</span>
-      <span class="tag tag-green">CONFIANÇA</span>
-      <span class="tag tag-purple">VALIDAÇÃO</span>
-      <span class="tag tag-gold">AGREEMENT</span>
-    </div>
-  </div>
-</section>
-
-<!-- ================================================================ -->
 <!-- SLIDE 29 — SYSTEM COMPLETE: MCPs + KBs + SubAgents              -->
 <!-- ================================================================ -->
-<section class="slide" style="justify-content:flex-start; padding-top:clamp(28px,4vh,48px); background-image: radial-gradient(ellipse at 50% 30%, rgba(74,158,255,0.05) 0%, transparent 50%), radial-gradient(ellipse at 20% 80%, rgba(212,175,55,0.03) 0%, transparent 40%), radial-gradient(ellipse at 80% 70%, rgba(167,139,250,0.02) 0%, transparent 40%);">
+<section class="slide" style="justify-content:flex-start; padding-top:clamp(28px,4vh,48px); background-image: radial-gradient(ellipse at 50% 30%, rgba(74,158,255,0.06) 0%, transparent 50%), radial-gradient(ellipse at 15% 70%, rgba(167,139,250,0.04) 0%, transparent 40%), radial-gradient(ellipse at 85% 70%, rgba(212,175,55,0.03) 0%, transparent 40%);">
   <p class="slide__label reveal">O COCKPIT COMPLETO</p>
-  <h2 class="slide__heading reveal" style="font-style:italic; font-size:clamp(32px,6vw,60px);"><span style="color:var(--accent);">MCPs</span> + <span style="color:var(--gold);">KBs</span> + <span style="color:var(--purple);">SubAgents</span> = Plataforma</h2>
+  <h2 class="slide__heading reveal" style="font-style:italic; font-size:clamp(30px,5.5vw,56px);"><span style="color:var(--accent);">MCPs</span> + <span style="color:var(--gold);">KBs</span> + <span style="color:var(--purple);">SubAgents</span> = Plataforma</h2>
 
-  <!-- SVG Architecture Diagram -->
-  <div class="reveal" style="flex:1; display:flex; align-items:center; margin-top:clamp(6px,1vh,12px);">
-    <svg viewBox="-10 -20 1060 420" style="width:100%; max-height:clamp(320px,52vh,440px);">
+  <!-- HERO SVG: Orbital Architecture Diagram -->
+  <div class="reveal" style="flex:1; display:flex; align-items:center; margin-top:clamp(4px,0.8vh,10px);">
+    <svg viewBox="-30 -30 1160 500" style="width:100%; max-height:clamp(320px,52vh,460px);">
       <defs>
-        <filter id="dd-glow2"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <linearGradient id="dd-grad-main" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4a9eff" stop-opacity="0.3"/><stop offset="100%" stop-color="#a78bfa" stop-opacity="0.15"/></linearGradient>
+        <!-- Glow filters -->
+        <filter id="sys-glow-core"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="sys-glow-soft"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="sys-glow-ext"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <!-- Gradient for flow ribbons -->
+        <linearGradient id="sys-flow-blue" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#4a9eff" stop-opacity="0.7"/><stop offset="100%" stop-color="#4a9eff" stop-opacity="0.15"/></linearGradient>
+        <linearGradient id="sys-flow-purple" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#a78bfa" stop-opacity="0.7"/><stop offset="100%" stop-color="#a78bfa" stop-opacity="0.15"/></linearGradient>
+        <linearGradient id="sys-flow-silver" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#b0bec5" stop-opacity="0.7"/><stop offset="100%" stop-color="#b0bec5" stop-opacity="0.15"/></linearGradient>
+        <linearGradient id="sys-flow-right" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#4a9eff" stop-opacity="0.3"/><stop offset="100%" stop-color="#d4af37" stop-opacity="0.5"/></linearGradient>
+        <!-- Radial glow for nucleus -->
+        <radialGradient id="sys-nucleus-glow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4a9eff" stop-opacity="0.12"/><stop offset="60%" stop-color="#4a9eff" stop-opacity="0.04"/><stop offset="100%" stop-color="#4a9eff" stop-opacity="0"/></radialGradient>
+        <!-- Orbital ring gradient -->
+        <linearGradient id="sys-ring-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4a9eff" stop-opacity="0.25"/><stop offset="50%" stop-color="#a78bfa" stop-opacity="0.15"/><stop offset="100%" stop-color="#d4af37" stop-opacity="0.2"/></linearGradient>
       </defs>
 
-      <!-- Central .claude/ folder representation -->
-      <rect x="320" y="0" width="400" height="380" rx="20" fill="rgba(74,158,255,0.03)" stroke="rgba(74,158,255,0.15)" stroke-width="1.5" stroke-dasharray="8 4"/>
-      <text x="520" y="26" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="18" font-style="italic" font-weight="700" fill="#4a9eff">.claude/</text>
+      <!-- ===== CENTRAL NUCLEUS: .claude/ ===== -->
+      <!-- Ambient glow behind nucleus -->
+      <circle cx="500" cy="220" r="160" fill="url(#sys-nucleus-glow)"/>
+      <!-- Outer orbital ring -->
+      <ellipse cx="500" cy="220" rx="185" ry="185" fill="none" stroke="url(#sys-ring-grad)" stroke-width="1" stroke-dasharray="4 8" opacity="0.5"/>
+      <!-- Inner orbital ring -->
+      <ellipse cx="500" cy="220" rx="140" ry="140" fill="none" stroke="rgba(74,158,255,0.08)" stroke-width="1" stroke-dasharray="2 6"/>
 
-      <!-- LAYER 1: CLAUDE.md (top) -->
-      <rect x="370" y="42" width="300" height="44" rx="10" fill="rgba(176,190,197,0.08)" stroke="#b0bec5" stroke-width="1.5" filter="url(#dd-glow2)"/>
-      <text x="520" y="62" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" font-weight="700" fill="#b0bec5">CLAUDE.md</text>
-      <text x="520" y="78" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#c8d8e8">Contexto do projeto · Stack · Convenções</text>
+      <!-- Core hexagonal nucleus -->
+      <polygon points="500,55 570,87 570,153 500,185 430,153 430,87" fill="rgba(74,158,255,0.06)" stroke="#4a9eff" stroke-width="2" filter="url(#sys-glow-core)"/>
+      <text x="500" y="112" text-anchor="middle" font-family="'Fira Code',monospace" font-size="16" font-weight="700" fill="#4a9eff">.claude/</text>
+      <text x="500" y="132" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#c8d8e8">Núcleo da Plataforma</text>
+      <!-- Tiny pulse dot on nucleus -->
+      <circle cx="500" cy="150" r="3" fill="#4a9eff" opacity="0.8">
+        <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+      </circle>
 
-      <!-- LAYER 2: settings.local.json + MCPs (left-center) -->
-      <rect x="340" y="100" width="160" height="82" rx="10" fill="rgba(34,211,238,0.06)" stroke="#22d3ee" stroke-width="1.3"/>
-      <text x="420" y="118" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" font-weight="700" fill="#22d3ee">settings.local.json</text>
-      <text x="420" y="134" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#c8d8e8">mcpServers:</text>
-      <!-- MCP mini-tags inside -->
-      <rect x="350" y="142" width="66" height="18" rx="4" fill="rgba(74,158,255,0.12)"/>
-      <text x="383" y="155" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#4a9eff">supabase</text>
-      <rect x="420" y="142" width="54" height="18" rx="4" fill="rgba(167,139,250,0.12)"/>
-      <text x="447" y="155" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#a78bfa">qdrant</text>
-      <rect x="350" y="164" width="56" height="18" rx="4" fill="rgba(176,190,197,0.12)"/>
-      <text x="378" y="177" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#b0bec5">github</text>
+      <!-- ===== ORBITAL LAYER CARDS (Glassmorphism) ===== -->
 
-      <!-- LAYER 2: commands/ (right-center) -->
-      <rect x="540" y="100" width="160" height="82" rx="10" fill="rgba(239,144,0,0.06)" stroke="#ef9000" stroke-width="1.3"/>
-      <text x="620" y="118" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" font-weight="700" fill="#ef9000">commands/</text>
-      <text x="620" y="134" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#c8d8e8">Custom slash commands</text>
-      <rect x="550" y="142" width="76" height="18" rx="4" fill="rgba(239,144,0,0.12)"/>
-      <text x="588" y="155" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#ef9000">/build-slide</text>
-      <rect x="630" y="142" width="60" height="18" rx="4" fill="rgba(239,144,0,0.12)"/>
-      <text x="660" y="155" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#ef9000">/explore</text>
+      <!-- LAYER 1: CLAUDE.md (top-center, 12 o'clock) -->
+      <rect x="420" y="198" width="160" height="42" rx="10" fill="rgba(176,190,197,0.08)" stroke="#b0bec5" stroke-width="1.5" filter="url(#sys-glow-soft)"/>
+      <text x="500" y="216" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" font-weight="700" fill="#b0bec5">CLAUDE.md</text>
+      <text x="500" y="232" text-anchor="middle" font-family="'Newsreader',serif" font-size="10" font-style="italic" fill="#c8d8e8">Contexto + Stack + Regras</text>
 
-      <!-- LAYER 3: kb/ (gold, wide) -->
-      <rect x="340" y="198" width="360" height="72" rx="10" fill="rgba(212,175,55,0.06)" stroke="#d4af37" stroke-width="1.3"/>
-      <text x="520" y="216" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" font-weight="700" fill="#d4af37">kb/ — 18 Knowledge Bases</text>
-      <!-- KB domain mini-tags row 1 (widened rects to fit text) -->
-      <rect x="348" y="224" width="82" height="16" rx="4" fill="rgba(212,175,55,0.1)"/>
-      <text x="389" y="235" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">shadowtraffic</text>
-      <rect x="434" y="224" width="58" height="16" rx="4" fill="rgba(212,175,55,0.1)"/>
-      <text x="463" y="235" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">pydantic</text>
-      <rect x="496" y="224" width="64" height="16" rx="4" fill="rgba(212,175,55,0.1)"/>
-      <text x="528" y="235" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">llamaindex</text>
-      <rect x="564" y="224" width="46" height="16" rx="4" fill="rgba(212,175,55,0.1)"/>
-      <text x="587" y="235" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">qdrant</text>
-      <rect x="614" y="224" width="62" height="16" rx="4" fill="rgba(212,175,55,0.1)"/>
-      <text x="645" y="235" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">langchain</text>
-      <!-- KB domain mini-tags row 2 (widened + re-spaced) -->
-      <rect x="348" y="244" width="58" height="16" rx="4" fill="rgba(212,175,55,0.08)"/>
-      <text x="377" y="255" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">supabase</text>
-      <rect x="410" y="244" width="54" height="16" rx="4" fill="rgba(212,175,55,0.08)"/>
-      <text x="437" y="255" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">chainlit</text>
-      <rect x="468" y="244" width="42" height="16" rx="4" fill="rgba(212,175,55,0.08)"/>
-      <text x="489" y="255" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">crewai</text>
-      <rect x="514" y="244" width="56" height="16" rx="4" fill="rgba(212,175,55,0.08)"/>
-      <text x="542" y="255" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">deepeval</text>
-      <rect x="574" y="244" width="42" height="16" rx="4" fill="rgba(212,175,55,0.08)"/>
-      <text x="595" y="255" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">genai</text>
-      <rect x="620" y="244" width="46" height="16" rx="4" fill="rgba(212,175,55,0.08)"/>
-      <text x="643" y="255" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">python</text>
-      <text x="676" y="255" font-family="'Fira Code',monospace" font-size="10" fill="rgba(212,175,55,0.5)">+4</text>
+      <!-- LAYER 2: settings + MCPs (bottom-left, 7 o'clock) -->
+      <rect x="325" y="266" width="170" height="88" rx="12" fill="rgba(34,211,238,0.05)" stroke="#22d3ee" stroke-width="1.3" filter="url(#sys-glow-soft)"/>
+      <text x="410" y="284" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" font-weight="700" fill="#22d3ee">settings + MCPs</text>
+      <text x="410" y="298" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#c8d8e8">mcpServers:</text>
+      <!-- MCP mini-tags -->
+      <rect x="335" y="306" width="62" height="17" rx="4" fill="rgba(74,158,255,0.12)"/>
+      <text x="366" y="318" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#4a9eff">supabase</text>
+      <rect x="401" y="306" width="50" height="17" rx="4" fill="rgba(167,139,250,0.12)"/>
+      <text x="426" y="318" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#a78bfa">qdrant</text>
+      <rect x="455" y="306" width="32" height="17" rx="4" fill="rgba(176,190,197,0.12)"/>
+      <text x="471" y="318" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#b0bec5">gh</text>
+      <!-- Second row -->
+      <rect x="335" y="327" width="56" height="17" rx="4" fill="rgba(239,144,0,0.12)"/>
+      <text x="363" y="339" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#ef9000">context7</text>
+      <rect x="395" y="327" width="46" height="17" rx="4" fill="rgba(96,165,250,0.12)"/>
+      <text x="418" y="339" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#60a5fa">linear</text>
 
-      <!-- LAYER 4: agents/ (blue, wide) -->
-      <rect x="340" y="286" width="360" height="76" rx="10" fill="rgba(74,158,255,0.06)" stroke="#4a9eff" stroke-width="1.3"/>
-      <text x="520" y="304" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" font-weight="700" fill="#4a9eff">agents/ — 10+ SubAgents</text>
-      <!-- Agent categories (respaced — wider exploration/ rect) -->
-      <rect x="348" y="312" width="82" height="20" rx="4" fill="rgba(63,185,80,0.1)" stroke="rgba(63,185,80,0.2)" stroke-width="0.8"/>
-      <text x="389" y="326" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#3fb950">domain/</text>
-      <rect x="436" y="312" width="68" height="20" rx="4" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.2)" stroke-width="0.8"/>
-      <text x="470" y="326" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#a78bfa">ai-ml/</text>
-      <rect x="510" y="312" width="96" height="20" rx="4" fill="rgba(34,211,238,0.1)" stroke="rgba(34,211,238,0.2)" stroke-width="0.8"/>
-      <text x="558" y="326" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#22d3ee">exploration/</text>
-      <rect x="612" y="312" width="80" height="20" rx="4" fill="rgba(176,190,197,0.1)" stroke="rgba(176,190,197,0.2)" stroke-width="0.8"/>
-      <text x="652" y="326" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#b0bec5">comms/</text>
-      <!-- Agent names row (aligned under categories) -->
-      <text x="389" y="349" text-anchor="middle" font-family="'Newsreader',serif" font-size="10" font-style="italic" fill="#c8d8e8">shopagent-builder</text>
-      <text x="470" y="349" text-anchor="middle" font-family="'Newsreader',serif" font-size="10" font-style="italic" fill="#c8d8e8">genai-architect</text>
-      <text x="558" y="349" text-anchor="middle" font-family="'Newsreader',serif" font-size="10" font-style="italic" fill="#c8d8e8">codebase-explorer</text>
-      <text x="652" y="349" text-anchor="middle" font-family="'Newsreader',serif" font-size="10" font-style="italic" fill="#c8d8e8">the-planner</text>
+      <!-- LAYER 2b: commands/ (top-right area) -->
+      <rect x="582" y="266" width="140" height="56" rx="12" fill="rgba(239,144,0,0.05)" stroke="#ef9000" stroke-width="1.3"/>
+      <text x="652" y="284" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" font-weight="700" fill="#ef9000">commands/</text>
+      <rect x="592" y="294" width="76" height="17" rx="4" fill="rgba(239,144,0,0.12)"/>
+      <text x="630" y="306" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#ef9000">/build-slides</text>
+      <rect x="672" y="294" width="40" height="17" rx="4" fill="rgba(239,144,0,0.12)"/>
+      <text x="692" y="306" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#ef9000">/plan</text>
 
-      <!-- LEFT SIDE: External world connectors -->
-      <!-- Left label -->
-      <text x="78" y="55" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="12" font-style="italic" fill="#6e7a8c">Mundo Externo</text>
+      <!-- LAYER 3: kb/ — 18 Knowledge Bases (bottom-center, 6 o'clock) -->
+      <rect x="330" y="362" width="340" height="74" rx="12" fill="rgba(212,175,55,0.05)" stroke="#d4af37" stroke-width="1.5" filter="url(#sys-glow-soft)"/>
+      <text x="500" y="380" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" font-weight="700" fill="#d4af37">kb/ &mdash; 18 Knowledge Bases</text>
+      <!-- KB domain tags row 1 -->
+      <rect x="340" y="388" width="78" height="16" rx="4" fill="rgba(212,175,55,0.1)"/>
+      <text x="379" y="399" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">shadowtraffic</text>
+      <rect x="422" y="388" width="54" height="16" rx="4" fill="rgba(212,175,55,0.1)"/>
+      <text x="449" y="399" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">pydantic</text>
+      <rect x="480" y="388" width="60" height="16" rx="4" fill="rgba(212,175,55,0.1)"/>
+      <text x="510" y="399" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">llamaindex</text>
+      <rect x="544" y="388" width="44" height="16" rx="4" fill="rgba(212,175,55,0.1)"/>
+      <text x="566" y="399" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">qdrant</text>
+      <rect x="592" y="388" width="64" height="16" rx="4" fill="rgba(212,175,55,0.1)"/>
+      <text x="624" y="399" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">langchain</text>
+      <!-- KB domain tags row 2 -->
+      <rect x="340" y="408" width="56" height="16" rx="4" fill="rgba(212,175,55,0.07)"/>
+      <text x="368" y="419" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">supabase</text>
+      <rect x="400" y="408" width="52" height="16" rx="4" fill="rgba(212,175,55,0.07)"/>
+      <text x="426" y="419" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">chainlit</text>
+      <rect x="456" y="408" width="42" height="16" rx="4" fill="rgba(212,175,55,0.07)"/>
+      <text x="477" y="419" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">crewai</text>
+      <rect x="502" y="408" width="54" height="16" rx="4" fill="rgba(212,175,55,0.07)"/>
+      <text x="529" y="419" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">deepeval</text>
+      <rect x="560" y="408" width="38" height="16" rx="4" fill="rgba(212,175,55,0.07)"/>
+      <text x="579" y="419" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">genai</text>
+      <rect x="602" y="408" width="46" height="16" rx="4" fill="rgba(212,175,55,0.07)"/>
+      <text x="625" y="419" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">python</text>
+      <text x="658" y="419" font-family="'Fira Code',monospace" font-size="10" fill="rgba(212,175,55,0.45)">+4</text>
 
-      <!-- Supabase external -->
-      <rect x="0" y="78" width="156" height="44" rx="10" fill="rgba(74,158,255,0.06)" stroke="#4a9eff" stroke-width="1.2"/>
-      <text x="78" y="98" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#4a9eff">Supabase</text>
-      <text x="78" y="114" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#c8d8e8">The Ledger</text>
-      <!-- Arrow from Supabase to settings -->
-      <path d="M160,100 C240,100 290,130 336,130" stroke="#4a9eff" stroke-width="1.5" fill="none" stroke-dasharray="6 4" class="flow-line" opacity="0.5"/>
+      <!-- LAYER 4: agents/ — 10+ SubAgents (spread along bottom arc) -->
+      <!-- Agent orbit dots around the bottom of the nucleus ring -->
+      <!-- domain/ cluster -->
+      <circle cx="350" cy="180" r="28" fill="rgba(63,185,80,0.08)" stroke="#3fb950" stroke-width="1.3" filter="url(#sys-glow-ext)"/>
+      <text x="350" y="177" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" font-weight="600" fill="#3fb950">domain/</text>
+      <text x="350" y="191" text-anchor="middle" font-family="'Newsreader',serif" font-size="10" font-style="italic" fill="#c8d8e8">4 agents</text>
+      <!-- Connector to nucleus -->
+      <path d="M378,180 C400,175 420,155 430,145" stroke="#3fb950" stroke-width="1.5" fill="none" stroke-dasharray="5 5" class="flow-line" opacity="0.4"/>
 
-      <!-- Qdrant external -->
-      <rect x="0" y="158" width="156" height="44" rx="10" fill="rgba(167,139,250,0.06)" stroke="#a78bfa" stroke-width="1.2"/>
-      <text x="78" y="178" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#a78bfa">Qdrant</text>
-      <text x="78" y="194" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#c8d8e8">The Memory</text>
-      <!-- Arrow from Qdrant to settings -->
-      <path d="M160,180 C240,180 290,150 336,150" stroke="#a78bfa" stroke-width="1.5" fill="none" stroke-dasharray="6 4" class="flow-line" opacity="0.5"/>
+      <!-- ai-ml/ cluster -->
+      <circle cx="650" cy="180" r="28" fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="1.3" filter="url(#sys-glow-ext)"/>
+      <text x="650" y="177" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" font-weight="600" fill="#a78bfa">ai-ml/</text>
+      <text x="650" y="191" text-anchor="middle" font-family="'Newsreader',serif" font-size="10" font-style="italic" fill="#c8d8e8">4 agents</text>
+      <!-- Connector to nucleus -->
+      <path d="M622,180 C600,175 580,155 570,145" stroke="#a78bfa" stroke-width="1.5" fill="none" stroke-dasharray="5 5" class="flow-line" opacity="0.4"/>
 
-      <!-- GitHub external -->
-      <rect x="0" y="238" width="156" height="44" rx="10" fill="rgba(176,190,197,0.06)" stroke="#b0bec5" stroke-width="1.2"/>
-      <text x="78" y="258" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#b0bec5">GitHub</text>
-      <text x="78" y="274" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#c8d8e8">PRs + Issues</text>
-      <!-- Arrow from GitHub to settings -->
-      <path d="M160,260 C240,260 290,170 336,170" stroke="#b0bec5" stroke-width="1.5" fill="none" stroke-dasharray="6 4" class="flow-line" opacity="0.5"/>
+      <!-- exploration/ cluster -->
+      <circle cx="340" cy="120" r="24" fill="rgba(34,211,238,0.08)" stroke="#22d3ee" stroke-width="1.2"/>
+      <text x="340" y="118" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" font-weight="600" fill="#22d3ee">explore</text>
+      <text x="340" y="132" text-anchor="middle" font-family="'Newsreader',serif" font-size="10" font-style="italic" fill="#c8d8e8">2 agents</text>
+      <path d="M364,120 C385,115 410,108 430,105" stroke="#22d3ee" stroke-width="1.2" fill="none" stroke-dasharray="4 5" class="flow-line" opacity="0.35"/>
 
-      <!-- RIGHT SIDE: Day progression -->
-      <rect x="820" y="58" width="220" height="295" rx="14" fill="rgba(212,175,55,0.03)" stroke="rgba(212,175,55,0.12)" stroke-width="1" stroke-dasharray="6 3"/>
-      <text x="930" y="78" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" font-weight="700" fill="#d4af37">Ativação por Dia</text>
+      <!-- comms/ cluster -->
+      <circle cx="660" cy="120" r="24" fill="rgba(176,190,197,0.08)" stroke="#b0bec5" stroke-width="1.2"/>
+      <text x="660" y="118" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" font-weight="600" fill="#b0bec5">comms</text>
+      <text x="660" y="132" text-anchor="middle" font-family="'Newsreader',serif" font-size="10" font-style="italic" fill="#c8d8e8">2 agents</text>
+      <path d="M636,120 C615,115 590,108 570,105" stroke="#b0bec5" stroke-width="1.2" fill="none" stroke-dasharray="4 5" class="flow-line" opacity="0.35"/>
 
-      <!-- Day 1 -->
-      <rect x="838" y="92" width="184" height="44" rx="8" fill="rgba(176,190,197,0.06)" stroke="#b0bec5" stroke-width="1.2"/>
-      <text x="930" y="110" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#eaedf2">Dia 1 — Ingerir</text>
-      <text x="930" y="126" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#c8d8e8">Claude Code + Docker</text>
+      <!-- code-quality/ cluster -->
+      <circle cx="500" cy="30" r="24" fill="rgba(96,165,250,0.08)" stroke="#60a5fa" stroke-width="1.2"/>
+      <text x="500" y="28" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" font-weight="600" fill="#60a5fa">quality</text>
+      <text x="500" y="42" text-anchor="middle" font-family="'Newsreader',serif" font-size="10" font-style="italic" fill="#c8d8e8">5 agents</text>
+      <path d="M500,54 L500,70" stroke="#60a5fa" stroke-width="1.2" fill="none" stroke-dasharray="3 4" class="flow-line" opacity="0.35"/>
+
+      <!-- Label: "10+ SubAgents" floating -->
+      <text x="500" y="-10" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" font-weight="700" fill="#4a9eff">10+ SubAgents em Órbita</text>
+
+      <!-- ===== LEFT SIDE: External World ===== -->
+      <text x="85" y="100" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#e8edf5">Mundo Externo</text>
+
+      <!-- Supabase — The Ledger -->
+      <rect x="10" y="120" width="150" height="52" rx="12" fill="rgba(74,158,255,0.06)" stroke="#4a9eff" stroke-width="1.5" filter="url(#sys-glow-ext)"/>
+      <circle cx="36" cy="146" r="12" fill="rgba(74,158,255,0.15)" stroke="#4a9eff" stroke-width="1"/>
+      <text x="36" y="150" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" font-weight="700" fill="#4a9eff">S</text>
+      <text x="100" y="141" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#4a9eff">Supabase</text>
+      <text x="100" y="158" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#c8d8e8">The Ledger</text>
+      <!-- Animated flow ribbon: Supabase to nucleus -->
+      <path d="M164,146 C230,146 290,140 325,145" stroke="url(#sys-flow-blue)" stroke-width="2.5" fill="none" stroke-dasharray="8 6" class="flow-line" opacity="0.7"/>
+
+      <!-- Qdrant — The Memory -->
+      <rect x="10" y="196" width="150" height="52" rx="12" fill="rgba(167,139,250,0.06)" stroke="#a78bfa" stroke-width="1.5" filter="url(#sys-glow-ext)"/>
+      <circle cx="36" cy="222" r="12" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="1"/>
+      <text x="36" y="226" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" font-weight="700" fill="#a78bfa">Q</text>
+      <text x="100" y="217" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#a78bfa">Qdrant</text>
+      <text x="100" y="234" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#c8d8e8">The Memory</text>
+      <!-- Animated flow ribbon: Qdrant to nucleus -->
+      <path d="M164,222 C240,222 300,210 325,200" stroke="url(#sys-flow-purple)" stroke-width="2.5" fill="none" stroke-dasharray="8 6" class="flow-line" opacity="0.7"/>
+
+      <!-- GitHub — PRs + Issues -->
+      <rect x="10" y="272" width="150" height="52" rx="12" fill="rgba(176,190,197,0.06)" stroke="#b0bec5" stroke-width="1.5" filter="url(#sys-glow-ext)"/>
+      <circle cx="36" cy="298" r="12" fill="rgba(176,190,197,0.15)" stroke="#b0bec5" stroke-width="1"/>
+      <text x="36" y="302" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" font-weight="700" fill="#b0bec5">G</text>
+      <text x="100" y="293" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#b0bec5">GitHub</text>
+      <text x="100" y="310" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#c8d8e8">PRs + Issues</text>
+      <!-- Animated flow ribbon: GitHub to nucleus -->
+      <path d="M164,298 C240,298 300,270 325,260" stroke="url(#sys-flow-silver)" stroke-width="2.5" fill="none" stroke-dasharray="8 6" class="flow-line" opacity="0.7"/>
+
+      <!-- "via MCP" label on the flow ribbons -->
+      <rect x="230" y="185" width="60" height="20" rx="6" fill="rgba(34,211,238,0.1)" stroke="rgba(34,211,238,0.25)" stroke-width="0.8"/>
+      <text x="260" y="199" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" font-weight="600" fill="#22d3ee">MCP</text>
+
+      <!-- ===== RIGHT SIDE: Day Activation Timeline ===== -->
+      <!-- Vertical gradient line -->
+      <line x1="880" y1="100" x2="880" y2="410" stroke="url(#sys-ring-grad)" stroke-width="2" opacity="0.3"/>
+
+      <text x="960" y="90" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" font-weight="700" fill="#d4af37">Ativação por Dia</text>
+
+      <!-- Day 1 — ACTIVE (glowing) -->
+      <circle cx="880" cy="135" r="8" fill="#b0bec5" stroke="#b0bec5" stroke-width="2" filter="url(#sys-glow-soft)">
+        <animate attributeName="r" values="8;10;8" dur="2.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="880" cy="135" r="14" fill="none" stroke="#b0bec5" stroke-width="0.8" opacity="0.3">
+        <animate attributeName="r" values="14;20;14" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.3;0;0.3" dur="2.5s" repeatCount="indefinite"/>
+      </circle>
+      <rect x="900" y="116" width="140" height="40" rx="8" fill="rgba(176,190,197,0.08)" stroke="#b0bec5" stroke-width="1.3"/>
+      <text x="970" y="133" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#eaedf2">Dia 1 &mdash; Ingerir</text>
+      <text x="970" y="149" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#c8d8e8">Claude Code + Docker</text>
+      <!-- Active badge -->
+      <rect x="1045" y="125" width="42" height="15" rx="4" fill="rgba(63,185,80,0.15)"/>
+      <text x="1066" y="136" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" font-weight="600" fill="#3fb950">HOJE</text>
 
       <!-- Day 2 -->
-      <rect x="838" y="146" width="184" height="44" rx="8" fill="rgba(74,158,255,0.06)" stroke="#4a9eff" stroke-width="1.2"/>
-      <text x="930" y="164" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#eaedf2">Dia 2 — MCP</text>
-      <text x="930" y="180" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#c8d8e8">Supabase + Qdrant MCPs</text>
+      <circle cx="880" cy="205" r="6" fill="rgba(74,158,255,0.4)" stroke="#4a9eff" stroke-width="1.5"/>
+      <rect x="900" y="188" width="140" height="36" rx="8" fill="rgba(74,158,255,0.04)" stroke="rgba(74,158,255,0.15)" stroke-width="1"/>
+      <text x="970" y="204" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="rgba(234,237,242,0.6)">Dia 2 &mdash; MCP</text>
+      <text x="970" y="218" text-anchor="middle" font-family="'Newsreader',serif" font-size="10" font-style="italic" fill="rgba(200,216,232,0.5)">Supabase + Qdrant MCPs</text>
 
       <!-- Day 3 -->
-      <rect x="838" y="200" width="184" height="44" rx="8" fill="rgba(167,139,250,0.06)" stroke="#a78bfa" stroke-width="1.2"/>
-      <text x="930" y="218" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#eaedf2">Dia 3 — Agente</text>
-      <text x="930" y="234" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#c8d8e8">LangChain + Chainlit</text>
+      <circle cx="880" cy="270" r="6" fill="rgba(167,139,250,0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+      <rect x="900" y="253" width="140" height="36" rx="8" fill="rgba(167,139,250,0.04)" stroke="rgba(167,139,250,0.15)" stroke-width="1"/>
+      <text x="970" y="269" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="rgba(234,237,242,0.6)">Dia 3 &mdash; Agente</text>
+      <text x="970" y="283" text-anchor="middle" font-family="'Newsreader',serif" font-size="10" font-style="italic" fill="rgba(200,216,232,0.5)">LangChain + Chainlit</text>
 
       <!-- Day 4 -->
-      <rect x="838" y="254" width="184" height="50" rx="8" fill="rgba(212,175,55,0.06)" stroke="#d4af37" stroke-width="1.5" filter="url(#dd-glow2)"/>
-      <text x="930" y="274" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#eaedf2">Dia 4 — Crew</text>
-      <text x="930" y="290" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#d4af37">CrewAI + DeepEval + Cloud</text>
+      <circle cx="880" cy="335" r="6" fill="rgba(212,175,55,0.4)" stroke="#d4af37" stroke-width="1.5"/>
+      <rect x="900" y="318" width="140" height="36" rx="8" fill="rgba(212,175,55,0.04)" stroke="rgba(212,175,55,0.15)" stroke-width="1"/>
+      <text x="970" y="334" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="rgba(234,237,242,0.6)">Dia 4 &mdash; Crew</text>
+      <text x="970" y="348" text-anchor="middle" font-family="'Newsreader',serif" font-size="10" font-style="italic" fill="rgba(200,216,232,0.5)">CrewAI + DeepEval + Cloud</text>
 
-      <!-- Arrows from .claude to Day panel -->
-      <path d="M724,200 L826,200" stroke="rgba(74,158,255,0.3)" stroke-width="1.5" fill="none" stroke-dasharray="6 4" class="flow-line"/>
-      <polygon points="822,196 832,200 822,204" fill="#4a9eff" opacity="0.5"/>
+      <!-- Animated flow ribbon: nucleus to timeline -->
+      <path d="M686,220 C740,220 800,200 868,170" stroke="url(#sys-flow-right)" stroke-width="2" fill="none" stroke-dasharray="6 5" class="flow-line" opacity="0.5"/>
+      <path d="M686,220 C740,220 800,240 868,270" stroke="url(#sys-flow-right)" stroke-width="1.5" fill="none" stroke-dasharray="6 5" class="flow-line" opacity="0.3"/>
+      <path d="M686,220 C740,220 800,260 868,335" stroke="url(#sys-flow-right)" stroke-width="1" fill="none" stroke-dasharray="6 5" class="flow-line" opacity="0.2"/>
 
-      <!-- Day 1 active indicator (subtle dot, no blinking) -->
-      <circle cx="840" cy="114" r="5" fill="#3fb950" opacity="0.6"/>
+      <!-- Label between center and timeline -->
+      <text x="770" y="180" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="rgba(200,216,232,0.5)" transform="rotate(-15,770,180)">progressivo</text>
     </svg>
   </div>
 
-  <!-- Stats row: multiplier -->
-  <div class="reveal" style="display:flex; gap:clamp(10px,1.5vw,20px); justify-content:center; margin-top:clamp(6px,1vh,10px);">
-    <div style="text-align:center; padding:clamp(8px,1.2vh,14px) clamp(14px,2vw,24px); background:var(--surface); border:1px solid rgba(212,175,55,0.12); border-radius:12px; transition:transform 0.3s;"
-      onmouseenter="this.style.transform='translateY(-2px)'"
+  <!-- Stats row: hero equation -->
+  <div class="reveal" style="display:flex; gap:clamp(8px,1.2vw,16px); justify-content:center; align-items:center; margin-top:clamp(4px,0.8vh,8px);">
+    <div style="text-align:center; padding:clamp(8px,1.2vh,14px) clamp(16px,2.2vw,28px); background:var(--surface); border:1px solid rgba(212,175,55,0.15); border-radius:14px; transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;"
+      onmouseenter="this.style.borderColor='rgba(212,175,55,0.35)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 6px 24px rgba(212,175,55,0.06)'"
+      onmouseleave="this.style.borderColor='rgba(212,175,55,0.15)';this.style.transform='none';this.style.boxShadow='none'">
+      <p style="font-family:var(--font-display); font-size:clamp(1.5rem,2.8vw,2.2rem); font-style:italic; color:var(--gold); line-height:1;">18</p>
+      <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.8vw,0.68rem); color:var(--text-dim); margin-top:clamp(2px,0.3vh,4px); letter-spacing:0.08em;">KBs</p>
+    </div>
+    <span style="font-family:var(--font-display); font-size:clamp(1.3rem,2.2vw,1.8rem); font-style:italic; color:var(--text-dim);">&times;</span>
+    <div style="text-align:center; padding:clamp(8px,1.2vh,14px) clamp(16px,2.2vw,28px); background:var(--surface); border:1px solid rgba(167,139,250,0.15); border-radius:14px; transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;"
+      onmouseenter="this.style.borderColor='rgba(167,139,250,0.35)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 6px 24px rgba(167,139,250,0.06)'"
+      onmouseleave="this.style.borderColor='rgba(167,139,250,0.15)';this.style.transform='none';this.style.boxShadow='none'">
+      <p style="font-family:var(--font-display); font-size:clamp(1.5rem,2.8vw,2.2rem); font-style:italic; color:var(--purple); line-height:1;">10+</p>
+      <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.8vw,0.68rem); color:var(--text-dim); margin-top:clamp(2px,0.3vh,4px); letter-spacing:0.08em;">AGENTS</p>
+    </div>
+    <span style="font-family:var(--font-display); font-size:clamp(1.3rem,2.2vw,1.8rem); font-style:italic; color:var(--text-dim);">&times;</span>
+    <div style="text-align:center; padding:clamp(8px,1.2vh,14px) clamp(16px,2.2vw,28px); background:var(--surface); border:1px solid rgba(34,211,238,0.15); border-radius:14px; transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;"
+      onmouseenter="this.style.borderColor='rgba(34,211,238,0.35)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 6px 24px rgba(34,211,238,0.06)'"
+      onmouseleave="this.style.borderColor='rgba(34,211,238,0.15)';this.style.transform='none';this.style.boxShadow='none'">
+      <p style="font-family:var(--font-display); font-size:clamp(1.5rem,2.8vw,2.2rem); font-style:italic; color:var(--cyan); line-height:1;">5+</p>
+      <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.8vw,0.68rem); color:var(--text-dim); margin-top:clamp(2px,0.3vh,4px); letter-spacing:0.08em;">MCPs</p>
+    </div>
+    <span style="font-family:var(--font-display); font-size:clamp(1.3rem,2.2vw,1.8rem); font-style:italic; color:var(--text-dim);">=</span>
+    <div style="text-align:center; padding:clamp(10px,1.5vh,18px) clamp(20px,3vw,36px); background:linear-gradient(135deg, var(--surface) 0%, rgba(63,185,80,0.06) 100%); border:1.5px solid rgba(63,185,80,0.25); border-radius:14px; animation:pulse-glow 4s ease-in-out infinite; box-shadow:0 0 20px rgba(63,185,80,0.08), inset 0 1px 0 rgba(63,185,80,0.05); transition:transform 0.3s;"
+      onmouseenter="this.style.transform='translateY(-3px)'"
       onmouseleave="this.style.transform='none'">
-      <p style="font-family:var(--font-display); font-size:clamp(1.4rem,2.5vw,2rem); font-style:italic; color:var(--gold); line-height:1;">18 KBs</p>
-      <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.78vw,0.68rem); color:var(--text-dim); margin-top:clamp(2px,0.3vh,4px);">KNOWLEDGE BASES</p>
-    </div>
-    <div style="display:flex; align-items:center;">
-      <span style="font-family:var(--font-display); font-size:clamp(1.4rem,2.5vw,2rem); font-style:italic; color:var(--text-dim);">&times;</span>
-    </div>
-    <div style="text-align:center; padding:clamp(8px,1.2vh,14px) clamp(14px,2vw,24px); background:var(--surface); border:1px solid rgba(74,158,255,0.12); border-radius:12px; transition:transform 0.3s;"
-      onmouseenter="this.style.transform='translateY(-2px)'"
-      onmouseleave="this.style.transform='none'">
-      <p style="font-family:var(--font-display); font-size:clamp(1.4rem,2.5vw,2rem); font-style:italic; color:var(--accent); line-height:1;">10+ Agents</p>
-      <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.78vw,0.68rem); color:var(--text-dim); margin-top:clamp(2px,0.3vh,4px);">SUBAGENTS</p>
-    </div>
-    <div style="display:flex; align-items:center;">
-      <span style="font-family:var(--font-display); font-size:clamp(1.4rem,2.5vw,2rem); font-style:italic; color:var(--text-dim);">&times;</span>
-    </div>
-    <div style="text-align:center; padding:clamp(8px,1.2vh,14px) clamp(14px,2vw,24px); background:var(--surface); border:1px solid rgba(34,211,238,0.12); border-radius:12px; transition:transform 0.3s;"
-      onmouseenter="this.style.transform='translateY(-2px)'"
-      onmouseleave="this.style.transform='none'">
-      <p style="font-family:var(--font-display); font-size:clamp(1.4rem,2.5vw,2rem); font-style:italic; color:var(--cyan); line-height:1;">5+ MCPs</p>
-      <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.78vw,0.68rem); color:var(--text-dim); margin-top:clamp(2px,0.3vh,4px);">CONEXÕES</p>
-    </div>
-    <div style="display:flex; align-items:center;">
-      <span style="font-family:var(--font-display); font-size:clamp(1.4rem,2.5vw,2rem); font-style:italic; color:var(--text-dim);">=</span>
-    </div>
-    <div style="text-align:center; padding:clamp(8px,1.2vh,14px) clamp(14px,2vw,24px); background:linear-gradient(135deg, var(--surface) 0%, rgba(63,185,80,0.04) 100%); border:1px solid rgba(63,185,80,0.18); border-radius:12px; animation:pulse-glow 4s ease-in-out infinite; transition:transform 0.3s;"
-      onmouseenter="this.style.transform='translateY(-2px)'"
-      onmouseleave="this.style.transform='none'">
-      <p style="font-family:var(--font-display); font-size:clamp(1.4rem,2.5vw,2rem); font-style:italic; color:var(--green); line-height:1;">Exponencial</p>
-      <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.78vw,0.68rem); color:var(--green); margin-top:clamp(2px,0.3vh,4px);">CAPACIDADE</p>
+      <p style="font-family:var(--font-display); font-size:clamp(1.6rem,3vw,2.4rem); font-style:italic; color:var(--green); line-height:1; letter-spacing:-0.02em;">Exponencial</p>
+      <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.8vw,0.68rem); color:var(--green); margin-top:clamp(2px,0.3vh,4px); letter-spacing:0.12em;">CAPACIDADE</p>
     </div>
   </div>
 
-  <!-- Bottom bar -->
-  <div class="reveal" style="margin-top:auto; padding-top:clamp(12px,2vh,20px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px);">
-    <p style="font-family:var(--font-editorial); font-size:clamp(1rem,1.7vw,1.25rem); font-style:italic; color:var(--text-dim); line-height:1.5; flex:1;">Vocês estão vendo o cockpit. Hoje configuramos o básico &mdash; <strong style="color:var(--green);">nos próximos 3 dias, vamos ligar cada sistema</strong>. Dia 2 ativa MCPs, Dia 3 usa SubAgents, Dia 4 orquestra tudo com CrewAI.</p>
+  <!-- Bottom bar (enriched glassmorphism variant) -->
+  <div class="reveal" style="margin-top:auto; padding:clamp(10px,1.5vh,16px) clamp(16px,2vw,24px); background:linear-gradient(135deg, var(--surface) 0%, rgba(74,158,255,0.03) 100%); border:1px solid var(--border-bright); border-radius:14px; display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px); box-shadow:0 4px 24px rgba(0,0,0,0.2);">
+    <p style="font-family:var(--font-editorial); font-size:clamp(1rem,1.7vw,1.25rem); font-style:italic; color:var(--text-dim); line-height:1.5; flex:1;">Vocês estão vendo o cockpit completo. Hoje configuramos a estrutura &mdash; <strong style="color:var(--green);">nos próximos 3 dias, vamos ligar cada sistema</strong>. Dia 2 conecta MCPs, Dia 3 ativa SubAgents, Dia 4 orquestra tudo com CrewAI.</p>
     <div style="display:flex; gap:0.5rem; flex-shrink:0; flex-wrap:wrap;">
       <span class="tag tag-accent">PLATAFORMA</span>
       <span class="tag tag-gold">PROGRESSIVO</span>
@@ -4818,97 +4635,130 @@
 <!-- ================================================================ -->
 <!-- SLIDE 45 — METHOD GRID: JSON Bruto é Caos. Pydantic é Ordem.    -->
 <!-- ================================================================ -->
-<section class="slide" style="justify-content:flex-start; padding-top:clamp(28px,4vh,48px); background-image: radial-gradient(ellipse at 30% 20%, rgba(63,185,80,0.05) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(248,81,73,0.02) 0%, transparent 40%);">
+<section class="slide" style="justify-content:flex-start; padding-top:clamp(28px,4vh,48px); background-image: radial-gradient(ellipse at 20% 20%, rgba(248,81,73,0.04) 0%, transparent 40%), radial-gradient(ellipse at 80% 70%, rgba(63,185,80,0.04) 0%, transparent 40%);">
   <p class="slide__label reveal">PROBLEMA &rarr; SOLUÇÃO</p>
   <h2 class="slide__heading reveal" style="font-style:italic; font-size:clamp(28px,5vw,52px);">JSON bruto é <span style="color:var(--red);">caos.</span> Pydantic é <span style="color:var(--green);">ordem.</span></h2>
 
-      <div class="method-grid reveal" style="flex:1;  align-items:stretch;">
-      <!-- LEFT: SEM TIPAGEM -->
-      <div class="method-panel" style="border-left:3px solid var(--red); display:flex; flex-direction:column;" onmouseenter="this.style.borderColor='rgba(248,81,73,0.3)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(248,81,73,0.06)'" onmouseleave="this.style.borderColor='rgba(248,81,73,0.12)';this.style.transform='none';this.style.boxShadow='none'">
-        <h3 style="color:var(--red);">SEM TIPAGEM</h3>
-        <div class="terminal" style="margin-bottom:clamp(10px,1.5vh,16px);">
-          <div class="terminal__bar">
-            <span class="terminal__dot" style="background:#f85149;"></span>
-            <span class="terminal__dot" style="background:#ef9000;"></span>
-            <span class="terminal__dot" style="background:#3fb950;"></span>
-          </div>
-          <div class="terminal__body" style="font-size:clamp(0.78rem,1vw,0.88rem); line-height:1.55;">
-            <p class="terminal__comment"># O que chega do ShadowTraffic</p>
-            <p><span style="color:var(--text);">raw</span> = {</p>
-            <p>&nbsp;&nbsp;<span style="color:var(--green);">"order_id"</span>: <span style="color:var(--green);">"abc-123"</span>,</p>
-            <p>&nbsp;&nbsp;<span style="color:var(--green);">"qty"</span>: <span style="color:var(--green);">"cinco"</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="terminal__comment"># string!</span></p>
-            <p>&nbsp;&nbsp;<span style="color:var(--green);">"total"</span>: <span style="color:var(--gold);">-99.99</span>,&nbsp;&nbsp;&nbsp;<span class="terminal__comment"># negativo!</span></p>
-            <p>&nbsp;&nbsp;<span style="color:var(--green);">"payment"</span>: <span style="color:var(--green);">"boleto bancário"</span></p>
-            <p>}</p>
-            <p class="terminal__comment"># TypeError, KeyError, dados errados</p>
-          </div>
+  <!-- Dual Strategy Comparison: center divider pattern -->
+  <div class="reveal" style="flex:1; display:grid; grid-template-columns:1fr 64px 1fr; gap:0; align-items:stretch;">
+
+    <!-- LEFT: SEM TIPAGEM -->
+    <div style="background:rgba(248,81,73,0.03); border:1px solid rgba(248,81,73,0.12); border-radius:16px; padding:clamp(20px,3vh,32px) clamp(18px,2.5vw,28px); display:flex; flex-direction:column; transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;"
+      onmouseenter="this.style.borderColor='rgba(248,81,73,0.3)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(248,81,73,0.06)'"
+      onmouseleave="this.style.borderColor='rgba(248,81,73,0.12)';this.style.transform='none';this.style.boxShadow='none'">
+      <p style="font-family:var(--font-display); font-size:clamp(1.4rem,2.5vw,1.9rem); font-style:italic; color:var(--text); margin-bottom:clamp(4px,0.6vh,8px);">Sem <span style="color:var(--red);">Tipagem</span></p>
+      <p style="font-family:var(--font-editorial); font-size:clamp(0.88rem,1.2vw,1.05rem); font-style:italic; color:var(--text-dim); margin-bottom:clamp(10px,1.5vh,16px); line-height:1.5;">Dados brutos passam <strong style="color:var(--text);">sem validação</strong> &mdash; erros silenciosos corrompem tudo downstream.</p>
+
+      <div class="terminal" style="margin-bottom:clamp(10px,1.5vh,16px);">
+        <div class="terminal__bar">
+          <span class="terminal__dot" style="background:#f85149;"></span>
+          <span class="terminal__dot" style="background:#ef9000;"></span>
+          <span class="terminal__dot" style="background:#3fb950;"></span>
         </div>
-        <div style="display:flex; flex-direction:column; gap:clamp(6px,0.8vh,10px);">
-          <div style="display:flex; align-items:flex-start; gap:clamp(6px,0.8vw,10px);">
-            <span style="color:var(--red); font-weight:700; font-size:clamp(0.82rem,1vw,0.95rem); flex-shrink:0;">&times;</span>
-            <p style="font-size:clamp(0.78rem,0.95vw,0.88rem); color:var(--text-dim); line-height:1.45;"><span style="font-family:var(--font-mono); font-size:clamp(0.78rem,1vw,0.88rem); color:var(--red);">qty="cinco"</span> causa TypeError em cálculos</p>
-          </div>
-          <div style="display:flex; align-items:flex-start; gap:clamp(6px,0.8vw,10px);">
-            <span style="color:var(--red); font-weight:700; font-size:clamp(0.82rem,1vw,0.95rem); flex-shrink:0;">&times;</span>
-            <p style="font-size:clamp(0.78rem,0.95vw,0.88rem); color:var(--text-dim); line-height:1.45;"><span style="font-family:var(--font-mono); font-size:clamp(0.78rem,1vw,0.88rem); color:var(--red);">total=-99.99</span> viola regras de negócio</p>
-          </div>
-          <div style="display:flex; align-items:flex-start; gap:clamp(6px,0.8vw,10px);">
-            <span style="color:var(--red); font-weight:700; font-size:clamp(0.82rem,1vw,0.95rem); flex-shrink:0;">&times;</span>
-            <p style="font-size:clamp(0.78rem,0.95vw,0.88rem); color:var(--text-dim); line-height:1.45;"><span style="font-family:var(--font-mono); font-size:clamp(0.78rem,1vw,0.88rem); color:var(--red);">payment</span> typo corrompe análises silenciosamente</p>
-          </div>
+        <div class="terminal__body" style="font-size:clamp(0.78rem,1vw,0.88rem); line-height:1.55;">
+          <p class="terminal__comment"># O que chega do ShadowTraffic</p>
+          <p><span style="color:var(--text);">raw</span> = {</p>
+          <p>&nbsp;&nbsp;<span style="color:var(--green);">"order_id"</span>: <span style="color:var(--green);">"abc-123"</span>,</p>
+          <p>&nbsp;&nbsp;<span style="color:var(--green);">"qty"</span>: <span style="color:var(--green);">"cinco"</span>,&nbsp;&nbsp;&nbsp;&nbsp;<span class="terminal__comment"># string!</span></p>
+          <p>&nbsp;&nbsp;<span style="color:var(--green);">"total"</span>: <span style="color:var(--gold);">-99.99</span>,&nbsp;&nbsp;<span class="terminal__comment"># negativo!</span></p>
+          <p>&nbsp;&nbsp;<span style="color:var(--green);">"payment"</span>: <span style="color:var(--green);">"boleto bancário"</span></p>
+          <p>}</p>
+          <p class="terminal__comment"># TypeError, KeyError, dados sujos</p>
         </div>
       </div>
 
-      <!-- RIGHT: COM PYDANTIC -->
-      <div class="method-panel" style="border-left:3px solid var(--green); animation:pulse-green 4s ease-in-out infinite; background:linear-gradient(135deg, var(--surface) 0%, rgba(63,185,80,0.03) 100%); display:flex; flex-direction:column;" onmouseenter="this.style.borderColor='rgba(63,185,80,0.3)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(63,185,80,0.06)'" onmouseleave="this.style.borderColor='rgba(63,185,80,0.12)';this.style.transform='none';this.style.boxShadow='none'">
-        <h3 style="color:var(--green);">COM PYDANTIC</h3>
-        <div class="terminal" style="margin-bottom:clamp(10px,1.5vh,16px);">
-          <div class="terminal__bar">
-            <span class="terminal__dot" style="background:#f85149;"></span>
-            <span class="terminal__dot" style="background:#ef9000;"></span>
-            <span class="terminal__dot" style="background:#3fb950;"></span>
-          </div>
-          <div class="terminal__body" style="font-size:clamp(0.78rem,1vw,0.88rem); line-height:1.55;">
-            <p><span style="color:var(--purple);">from</span> <span style="color:var(--text);">pydantic</span> <span style="color:var(--purple);">import</span> <span style="color:var(--cyan);">BaseModel</span>, <span style="color:var(--cyan);">Field</span></p>
-            <p><span style="color:var(--purple);">from</span> <span style="color:var(--text);">typing</span> <span style="color:var(--purple);">import</span> <span style="color:var(--cyan);">Literal</span></p>
-            <p>&nbsp;</p>
-            <p><span style="color:var(--purple);">class</span> <span style="color:var(--cyan);">Order</span>(<span style="color:var(--cyan);">BaseModel</span>):</p>
-            <p>&nbsp;&nbsp;order_id: <span style="color:var(--cyan);">str</span></p>
-            <p>&nbsp;&nbsp;qty: <span style="color:var(--cyan);">int</span> = <span style="color:var(--accent);">Field</span>(ge=<span style="color:var(--gold);">1</span>, le=<span style="color:var(--gold);">100</span>)</p>
-            <p>&nbsp;&nbsp;total: <span style="color:var(--cyan);">float</span> = <span style="color:var(--accent);">Field</span>(ge=<span style="color:var(--gold);">0</span>)</p>
-            <p>&nbsp;&nbsp;payment: <span style="color:var(--cyan);">Literal</span>[</p>
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--green);">'pix'</span>,<span style="color:var(--green);">'credit_card'</span>,<span style="color:var(--green);">'boleto'</span>]</p>
-            <p>&nbsp;</p>
-            <p>order = <span style="color:var(--cyan);">Order</span>(**raw)&nbsp;&nbsp;<span class="terminal__comment"># Validado!</span></p>
-            <p class="terminal__comment"># ValidationError se inválido</p>
-          </div>
+      <div style="display:flex; flex-direction:column; gap:clamp(8px,1vh,12px); margin-top:auto;">
+        <div style="display:flex; align-items:center; gap:clamp(8px,1vw,12px);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5" style="flex-shrink:0;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          <p style="font-family:var(--font-editorial); font-size:clamp(0.85rem,1.1vw,0.98rem); font-style:italic; color:var(--text-dim); line-height:1.45;"><span style="font-family:var(--font-mono); color:var(--red);">qty="cinco"</span> causa TypeError em cálculos</p>
         </div>
-        <div style="display:flex; flex-direction:column; gap:clamp(6px,0.8vh,10px);">
-          <div style="display:flex; align-items:flex-start; gap:clamp(6px,0.8vw,10px);">
-            <span style="color:var(--green); font-weight:700; font-size:clamp(0.82rem,1vw,0.95rem); flex-shrink:0;">&rarr;</span>
-            <p style="font-size:clamp(0.78rem,0.95vw,0.88rem); color:var(--text-dim); line-height:1.45;">Tipos garantidos em runtime</p>
-          </div>
-          <div style="display:flex; align-items:flex-start; gap:clamp(6px,0.8vw,10px);">
-            <span style="color:var(--green); font-weight:700; font-size:clamp(0.82rem,1vw,0.95rem); flex-shrink:0;">&rarr;</span>
-            <p style="font-size:clamp(0.78rem,0.95vw,0.88rem); color:var(--text-dim); line-height:1.45;">Constraints de negócio declarativas</p>
-          </div>
-          <div style="display:flex; align-items:flex-start; gap:clamp(6px,0.8vw,10px);">
-            <span style="color:var(--green); font-weight:700; font-size:clamp(0.82rem,1vw,0.95rem); flex-shrink:0;">&rarr;</span>
-            <p style="font-size:clamp(0.78rem,0.95vw,0.88rem); color:var(--text-dim); line-height:1.45;">Erros explícitos, não silenciosos</p>
-          </div>
+        <div style="display:flex; align-items:center; gap:clamp(8px,1vw,12px);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5" style="flex-shrink:0;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          <p style="font-family:var(--font-editorial); font-size:clamp(0.85rem,1.1vw,0.98rem); font-style:italic; color:var(--text-dim); line-height:1.45;"><span style="font-family:var(--font-mono); color:var(--red);">total=-99.99</span> viola regras de negócio</p>
         </div>
+        <div style="display:flex; align-items:center; gap:clamp(8px,1vw,12px);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5" style="flex-shrink:0;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          <p style="font-family:var(--font-editorial); font-size:clamp(0.85rem,1.1vw,0.98rem); font-style:italic; color:var(--text-dim); line-height:1.45;"><span style="font-family:var(--font-mono); color:var(--red);">payment</span> valor inválido corrompe análises silenciosamente</p>
+        </div>
+      </div>
+
+      <!-- stat at bottom -->
+      <div style="margin-top:auto; padding-top:clamp(10px,1.5vh,16px); border-top:1px solid rgba(248,81,73,0.12);">
+        <p style="font-family:var(--font-display); font-size:clamp(1.8rem,3.5vw,2.6rem); font-style:italic; color:var(--red); line-height:1;">bugs silenciosos</p>
+        <p style="font-family:var(--font-mono); font-size:clamp(0.62rem,0.85vw,0.72rem); color:var(--text-dim); margin-top:clamp(2px,0.4vh,4px); text-transform:uppercase; letter-spacing:0.1em;">CORROMPEM O PIPELINE</p>
       </div>
     </div>
 
-    <div class="reveal" style="margin-top:auto; padding-top:clamp(12px,2vh,20px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px);">
-    <p style="font-family:var(--font-editorial); font-size:clamp(1rem,1.7vw,1.25rem); font-style:italic; color:var(--text-dim); line-height:1.5; flex:1;">Cada entidade do ShopAgent &mdash; Customer, Product, Order, Review &mdash; terá seu modelo Pydantic. Claude Code gera todos a partir do schema.</p>
-    <div style="display:flex; gap:0.5rem; flex-shrink:0; flex-wrap:wrap;">
-          <span class="tag tag-green">PYDANTIC</span>
-          <span class="tag tag-orange">SHOPAGENT</span>
-          <span class="tag tag-accent">RUNTIME</span>
+    <!-- CENTER DIVIDER: gradient lines + gold circle -->
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.5rem;">
+      <div style="width:2px; flex:1; background:linear-gradient(180deg, transparent, rgba(212,175,55,0.3), transparent); max-height:30%;"></div>
+      <div style="width:clamp(40px,5vh,56px); height:clamp(40px,5vh,56px); border-radius:50%; background:var(--gold-dim); border:2px solid rgba(212,175,55,0.3); display:flex; align-items:center; justify-content:center;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+      <div style="width:2px; flex:1; background:linear-gradient(180deg, transparent, rgba(212,175,55,0.3), transparent); max-height:30%;"></div>
+    </div>
+
+    <!-- RIGHT: COM PYDANTIC (glow + pulse) -->
+    <div style="background:linear-gradient(135deg, var(--surface) 0%, rgba(63,185,80,0.04) 100%); border:1px solid rgba(63,185,80,0.18); border-radius:16px; padding:clamp(20px,3vh,32px) clamp(18px,2.5vw,28px); display:flex; flex-direction:column; box-shadow:0 0 30px rgba(63,185,80,0.04); animation:pulse-green 4s ease-in-out infinite; transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;"
+      onmouseenter="this.style.borderColor='rgba(63,185,80,0.3)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(63,185,80,0.08)'"
+      onmouseleave="this.style.borderColor='rgba(63,185,80,0.18)';this.style.transform='none';this.style.boxShadow='0 0 30px rgba(63,185,80,0.04)'">
+      <p style="font-family:var(--font-display); font-size:clamp(1.4rem,2.5vw,1.9rem); font-style:italic; color:var(--text); margin-bottom:clamp(4px,0.6vh,8px);">Com <span style="color:var(--green);">Pydantic</span></p>
+      <p style="font-family:var(--font-editorial); font-size:clamp(0.88rem,1.2vw,1.05rem); font-style:italic; color:var(--text-dim); margin-bottom:clamp(10px,1.5vh,16px); line-height:1.5;">Cada campo tem <strong style="color:var(--text);">tipo e constraint</strong> &mdash; dados inválidos nunca passam.</p>
+
+      <div class="terminal" style="margin-bottom:clamp(10px,1.5vh,16px);">
+        <div class="terminal__bar">
+          <span class="terminal__dot" style="background:#f85149;"></span>
+          <span class="terminal__dot" style="background:#ef9000;"></span>
+          <span class="terminal__dot" style="background:#3fb950;"></span>
+        </div>
+        <div class="terminal__body" style="font-size:clamp(0.78rem,1vw,0.88rem); line-height:1.55;">
+          <p><span style="color:var(--purple);">from</span> pydantic <span style="color:var(--purple);">import</span> <span style="color:var(--cyan);">BaseModel</span>, <span style="color:var(--cyan);">Field</span></p>
+          <p><span style="color:var(--purple);">from</span> typing <span style="color:var(--purple);">import</span> <span style="color:var(--cyan);">Literal</span></p>
+          <p>&nbsp;</p>
+          <p><span style="color:var(--purple);">class</span> <span style="color:var(--cyan);">Order</span>(<span style="color:var(--cyan);">BaseModel</span>):</p>
+          <p>&nbsp;&nbsp;order_id: <span style="color:var(--cyan);">str</span></p>
+          <p>&nbsp;&nbsp;qty: <span style="color:var(--cyan);">int</span> = <span style="color:var(--accent);">Field</span>(ge=<span style="color:var(--gold);">1</span>, le=<span style="color:var(--gold);">100</span>)</p>
+          <p>&nbsp;&nbsp;total: <span style="color:var(--cyan);">float</span> = <span style="color:var(--accent);">Field</span>(ge=<span style="color:var(--gold);">0</span>)</p>
+          <p>&nbsp;&nbsp;payment: <span style="color:var(--cyan);">Literal</span>[</p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--green);">'pix'</span>,<span style="color:var(--green);">'credit_card'</span>,<span style="color:var(--green);">'boleto'</span>]</p>
+          <p>&nbsp;</p>
+          <p>order = <span style="color:var(--cyan);">Order</span>(**raw)&nbsp;&nbsp;<span class="terminal__comment"># Validado!</span></p>
+          <p class="terminal__comment"># ValidationError se inválido</p>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:clamp(8px,1vh,12px); margin-top:auto;">
+        <div style="display:flex; align-items:center; gap:clamp(8px,1vw,12px);">
+          <span class="tag tag-green">RUNTIME</span>
+          <p style="font-family:var(--font-editorial); font-size:clamp(0.85rem,1.1vw,0.98rem); font-style:italic; color:var(--text-dim); line-height:1.45;">Tipos garantidos em runtime &mdash; int, float, str</p>
+        </div>
+        <div style="display:flex; align-items:center; gap:clamp(8px,1vw,12px);">
+          <span class="tag tag-accent">CONSTRAINT</span>
+          <p style="font-family:var(--font-editorial); font-size:clamp(0.85rem,1.1vw,0.98rem); font-style:italic; color:var(--text-dim); line-height:1.45;">Constraints de negócio declarativas &mdash; ge, le, Literal</p>
+        </div>
+        <div style="display:flex; align-items:center; gap:clamp(8px,1vw,12px);">
+          <span class="tag tag-purple">EXPLÍCITO</span>
+          <p style="font-family:var(--font-editorial); font-size:clamp(0.85rem,1.1vw,0.98rem); font-style:italic; color:var(--text-dim); line-height:1.45;">Erros explícitos com ValidationError, não silenciosos</p>
+        </div>
+      </div>
+
+      <!-- stat at bottom -->
+      <div style="margin-top:auto; padding-top:clamp(10px,1.5vh,16px); border-top:1px solid rgba(63,185,80,0.12);">
+        <p style="font-family:var(--font-display); font-size:clamp(1.8rem,3.5vw,2.6rem); font-style:italic; color:var(--green); line-height:1;">zero surpresas</p>
+        <p style="font-family:var(--font-mono); font-size:clamp(0.62rem,0.85vw,0.72rem); color:var(--text-dim); margin-top:clamp(2px,0.4vh,4px); text-transform:uppercase; letter-spacing:0.1em;">CONTRATO VALIDADO NA ENTRADA</p>
+      </div>
     </div>
   </div>
-  
+
+  <div class="reveal" style="margin-top:auto; padding-top:clamp(12px,2vh,20px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px);">
+    <p style="font-family:var(--font-editorial); font-size:clamp(1rem,1.7vw,1.25rem); font-style:italic; color:var(--text-dim); line-height:1.5; flex:1;">Cada entidade do ShopAgent &mdash; Customer, Product, Order, Review &mdash; terá seu <strong style="color:var(--accent);">modelo Pydantic como contrato</strong>. Claude Code gera todos automaticamente a partir do schema.</p>
+    <div style="display:flex; gap:0.5rem; flex-shrink:0; flex-wrap:wrap;">
+      <span class="tag tag-green">PYDANTIC</span>
+      <span class="tag tag-orange">SHOPAGENT</span>
+      <span class="tag tag-accent">RUNTIME</span>
+    </div>
+  </div>
+
 </section>
 
 <!-- ================================================================ -->
@@ -4918,77 +4768,125 @@
   <p class="slide__label reveal">MODELS &amp; VALIDATORS</p>
   <h2 class="slide__heading reveal" style="font-style:italic; font-size:clamp(28px,5vw,52px);">Cada entidade, <span style="color:var(--green);">um contrato</span></h2>
 
-      <div class="step-split reveal" style="flex:1; display:grid; grid-template-columns:1.2fr 1fr; gap:clamp(16px,2.5vw,32px);  align-items:start;">
-      <!-- LEFT: Terminal with full Order model -->
-      <div class="terminal">
-        <div class="terminal__bar">
-          <span class="terminal__dot" style="background:#f85149;"></span>
-          <span class="terminal__dot" style="background:#ef9000;"></span>
-          <span class="terminal__dot" style="background:#3fb950;"></span>
-          <span style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.75vw,0.68rem); color:var(--text-dim); margin-left:clamp(6px,0.8vw,10px);">models/order.py</span>
-        </div>
-        <div class="terminal__body" style="font-size:clamp(0.78rem,1vw,0.88rem); line-height:1.5;">
-          <p><span style="color:var(--purple);">from</span> pydantic <span style="color:var(--purple);">import</span> <span style="color:var(--cyan);">BaseModel</span>, <span style="color:var(--cyan);">Field</span></p>
-          <p><span style="color:var(--purple);">from</span> typing <span style="color:var(--purple);">import</span> <span style="color:var(--cyan);">Literal</span></p>
-          <p><span style="color:var(--purple);">from</span> datetime <span style="color:var(--purple);">import</span> <span style="color:var(--cyan);">datetime</span></p>
-          <p><span style="color:var(--purple);">import</span> uuid</p>
-          <p>&nbsp;</p>
-          <p><span style="color:var(--purple);">class</span> <span style="color:var(--cyan);">Order</span>(<span style="color:var(--cyan);">BaseModel</span>):</p>
-          <p>&nbsp;&nbsp;order_id: <span style="color:var(--cyan);">str</span> = <span style="color:var(--accent);">Field</span>(</p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;default_factory=<span style="color:var(--purple);">lambda</span>: <span style="color:var(--accent);">str</span>(uuid.<span style="color:var(--accent);">uuid4</span>()))</p>
-          <p>&nbsp;&nbsp;customer_id: <span style="color:var(--cyan);">str</span></p>
-          <p>&nbsp;&nbsp;product_id: <span style="color:var(--cyan);">str</span></p>
-          <p>&nbsp;&nbsp;qty: <span style="color:var(--cyan);">int</span> = <span style="color:var(--accent);">Field</span>(ge=<span style="color:var(--gold);">1</span>, le=<span style="color:var(--gold);">100</span>)</p>
-          <p>&nbsp;&nbsp;total: <span style="color:var(--cyan);">float</span> = <span style="color:var(--accent);">Field</span>(ge=<span style="color:var(--gold);">0</span>)</p>
-          <p>&nbsp;&nbsp;status: <span style="color:var(--cyan);">Literal</span>[</p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--green);">'delivered'</span>,<span style="color:var(--green);">'shipped'</span>,</p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--green);">'processing'</span>,<span style="color:var(--green);">'cancelled'</span>]</p>
-          <p>&nbsp;&nbsp;payment: <span style="color:var(--cyan);">Literal</span>[</p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--green);">'pix'</span>,<span style="color:var(--green);">'credit_card'</span>,<span style="color:var(--green);">'boleto'</span>]</p>
-          <p>&nbsp;&nbsp;created_at: <span style="color:var(--cyan);">datetime</span></p>
-          <p>&nbsp;</p>
-          <p>&nbsp;&nbsp;<span style="color:var(--orange);">@validator</span>(<span style="color:var(--green);">'total'</span>)</p>
-          <p>&nbsp;&nbsp;<span style="color:var(--purple);">def</span> <span style="color:var(--accent);">total_must_be_reasonable</span>(cls, v):</p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--purple);">if</span> v &gt; <span style="color:var(--gold);">50000</span>:</p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--purple);">raise</span> <span style="color:var(--cyan);">ValueError</span>(<span style="color:var(--green);">'Total acima do limite'</span>)</p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--purple);">return</span> <span style="color:var(--accent);">round</span>(v, <span style="color:var(--gold);">2</span>)</p>
-        </div>
+  <div class="reveal" style="flex:1; display:grid; grid-template-columns:1.2fr 1fr; gap:clamp(16px,2.5vw,32px); align-items:start;">
+    <!-- LEFT: Terminal with full Order model (Pydantic v2) -->
+    <div class="terminal">
+      <div class="terminal__bar">
+        <span class="terminal__dot" style="background:#f85149;"></span>
+        <span class="terminal__dot" style="background:#ef9000;"></span>
+        <span class="terminal__dot" style="background:#3fb950;"></span>
+        <span style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.75vw,0.68rem); color:var(--text-dim); margin-left:clamp(6px,0.8vw,10px);">models/order.py</span>
       </div>
-
-      <!-- RIGHT: 4 stacked explanation cards -->
-      <div style="display:flex; flex-direction:column; gap:clamp(8px,1.2vh,14px);">
-        <!-- Card 1: Field constraints -->
-        <div style="background:var(--surface); border:1px solid var(--border); border-top:2px solid var(--green); border-radius:10px; padding:clamp(10px,1.5vh,16px) clamp(12px,1.5vw,18px); transition:transform .3s ease;" onmouseenter="this.style.transform='translateY(-4px)'" onmouseleave="this.style.transform='none'">
-          <p style="font-family:var(--font-mono); font-size:clamp(0.78rem,1vw,0.88rem); color:var(--green); font-weight:600; margin-bottom:clamp(4px,0.5vh,6px);">Field(ge=1, le=100)</p>
-          <p style="font-size:clamp(0.78rem,0.95vw,0.88rem); color:var(--text-dim); line-height:1.45;">Constraints numéricas: <span style="font-family:var(--font-mono); font-size:clamp(0.65rem,0.82vw,0.72rem); color:var(--green);">ge</span>=maior-ou-igual, <span style="font-family:var(--font-mono); font-size:clamp(0.65rem,0.82vw,0.72rem); color:var(--green);">le</span>=menor-ou-igual</p>
-        </div>
-        <!-- Card 2: Literal -->
-        <div style="background:var(--surface); border:1px solid var(--border); border-top:2px solid var(--accent); border-radius:10px; padding:clamp(10px,1.5vh,16px) clamp(12px,1.5vw,18px); transition:transform .3s ease;" onmouseenter="this.style.transform='translateY(-4px)'" onmouseleave="this.style.transform='none'">
-          <p style="font-family:var(--font-mono); font-size:clamp(0.78rem,1vw,0.88rem); color:var(--accent); font-weight:600; margin-bottom:clamp(4px,0.5vh,6px);">Literal[...]</p>
-          <p style="font-size:clamp(0.78rem,0.95vw,0.88rem); color:var(--text-dim); line-height:1.45;">Enum implícito: só aceita os valores listados</p>
-        </div>
-        <!-- Card 3: @validator -->
-        <div style="background:var(--surface); border:1px solid var(--border); border-top:2px solid var(--orange); border-radius:10px; padding:clamp(10px,1.5vh,16px) clamp(12px,1.5vw,18px); transition:transform .3s ease;" onmouseenter="this.style.transform='translateY(-4px)'" onmouseleave="this.style.transform='none'">
-          <p style="font-family:var(--font-mono); font-size:clamp(0.78rem,1vw,0.88rem); color:var(--orange); font-weight:600; margin-bottom:clamp(4px,0.5vh,6px);">@validator</p>
-          <p style="font-size:clamp(0.78rem,0.95vw,0.88rem); color:var(--text-dim); line-height:1.45;">Lógica customizada de validação por campo</p>
-        </div>
-        <!-- Card 4: ValidationError -->
-        <div style="background:var(--surface); border:1px solid var(--border); border-top:2px solid var(--purple); border-radius:10px; padding:clamp(10px,1.5vh,16px) clamp(12px,1.5vw,18px); animation:pulse-purple 4s ease-in-out infinite; transition:transform .3s ease;" onmouseenter="this.style.transform='translateY(-4px)'" onmouseleave="this.style.transform='none'">
-          <p style="font-family:var(--font-mono); font-size:clamp(0.78rem,1vw,0.88rem); color:var(--purple); font-weight:600; margin-bottom:clamp(4px,0.5vh,6px);">ValidationError</p>
-          <p style="font-size:clamp(0.78rem,0.95vw,0.88rem); color:var(--text-dim); line-height:1.45;">Falha explícita com mensagem clara</p>
-        </div>
+      <div class="terminal__body" style="font-size:clamp(0.78rem,1vw,0.88rem); line-height:1.5;">
+        <p><span style="color:var(--purple);">from</span> pydantic <span style="color:var(--purple);">import</span> <span style="color:var(--cyan);">BaseModel</span>, <span style="color:var(--cyan);">Field</span>, <span style="color:var(--cyan);">field_validator</span></p>
+        <p><span style="color:var(--purple);">from</span> typing <span style="color:var(--purple);">import</span> <span style="color:var(--cyan);">Literal</span></p>
+        <p><span style="color:var(--purple);">from</span> datetime <span style="color:var(--purple);">import</span> <span style="color:var(--cyan);">datetime</span></p>
+        <p><span style="color:var(--purple);">import</span> uuid</p>
+        <p>&nbsp;</p>
+        <p><span style="color:var(--purple);">class</span> <span style="color:var(--cyan);">Order</span>(<span style="color:var(--cyan);">BaseModel</span>):</p>
+        <p>&nbsp;&nbsp;order_id: <span style="color:var(--cyan);">str</span> = <span style="color:var(--accent);">Field</span>(</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;default_factory=<span style="color:var(--purple);">lambda</span>: <span style="color:var(--accent);">str</span>(uuid.<span style="color:var(--accent);">uuid4</span>()))</p>
+        <p>&nbsp;&nbsp;customer_id: <span style="color:var(--cyan);">str</span></p>
+        <p>&nbsp;&nbsp;product_id: <span style="color:var(--cyan);">str</span></p>
+        <p>&nbsp;&nbsp;qty: <span style="color:var(--cyan);">int</span> = <span style="color:var(--accent);">Field</span>(ge=<span style="color:var(--gold);">1</span>, le=<span style="color:var(--gold);">100</span>)</p>
+        <p>&nbsp;&nbsp;total: <span style="color:var(--cyan);">float</span> = <span style="color:var(--accent);">Field</span>(ge=<span style="color:var(--gold);">0</span>)</p>
+        <p>&nbsp;&nbsp;status: <span style="color:var(--cyan);">Literal</span>[</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--green);">'delivered'</span>,<span style="color:var(--green);">'shipped'</span>,</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--green);">'processing'</span>,<span style="color:var(--green);">'cancelled'</span>]</p>
+        <p>&nbsp;&nbsp;payment: <span style="color:var(--cyan);">Literal</span>[</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--green);">'pix'</span>,<span style="color:var(--green);">'credit_card'</span>,<span style="color:var(--green);">'boleto'</span>]</p>
+        <p>&nbsp;&nbsp;created_at: <span style="color:var(--cyan);">datetime</span></p>
+        <p>&nbsp;</p>
+        <p>&nbsp;&nbsp;<span style="color:var(--orange);">@field_validator</span>(<span style="color:var(--green);">'total'</span>)</p>
+        <p>&nbsp;&nbsp;<span style="color:var(--orange);">@classmethod</span></p>
+        <p>&nbsp;&nbsp;<span style="color:var(--purple);">def</span> <span style="color:var(--accent);">total_must_be_reasonable</span>(cls, v):</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--purple);">if</span> v &gt; <span style="color:var(--gold);">50000</span>:</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--purple);">raise</span> <span style="color:var(--cyan);">ValueError</span>(<span style="color:var(--green);">'Total acima do limite'</span>)</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--purple);">return</span> <span style="color:var(--accent);">round</span>(v, <span style="color:var(--gold);">2</span>)</p>
       </div>
     </div>
 
-    <div class="reveal" style="margin-top:auto; padding-top:clamp(12px,2vh,20px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px);">
-    <p style="font-family:var(--font-editorial); font-size:clamp(1rem,1.7vw,1.25rem); font-style:italic; color:var(--text-dim); line-height:1.5; flex:1;">Claude Code explora os dados do ShadowTraffic e gera os modelos Pydantic automaticamente a partir dos JSONs.</p>
-    <div style="display:flex; gap:0.5rem; flex-shrink:0; flex-wrap:wrap;">
-          <span class="tag tag-green">CLAUDE CODE GERA</span>
-          <span class="tag tag-accent">HOJE À NOITE</span>
-          <span class="tag tag-purple">VALIDATORS</span>
+    <!-- RIGHT: 4 stacked explanation cards with icon badges -->
+    <div style="display:flex; flex-direction:column; gap:clamp(8px,1.2vh,14px);">
+      <!-- Card 1: Field constraints -->
+      <div style="background:var(--surface); border:1px solid rgba(63,185,80,0.12); border-radius:14px; padding:clamp(14px,2vh,22px) clamp(14px,1.8vw,22px); transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;"
+        onmouseenter="this.style.borderColor='rgba(63,185,80,0.3)';this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 28px rgba(63,185,80,0.06)'"
+        onmouseleave="this.style.borderColor='rgba(63,185,80,0.12)';this.style.transform='none';this.style.boxShadow='none'">
+        <div style="display:flex; align-items:center; gap:clamp(8px,1vw,12px); margin-bottom:clamp(6px,0.8vh,10px);">
+          <div style="width:clamp(28px,3.5vh,36px); height:clamp(28px,3.5vh,36px); border-radius:8px; background:rgba(63,185,80,0.1); border:1px solid rgba(63,185,80,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+          </div>
+          <p style="font-family:var(--font-display); font-size:clamp(1rem,1.4vw,1.2rem); font-style:italic; color:var(--green);">Field Constraints</p>
+        </div>
+        <p style="font-family:var(--font-editorial); font-size:clamp(0.82rem,1.05vw,0.95rem); font-style:italic; color:var(--text-dim); line-height:1.5;">Limites numéricos declarativos: <span style="font-family:var(--font-mono); color:var(--green);">ge</span>=maior-ou-igual, <span style="font-family:var(--font-mono); color:var(--green);">le</span>=menor-ou-igual.</p>
+        <div style="margin-top:clamp(6px,0.8vh,10px); background:rgba(63,185,80,0.05); border:1px solid rgba(63,185,80,0.1); border-radius:8px; padding:clamp(6px,0.8vh,10px) clamp(8px,1vw,12px);">
+          <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.75vw,0.65rem); color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.2rem;">Na prática:</p>
+          <p style="font-family:var(--font-mono); font-size:clamp(0.72rem,0.92vw,0.82rem); color:var(--green);">qty: int = Field(ge=1, le=100)</p>
+        </div>
+      </div>
+
+      <!-- Card 2: Literal -->
+      <div style="background:var(--surface); border:1px solid rgba(74,158,255,0.12); border-radius:14px; padding:clamp(14px,2vh,22px) clamp(14px,1.8vw,22px); transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;"
+        onmouseenter="this.style.borderColor='rgba(74,158,255,0.3)';this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 28px rgba(74,158,255,0.06)'"
+        onmouseleave="this.style.borderColor='rgba(74,158,255,0.12)';this.style.transform='none';this.style.boxShadow='none'">
+        <div style="display:flex; align-items:center; gap:clamp(8px,1vw,12px); margin-bottom:clamp(6px,0.8vh,10px);">
+          <div style="width:clamp(28px,3.5vh,36px); height:clamp(28px,3.5vh,36px); border-radius:8px; background:rgba(74,158,255,0.1); border:1px solid rgba(74,158,255,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+          </div>
+          <p style="font-family:var(--font-display); font-size:clamp(1rem,1.4vw,1.2rem); font-style:italic; color:var(--accent);">Literal Types</p>
+        </div>
+        <p style="font-family:var(--font-editorial); font-size:clamp(0.82rem,1.05vw,0.95rem); font-style:italic; color:var(--text-dim); line-height:1.5;">Enum implícito &mdash; só aceita os valores listados, qualquer outro rejeita.</p>
+        <div style="margin-top:clamp(6px,0.8vh,10px); background:rgba(74,158,255,0.05); border:1px solid rgba(74,158,255,0.1); border-radius:8px; padding:clamp(6px,0.8vh,10px) clamp(8px,1vw,12px);">
+          <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.75vw,0.65rem); color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.2rem;">Na prática:</p>
+          <p style="font-family:var(--font-mono); font-size:clamp(0.72rem,0.92vw,0.82rem); color:var(--accent);">payment: Literal['pix','credit_card','boleto']</p>
+        </div>
+      </div>
+
+      <!-- Card 3: @field_validator (Pydantic v2) -->
+      <div style="background:var(--surface); border:1px solid rgba(239,144,0,0.12); border-radius:14px; padding:clamp(14px,2vh,22px) clamp(14px,1.8vw,22px); transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;"
+        onmouseenter="this.style.borderColor='rgba(239,144,0,0.3)';this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 28px rgba(239,144,0,0.06)'"
+        onmouseleave="this.style.borderColor='rgba(239,144,0,0.12)';this.style.transform='none';this.style.boxShadow='none'">
+        <div style="display:flex; align-items:center; gap:clamp(8px,1vw,12px); margin-bottom:clamp(6px,0.8vh,10px);">
+          <div style="width:clamp(28px,3.5vh,36px); height:clamp(28px,3.5vh,36px); border-radius:8px; background:rgba(239,144,0,0.1); border:1px solid rgba(239,144,0,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <p style="font-family:var(--font-display); font-size:clamp(1rem,1.4vw,1.2rem); font-style:italic; color:var(--orange);">@field_validator</p>
+        </div>
+        <p style="font-family:var(--font-editorial); font-size:clamp(0.82rem,1.05vw,0.95rem); font-style:italic; color:var(--text-dim); line-height:1.5;">Lógica customizada de validação por campo &mdash; Pydantic v2 usa <span style="font-family:var(--font-mono); color:var(--orange);">@field_validator</span> + <span style="font-family:var(--font-mono); color:var(--orange);">@classmethod</span>.</p>
+        <div style="margin-top:clamp(6px,0.8vh,10px); background:rgba(239,144,0,0.05); border:1px solid rgba(239,144,0,0.1); border-radius:8px; padding:clamp(6px,0.8vh,10px) clamp(8px,1vw,12px);">
+          <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.75vw,0.65rem); color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.2rem;">Na prática:</p>
+          <p style="font-family:var(--font-mono); font-size:clamp(0.72rem,0.92vw,0.82rem); color:var(--orange);">total &gt; 50000 &rarr; ValueError</p>
+        </div>
+      </div>
+
+      <!-- Card 4: ValidationError (pulse-glow highlight) -->
+      <div style="background:linear-gradient(135deg, var(--surface) 0%, rgba(167,139,250,0.04) 100%); border:1px solid rgba(167,139,250,0.18); border-radius:14px; padding:clamp(14px,2vh,22px) clamp(14px,1.8vw,22px); animation:pulse-purple 4s ease-in-out infinite; transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;"
+        onmouseenter="this.style.borderColor='rgba(167,139,250,0.3)';this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 28px rgba(167,139,250,0.08)'"
+        onmouseleave="this.style.borderColor='rgba(167,139,250,0.18)';this.style.transform='none';this.style.boxShadow='0 0 30px rgba(167,139,250,0.04)'">
+        <div style="display:flex; align-items:center; gap:clamp(8px,1vw,12px); margin-bottom:clamp(6px,0.8vh,10px);">
+          <div style="width:clamp(28px,3.5vh,36px); height:clamp(28px,3.5vh,36px); border-radius:8px; background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          </div>
+          <p style="font-family:var(--font-display); font-size:clamp(1rem,1.4vw,1.2rem); font-style:italic; color:var(--purple);">ValidationError</p>
+        </div>
+        <p style="font-family:var(--font-editorial); font-size:clamp(0.82rem,1.05vw,0.95rem); font-style:italic; color:var(--text-dim); line-height:1.5;">Falha explícita com mensagem clara &mdash; nunca corrompe silenciosamente. Mostra <strong style="color:var(--text);">campo, valor e regra violada</strong>.</p>
+        <div style="margin-top:clamp(6px,0.8vh,10px); background:rgba(167,139,250,0.05); border:1px solid rgba(167,139,250,0.1); border-radius:8px; padding:clamp(6px,0.8vh,10px) clamp(8px,1vw,12px);">
+          <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.75vw,0.65rem); color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.2rem;">Na prática:</p>
+          <p style="font-family:var(--font-mono); font-size:clamp(0.72rem,0.92vw,0.82rem); color:var(--purple);">1 validation error: total &gt; 50000</p>
+        </div>
+      </div>
     </div>
   </div>
-  
+
+  <div class="reveal" style="margin-top:auto; padding-top:clamp(12px,2vh,20px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px);">
+    <p style="font-family:var(--font-editorial); font-size:clamp(1rem,1.7vw,1.25rem); font-style:italic; color:var(--text-dim); line-height:1.5; flex:1;">Claude Code explora os dados do ShadowTraffic e <strong style="color:var(--accent);">gera os modelos Pydantic v2</strong> automaticamente a partir dos JSONs. Cada modelo é um contrato de qualidade.</p>
+    <div style="display:flex; gap:0.5rem; flex-shrink:0; flex-wrap:wrap;">
+      <span class="tag tag-green">CLAUDE CODE GERA</span>
+      <span class="tag tag-accent">HOJE À NOITE</span>
+      <span class="tag tag-purple">VALIDATORS</span>
+    </div>
+  </div>
+
 </section>
 
 <!-- ================================================================ -->
@@ -4998,78 +4896,126 @@
   <p class="slide__label reveal">STRUCTURED OUTPUTS</p>
   <h2 class="slide__heading reveal" style="font-style:italic; font-size:clamp(28px,5vw,52px);">JSON tipado, <span style="color:var(--green);">não texto livre</span></h2>
 
-      <div class="step-split reveal" style="flex:1; display:grid; grid-template-columns:1fr 1.2fr; gap:clamp(16px,2.5vw,32px); align-items:start;">
-      <!-- LEFT: SVG flow diagram -->
-      <div style="display:flex; align-items:center;">
-        <svg viewBox="0 0 460 340" style="width:100%; max-height:clamp(280px,48vh,380px);">
-          <defs>
-            <filter id="so-glow">
-              <feGaussianBlur stdDeviation="4" result="b"/>
-              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <linearGradient id="so-flow-1" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#ef9000" stop-opacity="0.7"/>
-              <stop offset="100%" stop-color="#4a9eff" stop-opacity="0.5"/>
-            </linearGradient>
-            <linearGradient id="so-flow-2" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#4a9eff" stop-opacity="0.7"/>
-              <stop offset="100%" stop-color="#3fb950" stop-opacity="0.5"/>
-            </linearGradient>
-          </defs>
+  <!-- Horizontal SVG Flow: PERGUNTA -> CLAUDE -> STRUCTURED OUTPUT -->
+  <div class="reveal" style="width:100%; margin-bottom:clamp(10px,1.5vh,16px);">
+    <svg viewBox="0 0 960 160" style="width:100%; max-height:clamp(120px,22vh,180px);">
+      <defs>
+        <filter id="so-glow2">
+          <feGaussianBlur stdDeviation="4" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <linearGradient id="so-ribbon-1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#ef9000" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#4a9eff" stop-opacity="0.5"/>
+        </linearGradient>
+        <linearGradient id="so-ribbon-2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#4a9eff" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#3fb950" stop-opacity="0.5"/>
+        </linearGradient>
+      </defs>
 
-          <!-- Step 01 badge -->
-          <circle cx="42" cy="30" r="14" fill="rgba(239,144,0,0.15)" stroke="rgba(239,144,0,0.35)" stroke-width="1"/>
-          <text x="42" y="34" text-anchor="middle" font-family="'Fira Code',monospace" font-size="16" font-weight="700" fill="#ef9000">01</text>
+      <!-- Step 01 badge -->
+      <circle cx="30" cy="28" r="14" fill="rgba(239,144,0,0.15)" stroke="rgba(239,144,0,0.35)" stroke-width="1"/>
+      <text x="30" y="33" text-anchor="middle" font-family="'Fira Code',monospace" font-size="13" font-weight="700" fill="#ef9000">01</text>
 
-          <!-- Node 1: PERGUNTA (orange rect) -->
-          <rect x="70" y="10" width="320" height="50" rx="12" fill="rgba(239,144,0,0.08)" stroke="#ef9000" stroke-width="1.5"/>
-          <text x="230" y="32" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#ef9000">PERGUNTA</text>
-          <text x="230" y="48" text-anchor="middle" font-family="'Fira Code',monospace" font-size="16" fill="#c8d8e8">Analise estas 1000 orders</text>
+      <!-- Node 1: PERGUNTA -->
+      <rect x="10" y="48" width="260" height="90" rx="14" fill="rgba(239,144,0,0.08)" stroke="#ef9000" stroke-width="1.5"/>
+      <text x="140" y="78" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="18" font-style="italic" fill="#ef9000">PERGUNTA</text>
+      <text x="140" y="100" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#c8d8e8">Analise estas 1000 orders</text>
+      <text x="140" y="118" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#6e7a8c">Prompt com contexto dos dados</text>
 
-          <!-- Animated ribbon down 1->2 -->
-          <path d="M230,60 L230,110" stroke="url(#so-flow-1)" stroke-width="2.5" fill="none" stroke-dasharray="10 8" class="flow-line"/>
+      <!-- Animated ribbon 1->2 -->
+      <path d="M270,93 C310,93 330,80 350,80" stroke="url(#so-ribbon-1)" stroke-width="3" fill="none" stroke-dasharray="12 12" class="flow-r"/>
 
-          <!-- Step 02 badge -->
-          <circle cx="42" cy="130" r="14" fill="rgba(74,158,255,0.15)" stroke="rgba(74,158,255,0.35)" stroke-width="1"/>
-          <text x="42" y="134" text-anchor="middle" font-family="'Fira Code',monospace" font-size="16" font-weight="700" fill="#4a9eff">02</text>
+      <!-- Step 02 badge -->
+      <circle cx="370" cy="28" r="14" fill="rgba(74,158,255,0.15)" stroke="rgba(74,158,255,0.35)" stroke-width="1"/>
+      <text x="370" y="33" text-anchor="middle" font-family="'Fira Code',monospace" font-size="13" font-weight="700" fill="#4a9eff">02</text>
 
-          <!-- Node 2: CLAUDE (accent rect with glow) -->
-          <rect x="70" y="110" width="320" height="50" rx="12" fill="rgba(74,158,255,0.08)" stroke="#4a9eff" stroke-width="1.5" filter="url(#so-glow)"/>
-          <text x="230" y="132" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#4a9eff">CLAUDE</text>
-          <text x="230" y="148" text-anchor="middle" font-family="'Fira Code',monospace" font-size="16" fill="#c8d8e8">Pydantic-aware</text>
+      <!-- Node 2: CLAUDE (with glow) -->
+      <rect x="350" y="48" width="260" height="90" rx="14" fill="rgba(74,158,255,0.08)" stroke="#4a9eff" stroke-width="1.5" filter="url(#so-glow2)"/>
+      <text x="480" y="78" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="18" font-style="italic" fill="#4a9eff">CLAUDE + INSTRUCTOR</text>
+      <text x="480" y="100" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#c8d8e8">response_model=OrderAnalysis</text>
+      <text x="480" y="118" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#6e7a8c">Pydantic-aware, tipagem forçada</text>
 
-          <!-- Animated ribbon down 2->3 -->
-          <path d="M230,160 L230,210" stroke="url(#so-flow-2)" stroke-width="2.5" fill="none" stroke-dasharray="10 8" class="flow-line"/>
+      <!-- Animated ribbon 2->3 -->
+      <path d="M610,80 C640,80 660,93 690,93" stroke="url(#so-ribbon-2)" stroke-width="3" fill="none" stroke-dasharray="12 12" class="flow-r"/>
 
-          <!-- Step 03 badge -->
-          <circle cx="42" cy="240" r="14" fill="rgba(63,185,80,0.15)" stroke="rgba(63,185,80,0.35)" stroke-width="1"/>
-          <text x="42" y="244" text-anchor="middle" font-family="'Fira Code',monospace" font-size="16" font-weight="700" fill="#3fb950">03</text>
+      <!-- Step 03 badge -->
+      <circle cx="710" cy="28" r="14" fill="rgba(63,185,80,0.15)" stroke="rgba(63,185,80,0.35)" stroke-width="1"/>
+      <text x="710" y="33" text-anchor="middle" font-family="'Fira Code',monospace" font-size="13" font-weight="700" fill="#3fb950">03</text>
 
-          <!-- Node 3: STRUCTURED OUTPUT (green rect, taller) -->
-          <rect x="70" y="210" width="320" height="95" rx="12" fill="rgba(63,185,80,0.08)" stroke="#3fb950" stroke-width="1.5" style="animation:pulse-green 4s ease-in-out infinite;"/>
-          <text x="230" y="232" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" fill="#3fb950">STRUCTURED OUTPUT</text>
-          <!-- JSON snippet via foreignObject -->
-          <foreignObject x="85" y="240" width="290" height="55">
-            <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Fira Code,monospace; font-size:0.78rem; color:#c8d8e8; line-height:1.4;">
-              {<span style="color:#3fb950;">"total_orders"</span>:<span style="color:#d4af37;">1000</span>,<br/>
-              &nbsp;<span style="color:#3fb950;">"avg_ticket"</span>:<span style="color:#d4af37;">234.50</span>,<br/>
-              &nbsp;<span style="color:#3fb950;">"insight"</span>:<span style="color:#3fb950;">"..."</span>}
-            </div>
-          </foreignObject>
+      <!-- Node 3: STRUCTURED OUTPUT (pulse-glow) -->
+      <rect x="690" y="48" width="260" height="90" rx="14" fill="rgba(63,185,80,0.08)" stroke="#3fb950" stroke-width="1.5" style="animation:pulse-green 4s ease-in-out infinite;"/>
+      <text x="820" y="78" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="18" font-style="italic" fill="#3fb950">STRUCTURED OUTPUT</text>
+      <text x="820" y="100" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#c8d8e8">OrderAnalysis validado</text>
+      <text x="820" y="118" text-anchor="middle" font-family="'Newsreader',serif" font-size="11" font-style="italic" fill="#e8edf5">JSON tipado, pronto para uso</text>
 
-          <!-- VALIDADO tag below Node 3 -->
-          <rect x="180" y="314" width="100" height="22" rx="6" fill="rgba(63,185,80,0.15)" stroke="rgba(63,185,80,0.3)" stroke-width="1"/>
-          <text x="230" y="329" text-anchor="middle" font-family="'Fira Code',monospace" font-size="16" font-weight="700" fill="#3fb950">VALIDADO</text>
-        </svg>
+      <!-- VALIDADO pill below node 3 -->
+      <rect x="785" y="145" width="72" height="18" rx="5" fill="rgba(63,185,80,0.15)" stroke="rgba(63,185,80,0.3)" stroke-width="1"/>
+      <text x="821" y="157" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" font-weight="700" fill="#3fb950">VALIDADO</text>
+    </svg>
+  </div>
+
+  <!-- Terminal with instructor + Anthropic API call -->
+  <div class="reveal" style="flex:1; display:grid; grid-template-columns:1fr 1fr; gap:clamp(16px,2.5vw,32px); align-items:start;">
+    <div class="terminal">
+      <div class="terminal__bar">
+        <span class="terminal__dot" style="background:#f85149;"></span>
+        <span class="terminal__dot" style="background:#ef9000;"></span>
+        <span class="terminal__dot" style="background:#3fb950;"></span>
+        <span style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.75vw,0.68rem); color:var(--text-dim); margin-left:clamp(6px,0.8vw,10px);">structured_output.py</span>
       </div>
+      <div class="terminal__body" style="font-size:clamp(0.78rem,1vw,0.88rem); line-height:1.55;">
+        <p><span style="color:var(--purple);">import</span> instructor</p>
+        <p><span style="color:var(--purple);">import</span> anthropic</p>
+        <p><span style="color:var(--purple);">from</span> pydantic <span style="color:var(--purple);">import</span> <span style="color:var(--cyan);">BaseModel</span></p>
+        <p>&nbsp;</p>
+        <p><span style="color:var(--purple);">class</span> <span style="color:var(--cyan);">OrderAnalysis</span>(<span style="color:var(--cyan);">BaseModel</span>):</p>
+        <p>&nbsp;&nbsp;total_orders: <span style="color:var(--cyan);">int</span></p>
+        <p>&nbsp;&nbsp;avg_ticket: <span style="color:var(--cyan);">float</span></p>
+        <p>&nbsp;&nbsp;top_category: <span style="color:var(--cyan);">str</span></p>
+        <p>&nbsp;&nbsp;insight: <span style="color:var(--cyan);">str</span></p>
+        <p>&nbsp;</p>
+        <p>client = instructor.<span style="color:var(--accent);">from_anthropic</span>(</p>
+        <p>&nbsp;&nbsp;anthropic.<span style="color:var(--cyan);">Anthropic</span>())</p>
+      </div>
+    </div>
 
-      <!-- RIGHT: Terminal with API call -->
-      <div class="terminal">
-        <div class="terminal__bar">
-          <span class="terminal__dot" style="background:#f85149;"></span>
-          <span class="terminal__dot" style="background:#ef9000;"></span>
-          <span class="terminal__dot" style="background:#3fb950;"></span>
+    <div class="terminal" style="animation:pulse-glow 4s ease-in-out infinite;">
+      <div class="terminal__bar">
+        <span class="terminal__dot" style="background:#f85149;"></span>
+        <span class="terminal__dot" style="background:#ef9000;"></span>
+        <span class="terminal__dot" style="background:#3fb950;"></span>
+        <span style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.75vw,0.68rem); color:var(--text-dim); margin-left:clamp(6px,0.8vw,10px);">chamada + resultado</span>
+      </div>
+      <div class="terminal__body" style="font-size:clamp(0.78rem,1vw,0.88rem); line-height:1.55;">
+        <p>result = client.<span style="color:var(--accent);">messages.create</span>(</p>
+        <p>&nbsp;&nbsp;model=<span style="color:var(--green);">"claude-sonnet-4-20250514"</span>,</p>
+        <p>&nbsp;&nbsp;response_model=<span style="color:var(--cyan);">OrderAnalysis</span>,</p>
+        <p>&nbsp;&nbsp;max_tokens=<span style="color:var(--gold);">1024</span>,</p>
+        <p>&nbsp;&nbsp;messages=[{<span style="color:var(--green);">"role"</span>:<span style="color:var(--green);">"user"</span>,</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--green);">"content"</span>: prompt}])</p>
+        <p>&nbsp;</p>
+        <p class="terminal__comment"># resultado tipado e validado</p>
+        <p><span style="color:var(--accent);">print</span>(result.model_dump_json())</p>
+        <p class="terminal__comment"># {<span style="color:var(--green);">"total_orders"</span>: <span style="color:var(--gold);">1000</span>,</p>
+        <p class="terminal__comment">#&nbsp;&nbsp;<span style="color:var(--green);">"avg_ticket"</span>: <span style="color:var(--gold);">234.50</span>,</p>
+        <p class="terminal__comment">#&nbsp;&nbsp;<span style="color:var(--green);">"insight"</span>: <span style="color:var(--green);">"pico em SP"</span>}</p>
+      </div>
+    </div>
+  </div>
 
+  <div class="reveal" style="margin-top:auto; padding-top:clamp(12px,2vh,20px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px);">
+    <p style="font-family:var(--font-editorial); font-size:clamp(1rem,1.7vw,1.25rem); font-style:italic; color:var(--text-dim); line-height:1.5; flex:1;">Structured outputs eliminam parsing de texto. O Claude retorna <strong style="color:var(--green);">JSON validado por Pydantic</strong> direto na resposta &mdash; sem regex, sem try/except, sem surpresas.</p>
+    <div style="display:flex; gap:0.5rem; flex-shrink:0; flex-wrap:wrap;">
+      <span class="tag tag-green">PYDANTIC</span>
+      <span class="tag tag-accent">INSTRUCTOR</span>
+      <span class="tag tag-gold">VALIDADO</span>
+      <span class="tag tag-purple">CLAUDE</span>
+    </div>
+  </div>
+
+</section>
 
 <!-- ================================================================ -->
 <!-- ===  TRANSITION 3A — CLAUDE GERA CODIGO (DIVIDER)            === -->
@@ -5184,43 +5130,6 @@
       </div>
     </div>
   </div>
-</section>
-      onmouseenter="this.style.borderColor='rgba(248,81,73,0.6)';this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 28px rgba(248,81,73,0.12)'"
-      onmouseleave="this.style.borderColor='rgba(248,81,73,0.4)';this.style.transform='none';this.style.boxShadow='0 0 30px rgba(248,81,73,0.06)'">
-      <div style="width:clamp(28px,3.5vh,36px); height:clamp(28px,3.5vh,36px); border-radius:50%; border:2px solid rgba(248,81,73,0.5); background:var(--red-dim); display:flex; align-items:center; justify-content:center; margin-bottom:clamp(8px,1.2vh,14px);">
-        <span style="font-family:var(--font-display); font-size:clamp(13px,1.8vh,18px); font-style:italic; color:var(--red); line-height:1;">04</span>
-      </div>
-      <p style="font-family:var(--font-display); font-size:clamp(1.1rem,1.7vw,1.4rem); font-style:italic; color:var(--red);">A Pergunta</p>
-      <p style="font-family:var(--font-editorial); font-size:clamp(0.82rem,1.1vw,0.98rem); font-style:italic; color:var(--red); margin-top:clamp(4px,0.8vh,8px); line-height:1.5; opacity:0.85;">Quem reclama de entrega? Claude NÃO consegue responder.</p>
-      <div style="margin-top:auto; padding-top:clamp(8px,1.2vh,14px);">
-        <p style="font-family:var(--font-mono); font-size:0.58rem; color:var(--red); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:clamp(2px,0.3vh,4px); opacity:0.7;">O limite:</p>
-        <div style="background:rgba(248,81,73,0.05); border:1px solid rgba(248,81,73,0.15); border-radius:8px; padding:clamp(5px,0.7vh,8px) clamp(6px,0.8vw,10px);">
-          <p style="font-family:var(--font-editorial); font-size:clamp(0.72rem,0.9vw,0.82rem); font-style:italic; color:var(--red); opacity:0.9;">Sem RAG, sem resposta &mdash; Dia 2</p>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Decorative flow arrows — green then red X -->
-  <div class="reveal" style="display:flex; justify-content:center; align-items:center; gap:clamp(50px,12vw,180px); margin-top:clamp(-6px,-0.8vh,-3px); pointer-events:none;">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" opacity="0.3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" opacity="0.3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5" opacity="0.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-  </div>
-
-  <!-- Bottom bar -->
-  <div class="reveal" style="margin-top:auto; padding-top:clamp(12px,2vh,20px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px);">
-    <p style="font-family:var(--font-editorial); font-size:clamp(1rem,1.7vw,1.25rem); font-style:italic; color:var(--text-dim); line-height:1.5; flex:1;">
-      Três scripts gerados ao vivo. E uma <strong style="color:var(--red);">pergunta sem resposta</strong> &mdash; até amanhã. Essa limitação é o gancho para o Dia 2.
-    </p>
-    <div style="display:flex; gap:0.5rem; flex-shrink:0; flex-wrap:wrap;">
-      <span class="tag tag-green">LIVE</span>
-      <span class="tag tag-silver">PROMPTS 08&ndash;11</span>
-      <span class="tag tag-red">DIA 2 PREVIEW</span>
-    </div>
-  </div>
-
 </section>
 
 <!-- ================================================================ -->

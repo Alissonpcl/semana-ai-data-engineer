@@ -27,7 +27,7 @@ services:
     volumes:
       - qdrant_data:/qdrant/storage
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:6333/healthz || exit 1"]
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/6333'"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -35,7 +35,7 @@ services:
   shadowtraffic:
     image: shadowtraffic/shadowtraffic:latest
     env_file:
-      - .env
+      - ../.env
       - license.env
     volumes:
       - ./shadowtraffic.json:/home/config.json

@@ -51,23 +51,26 @@ and semantic data (vectors), with a conversational interface and professional fr
 ## Directory Structure
 
 ```
+.env.example                  # Root env template (canonical — all keys here)
 gen/                          # Data generation (ShadowTraffic + Docker)
-  docker-compose.yml          # Postgres + Qdrant + ShadowTraffic
+  docker-compose.yml          # Postgres + Qdrant + ShadowTraffic (reads ../.env)
   shadowtraffic.json          # E-commerce data generators
   init.sql                    # Postgres schema (customers, products, orders)
   data/reviews/reviews.jsonl  # Pre-generated Portuguese reviews for RAG
-  .env.example                # Environment template
+  license.env.example         # ShadowTraffic license template
 docs/                         # Event documentation
   agenda.md                   # 900-line detailed agenda with code examples
   semana-ai-data-engineer-shop-agent.md  # Full curriculum spec
 prompts/                      # Sequenced live-coding prompts per day
   d1-ingest/                  # Day 1: ShadowTraffic + Pydantic (11 prompts)
-  d2-context/                 # Day 2: RAG + Ledger + MCP
+  d2-context/                 # Day 2: RAG + Ledger + MCP (11 prompts)
   d3-agent/                   # Day 3: LangChain + Chainlit
   d4-multi-agent/             # Day 4: CrewAI + DeepEval + Frontend
-src/                          # Python requirements per day
+src/                          # Python source + requirements per day
   requirements.txt            # Master requirements (all days)
-  day1/ day2/ day3/ day4/     # Per-day requirements
+  day1/                       # models.py, test_models.py, structured_outputs.py
+  day2/                       # ledger_queries.py, ingest_reviews.py, query_reviews.py
+  day3/ day4/                 # Per-day source (to be created)
 presentation/                 # HTML slide decks (Days 1-4)
 .claude/
   kb/                         # 18 Knowledge Base domains
@@ -133,10 +136,9 @@ presentation/                 # HTML slide decks (Days 1-4)
 ## Local Dev Quickstart
 
 ```bash
-cd gen
 cp .env.example .env
-cp license.env.example license.env
 # Edit .env with your ANTHROPIC_API_KEY
+cd gen && cp license.env.example license.env
 # Set your ShadowTraffic license fields in license.env
 docker compose up
 ```

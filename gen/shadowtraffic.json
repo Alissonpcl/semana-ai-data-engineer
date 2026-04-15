@@ -19,11 +19,12 @@
         }
       },
       "localConfigs": {
-        "maxEvents": 500,
-        "throttle": {"ms": 0}
+        "maxEvents": 500
       }
     },
     {
+      "name": "products",
+      "connection": "pg",
       "name": "products",
       "connection": "pg",
       "table": "products",
@@ -39,11 +40,14 @@
         "brand": { "_gen": "string", "expr": "#{Company.name}" }
       },
       "localConfigs": {
+        "maxEvents": 200
         "maxEvents": 200,
         "throttle": {"ms": 0}
       }
     },
     {
+      "name": "orders",
+      "connection": "pg",
       "name": "orders",
       "connection": "pg",
       "table": "orders",
@@ -52,10 +56,12 @@
         "customer_id": {
           "_gen": "lookup",
           "table": "customers",
+          "table": "customers",
           "path": ["row", "customer_id"]
         },
         "product_id": {
           "_gen": "lookup",
+          "table": "products",
           "table": "products",
           "path": ["row", "product_id"]
         },
@@ -71,6 +77,12 @@
         },
         "status": {
           "_gen": "weightedOneOf",
+          "choices": [
+            {"weight": 0.50, "value": "delivered"},
+            {"weight": 0.20, "value": "shipped"},
+            {"weight": 0.20, "value": "processing"},
+            {"weight": 0.10, "value": "cancelled"}
+          ]
           "choices": [
             {"weight": 0.50, "value": "delivered"},
             {"weight": 0.20, "value": "shipped"},
@@ -94,6 +106,8 @@
       }
     },
     {
+      "name": "reviews",
+      "connection": "fs",
       "name": "reviews",
       "connection": "fs",
       "directory": "/data/reviews",
@@ -164,8 +178,8 @@
         "throttle": {"ms": 500}
       },
       "fileConfigs": {
-        "filePrefix": "reviews-",
-        "format": "jsonl"
+        "format": "jsonl",
+        "filePrefix": "reviews"
       }
     }
   ],
@@ -179,7 +193,7 @@
         "username": "shopagent",
         "password": "shopagent"
       },
-      "tablePolicy": "dropAndCreate"
+      "tablePolicy": "manual"
     },
     "fs": {
       "kind": "fileSystem"

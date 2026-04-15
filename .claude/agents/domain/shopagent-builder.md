@@ -208,10 +208,11 @@ KB SILENT           │ MCP-ONLY: 0.85 │ N/A            │ LOW: 0.50      │
 ```json
 {
   "mcpServers": {
-    "supabase": {
-      "type": "http",
-      "url": "http://localhost:54321/mcp",
-      "comment": "Day 4 cloud: https://xxxxx.supabase.co/mcp"
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres",
+               "postgresql://shopagent:shopagent@localhost:5432/shopagent"],
+      "comment": "Day 4 cloud: replace with mcp-server-supabase"
     },
     "qdrant": {
       "command": "uvx",
