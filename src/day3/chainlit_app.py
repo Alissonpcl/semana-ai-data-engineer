@@ -1,39 +1,40 @@
-"""ShopAgent Day 3 — Chainlit chat interface with LangChain agent streaming."""
-
-import sys
-from pathlib import Path
+"""ShopAgent Day 3 — Chainlit app with full-trace LangGraph streaming."""
 
 import chainlit as cl
-from dotenv import load_dotenv
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-load_dotenv(PROJECT_ROOT / ".env")
+from src.day3.agent import create_agent
 
-sys.path.insert(0, str(PROJECT_ROOT / "src"))
+WELCOME_MESSAGE = """**ShopAgent conectado!** Eu tenho acesso a dois stores de dados:
 
-from day3.agent import create_shopagent
+**The Ledger (Postgres)** — Dados exatos: faturamento, pedidos, clientes, produtos
+**The Memory (Qdrant)** — Significado: reviews, reclamacoes, sentimentos
+
+Pergunte qualquer coisa sobre o e-commerce e eu decido automaticamente qual store consultar.
+
+Exemplos:
+- "Qual o faturamento total por estado?"
+- "Quais clientes reclamam de entrega atrasada?"
+- "Top 3 estados com mais reclamacoes e seu faturamento"
+"""
+
+TOOL_DISPLAY_NAMES = {
+    "execute_sql": "The Ledger (SQL)",
+    "semantic_search": "The Memory (Qdrant)",
+}
 
 
 @cl.on_chat_start
 async def start():
-    agent = create_shopagent()
+    agent = create_agent(streaming=True)
     cl.user_session.set("agent", agent)
-    await cl.Message(
-        content=(
-            "**ShopAgent conectado!**\n\n"
-            "Sou seu analista de dados de e-commerce. Posso consultar:\n\n"
-            "- **The Ledger** (Postgres) — faturamento, pedidos, metricas\n"
-            "- **The Memory** (Qdrant) — opinoes, reclamacoes, sentimentos\n\n"
-            "Como posso ajudar?"
-        )
-    ).send()
+    await cl.Message(content=WELCOME_MESSAGE).send()
 
 
 @cl.on_message
 async def main(message: cl.Message):
     agent = cl.user_session.get("agent")
     msg = cl.Message(content="")
-    current_step = None
+    tool_steps: dict[str, cl.Step] = {}
 
     async for event in agent.astream_events(
         {"messages": [{"role": "user", "content": message.content}]},
@@ -43,29 +44,22 @@ async def main(message: cl.Message):
 
         if kind == "on_chat_model_stream":
             chunk = event["data"]["chunk"]
-            if hasattr(chunk, "content") and chunk.content:
-                token = chunk.content
-                if isinstance(token, str):
-                    await msg.stream_token(token)
-                elif isinstance(token, list):
-                    for block in token:
-                        if isinstance(block, dict) and block.get("type") == "text":
-                            await msg.stream_token(block["text"])
+            if hasattr(chunk, "content") and isinstance(chunk.content, str) and chunk.content:
+                await msg.stream_token(chunk.content)
 
         elif kind == "on_tool_start":
             tool_name = event["name"]
-            current_step = cl.Step(
-                name=tool_name,
-                type="tool",
-            )
-            await current_step.__aenter__()
-            current_step.input = str(event["data"].get("input", ""))
+            display_name = TOOL_DISPLAY_NAMES.get(tool_name, tool_name)
+            step = cl.Step(name=display_name, type="tool")
+            await step.__aenter__()
+            step.input = str(event["data"].get("input", ""))
+            tool_steps[event["run_id"]] = step
 
         elif kind == "on_tool_end":
-            if current_step:
+            step = tool_steps.pop(event["run_id"], None)
+            if step:
                 output = str(event["data"].get("output", ""))
-                current_step.output = output[:2000] if len(output) > 2000 else output
-                await current_step.__aexit__(None, None, None)
-                current_step = None
+                step.output = output[:1000]
+                await step.__aexit__(None, None, None)
 
     await msg.send()

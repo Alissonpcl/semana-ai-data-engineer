@@ -1,7 +1,7 @@
 # Staged Seeding
 
 > **Purpose**: Use schedule.stages to seed parent tables before child generators with lookup references
-> **MCP Validated**: 2026-04-14
+> **MCP Validated**: 2026-04-12
 
 ## When to Use
 
@@ -15,29 +15,27 @@
 {
   "generators": [
     {
-      "name": "users",
-      "connection": "pg",
+      "topic": "users",
       "table": "users",
       "row": {
         "user_id": { "_gen": "uuid" },
         "name": { "_gen": "string", "expr": "#{Name.fullName}" }
       },
-      "localConfigs": { "maxEvents": 100, "throttle": {"ms": 0} }
+      "localConfigs": { "maxEvents": 100, "throttle": 0 }
     },
     {
-      "name": "orders",
-      "connection": "pg",
+      "topic": "orders",
       "table": "orders",
       "row": {
         "order_id": { "_gen": "uuid" },
         "user_id": {
           "_gen": "lookup",
-          "table": "users",
+          "topic": "users",
           "path": ["row", "user_id"]
         },
         "total": { "_gen": "uniformDistribution", "bounds": [10, 500] }
       },
-      "localConfigs": { "throttle": {"ms": 200} }
+      "localConfigs": { "throttle": 200 }
     }
   ],
   "connections": {
@@ -89,10 +87,10 @@ Stage 0                          Stage 1
 
 | Setting | Description | Example |
 |---------|-------------|---------|
-| `stages[N].generators` | Array of generator `name` field values to run in this stage | `["customers", "products"]` |
+| `stages[N].generators` | Array of generator topic names to run in this stage | `["customers", "products"]` |
 | `maxEvents` on staged generators | Required for finite stages — defines when stage completes | `500` |
-| `throttle: {"ms": 0}` in seeding stages | No delay — seed as fast as possible | Stage 0 seeding |
-| `throttle: {"ms": N}` in streaming stages | Paced output for realistic load | Stage 1 streaming |
+| `throttle: 0` in seeding stages | No delay — seed as fast as possible | Stage 0 seeding |
+| `throttle: >0` in streaming stages | Paced output for realistic load | Stage 1 streaming |
 
 ## Common Mistakes
 
@@ -101,9 +99,9 @@ Stage 0                          Stage 1
 ```json
 {
   "generators": [
-    { "name": "users", "connection": "pg", "table": "users", "row": { "user_id": { "_gen": "uuid" } } },
-    { "name": "orders", "connection": "pg", "table": "orders", "row": {
-        "user_id": { "_gen": "lookup", "table": "users", "path": ["row", "user_id"] }
+    { "topic": "users", "table": "users", "row": { "user_id": { "_gen": "uuid" } } },
+    { "topic": "orders", "table": "orders", "row": {
+        "user_id": { "_gen": "lookup", "topic": "users", "path": ["row", "user_id"] }
     }}
   ]
 }
@@ -123,8 +121,6 @@ Without stages, both generators start simultaneously — `orders` may try to loo
   }
 }
 ```
-
-`schedule.stages` references generators by their `name` field value.
 
 ## See Also
 

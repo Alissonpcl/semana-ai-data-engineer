@@ -24,6 +24,3 @@ Thumbs.db
 # Data (generated at runtime)
 *.jsonl
 !gen/data/reviews/reviews.jsonl
-
-# Local files
-*.local.*

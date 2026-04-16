@@ -1,71 +1,90 @@
-"""ShopAgent Day 3 — LangChain ReAct agent with autonomous dual-store routing."""
+"""ShopAgent Day 3 — LangGraph ReAct agent with dual-store routing."""
 
-import sys
-from pathlib import Path
-
-from dotenv import load_dotenv
 from langchain_anthropic import ChatAnthropic
 from langgraph.prebuilt import create_react_agent
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-load_dotenv(PROJECT_ROOT / ".env")
+from src.day3.tools import execute_sql, semantic_search
 
-sys.path.insert(0, str(PROJECT_ROOT / "src"))
+SYSTEM_PROMPT = """Voce e o ShopAgent, um assistente inteligente de e-commerce. Voce tem acesso a dois
+stores de dados e deve decidir qual usar para cada pergunta.
 
-from day3.tools import qdrant_semantic_search, supabase_execute_sql
+## The Ledger (Postgres) — Dados Exatos
+Use a ferramenta execute_sql para perguntas sobre numeros, totais e dados estruturados.
 
-SYSTEM_PROMPT = """Voce e o ShopAgent, um analista de dados de e-commerce autonomo e inteligente.
+Schema do banco de dados:
 
-Voce tem acesso a duas fontes de dados:
+CREATE TABLE customers (
+    customer_id UUID PRIMARY KEY,
+    name        VARCHAR(255) NOT NULL,
+    email       VARCHAR(255) NOT NULL,
+    city        VARCHAR(100),
+    state       CHAR(2),
+    segment     VARCHAR(20) -- 'premium', 'standard', 'basic'
+);
 
-1. **The Ledger (Postgres)** — Dados exatos: faturamento, contagens, medias, totais.
-   Use a ferramenta `supabase_execute_sql` para perguntas sobre numeros, metricas e agregacoes.
+CREATE TABLE products (
+    product_id UUID PRIMARY KEY,
+    name       VARCHAR(255) NOT NULL,
+    category   VARCHAR(100) NOT NULL,
+    price      DECIMAL(10,2) NOT NULL,
+    brand      VARCHAR(100)
+);
 
-2. **The Memory (Qdrant)** — Significado: opinoes, reclamacoes, sentimentos dos clientes.
-   Use a ferramenta `qdrant_semantic_search` para perguntas sobre o que os clientes dizem ou sentem.
+CREATE TABLE orders (
+    order_id    UUID PRIMARY KEY,
+    customer_id UUID REFERENCES customers(customer_id),
+    product_id  UUID REFERENCES products(product_id),
+    qty         INTEGER,
+    total       DECIMAL(10,2),
+    status      VARCHAR(20), -- 'delivered', 'shipped', 'processing', 'cancelled'
+    payment     VARCHAR(20), -- 'pix', 'credit_card', 'boleto'
+    created_at  TIMESTAMPTZ DEFAULT now()
+);
 
-Regras:
-- Decida autonomamente qual ferramenta usar com base na pergunta.
-- Se a pergunta exigir dados de ambas as fontes, use as duas ferramentas em sequencia.
-- Responda sempre em portugues brasileiro.
-- Apresente os dados de forma clara e organizada.
-- Quando usar dados numericos, inclua os valores exatos retornados.
-- Quando usar reviews, cite trechos relevantes como evidencia.
+## The Memory (Qdrant) — Significado
+Use a ferramenta semantic_search para perguntas sobre opinioes, reclamacoes e sentimentos.
+A colecao contem 203 reviews de clientes em portugues com campos:
+review_id, order_id, rating (1-5), comment (texto), sentiment (positive/negative).
+
+## Regras de Roteamento
+1. Numeros, totais, medias, contagens, faturamento → execute_sql
+2. Opinioes, reclamacoes, sentimentos, temas de reviews → semantic_search
+3. Perguntas hibridas (ex: "faturamento dos que reclamam") → use AMBAS as ferramentas
+4. Sempre responda em Portugues
+5. Ao usar SQL, escreva queries SELECT validas para o schema acima
+6. Ao combinar resultados, explique como os dados se relacionam
 """
 
+TOOLS = [execute_sql, semantic_search]
 
-def create_shopagent() -> object:
+
+def create_agent(*, streaming: bool = False):
     llm = ChatAnthropic(
         model="claude-sonnet-4-20250514",
         temperature=0,
-        streaming=True,
+        streaming=streaming,
     )
-    agent = create_react_agent(
+    return create_react_agent(
         model=llm,
-        tools=[supabase_execute_sql, qdrant_semantic_search],
+        tools=TOOLS,
         prompt=SYSTEM_PROMPT,
     )
-    return agent
 
 
-def run_agent(question: str) -> str:
-    agent = create_shopagent()
-    result = agent.invoke({
-        "messages": [{"role": "user", "content": question}]
-    })
-    return result["messages"][-1].content
-
+DEMO_QUESTIONS = [
+    "Qual o faturamento total por estado?",
+    "Quais clientes reclamam de entrega atrasada?",
+    "Top 3 estados com mais reclamacoes e seu faturamento",
+]
 
 if __name__ == "__main__":
-    demo_questions = [
-        "Qual o faturamento total por estado?",
-        "Clientes reclamando de entrega atrasada",
-        "Clientes premium do Sudeste que reclamam: qual o ticket medio?",
-    ]
-
-    for question in demo_questions:
+    agent = create_agent()
+    for question in DEMO_QUESTIONS:
         print(f"\n{'='*60}")
         print(f"  Q: {question}")
         print(f"{'='*60}")
-        answer = run_agent(question)
-        print(f"\n  A: {answer}")
+        result = agent.invoke(
+            {"messages": [{"role": "user", "content": question}]}
+        )
+        final_message = result["messages"][-1]
+        print(f"  A: {final_message.content}")
