@@ -1,11 +1,14 @@
 """ShopAgent — Claude structured output with Pydantic (Day 1, Prompt 10)."""
 
 import json
+import logging
 from pathlib import Path
 
 import anthropic
 from dotenv import load_dotenv
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
+
+logger = logging.getLogger(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(PROJECT_ROOT / ".env")
@@ -21,48 +24,69 @@ class ReviewAnalysis(BaseModel):
 
 def load_reviews(path: str, limit: int = 10) -> list[dict]:
     reviews = []
-    with open(path) as f:
-        for line in f:
-            reviews.append(json.loads(line.strip()))
+    with open(path, encoding="utf-8") as f:
+        for line_number, line in enumerate(f, 1):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                record = json.loads(line)
+                reviews.append(record)
+            except json.JSONDecodeError as exc:
+                logger.warning("Skipping malformed line %d: %s", line_number, exc)
             if len(reviews) >= limit:
                 break
     return reviews
 
 
-def analyze_reviews(reviews: list[dict]) -> ReviewAnalysis:
-    client = anthropic.Anthropic()
-
-    reviews_text = json.dumps(reviews, indent=2, ensure_ascii=False)
-
-    response = client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=1024,
-        messages=[
-            {
-                "role": "user",
-                "content": (
-                    "Analyze these e-commerce reviews and return a structured analysis.\n\n"
-                    f"Reviews:\n{reviews_text}\n\n"
-                    "Return a JSON object with these exact fields:\n"
-                    "- total_reviews: number of reviews analyzed\n"
-                    "- average_rating: average rating (float)\n"
-                    '- sentiment_distribution: {"positive": N, "neutral": N, "negative": N}\n'
-                    "- top_complaints: list of main complaints found\n"
-                    "- top_praises: list of main praises found\n\n"
-                    "Return ONLY the JSON object, no other text."
-                ),
-            }
-        ],
-    )
-
-    raw = response.content[0].text
-    # Strip markdown code fences if present
+def _extract_json(raw: str) -> str:
     text = raw.strip()
     if text.startswith("```"):
-        text = text.split("\n", 1)[1]
-        text = text.rsplit("```", 1)[0]
-    data = json.loads(text)
-    return ReviewAnalysis(**data)
+        lines = text.split("\n")
+        lines = [line for line in lines[1:] if line.strip() != "```"]
+        text = "\n".join(lines)
+    return text.strip()
+
+
+def analyze_reviews(reviews: list[dict]) -> ReviewAnalysis:
+    client = anthropic.Anthropic()
+    reviews_text = json.dumps(reviews, indent=2, ensure_ascii=False)
+
+    try:
+        response = client.messages.create(
+            model="claude-sonnet-4-20250514",
+            max_tokens=1024,
+            messages=[
+                {
+                    "role": "user",
+                    "content": (
+                        "Analyze these e-commerce reviews and return a structured analysis.\n\n"
+                        f"Reviews:\n{reviews_text}\n\n"
+                        "Return a JSON object with these exact fields:\n"
+                        "- total_reviews: number of reviews analyzed\n"
+                        "- average_rating: average rating (float)\n"
+                        '- sentiment_distribution: {"positive": N, "neutral": N, "negative": N}\n'
+                        "- top_complaints: list of main complaints found\n"
+                        "- top_praises: list of main praises found\n\n"
+                        "Return ONLY the JSON object, no other text."
+                    ),
+                }
+            ],
+        )
+    except anthropic.APIError as exc:
+        logger.error("Anthropic API call failed: %s", exc)
+        raise RuntimeError("LLM call failed") from exc
+
+    if not response.content:
+        raise RuntimeError("Empty response from LLM")
+
+    raw = response.content[0].text
+    try:
+        data = json.loads(_extract_json(raw))
+        return ReviewAnalysis(**data)
+    except (json.JSONDecodeError, ValidationError) as exc:
+        logger.error("Failed to parse LLM output: %s | raw=%s", exc, raw[:200])
+        raise RuntimeError("LLM output did not match expected schema") from exc
 
 
 if __name__ == "__main__":

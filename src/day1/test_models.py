@@ -1,11 +1,9 @@
 """ShopAgent — Pydantic validation tests for Day 1 models."""
 
-import sys
-from pathlib import Path
+from decimal import Decimal
 from uuid import uuid4
 
-sys.path.insert(0, str(Path(__file__).parent))
-
+import pytest
 from pydantic import ValidationError
 
 from models import Customer, Order, Product, Review
@@ -17,41 +15,38 @@ def test_valid_order():
         customer_id=uuid4(),
         product_id=uuid4(),
         qty=3,
-        total=149.90,
+        total=Decimal("149.90"),
         status="delivered",
         payment="pix",
     )
-    print(f"Valid Order: {order.order_id} | qty={order.qty} | status={order.status}")
+    assert order.qty == 3
+    assert order.status == "delivered"
 
 
-def test_qty_zero():
-    try:
+def test_qty_zero_rejected():
+    with pytest.raises(ValidationError):
         Order(
             order_id=uuid4(),
             customer_id=uuid4(),
             product_id=uuid4(),
             qty=0,
-            total=50.00,
+            total=Decimal("50.00"),
             status="shipped",
             payment="credit_card",
         )
-    except ValidationError as e:
-        print(f"qty=0 rejected: {e.errors()[0]['msg']}")
 
 
-def test_invalid_payment():
-    try:
+def test_invalid_payment_rejected():
+    with pytest.raises(ValidationError):
         Order(
             order_id=uuid4(),
             customer_id=uuid4(),
             product_id=uuid4(),
             qty=2,
-            total=99.90,
+            total=Decimal("99.90"),
             status="processing",
             payment="dinheiro",
         )
-    except ValidationError as e:
-        print(f"payment='dinheiro' rejected: {e.errors()[0]['msg']}")
 
 
 def test_valid_review():
@@ -62,11 +57,12 @@ def test_valid_review():
         comment="Produto excelente, recomendo!",
         sentiment="positive",
     )
-    print(f"Valid Review: rating={review.rating} | sentiment={review.sentiment}")
+    assert review.rating == 5
+    assert review.sentiment == "positive"
 
 
-def test_rating_six():
-    try:
+def test_rating_above_max_rejected():
+    with pytest.raises(ValidationError):
         Review(
             review_id=uuid4(),
             order_id=uuid4(),
@@ -74,18 +70,68 @@ def test_rating_six():
             comment="Teste",
             sentiment="positive",
         )
-    except ValidationError as e:
-        print(f"rating=6 rejected: {e.errors()[0]['msg']}")
 
 
-if __name__ == "__main__":
-    print("=" * 50)
-    print("ShopAgent — Pydantic Validation Tests")
-    print("=" * 50)
-    test_valid_order()
-    test_qty_zero()
-    test_invalid_payment()
-    test_valid_review()
-    test_rating_six()
-    print("=" * 50)
-    print("All tests passed!")
+def test_rating_below_min_rejected():
+    with pytest.raises(ValidationError):
+        Review(
+            review_id=uuid4(),
+            order_id=uuid4(),
+            rating=0,
+            comment="Teste",
+            sentiment="negative",
+        )
+
+
+def test_valid_customer():
+    customer = Customer(
+        customer_id=uuid4(),
+        name="Maria Silva",
+        email="maria@example.com",
+        city="São Paulo",
+        state="SP",
+        segment="premium",
+    )
+    assert customer.segment == "premium"
+
+
+def test_invalid_segment_rejected():
+    with pytest.raises(ValidationError):
+        Customer(
+            customer_id=uuid4(),
+            name="João",
+            email="joao@example.com",
+            city="Rio",
+            state="RJ",
+            segment="vip",
+        )
+
+
+def test_valid_product():
+    product = Product(
+        product_id=uuid4(),
+        name="Smartphone XYZ",
+        category="electronics",
+        price=Decimal("1299.90"),
+        brand="TechBrand",
+    )
+    assert product.price == Decimal("1299.90")
+
+
+def test_product_zero_price_rejected():
+    with pytest.raises(ValidationError):
+        Product(
+            product_id=uuid4(),
+            name="Free Item",
+            category="electronics",
+            price=Decimal("0.00"),
+        )
+
+
+def test_product_missing_category_rejected():
+    with pytest.raises(ValidationError):
+        Product(
+            product_id=uuid4(),
+            name="No Category",
+            price=Decimal("99.90"),
+        )

@@ -59,8 +59,8 @@ Cada ferramenta tem um papel claro e aparece no dia certo, criando uma progress�
 | ----- | ----- | ----- | ----- | ----- |
 | 1 Seg | INGERIR | Curiosidade | Pipeline de ingestão rodando | ShadowTraffic, Pydantic, Claude Code |
 | 2 Ter | CONTEXTUALIZAR | Confiança | IA respondendo sobre seus dados | LlamaIndex, Qdrant |
-| 3 Qua | CONECTAR | Empolgação | Agent com 2 pernas: SQL \+ Vector | Supabase, MCP, DeepEval |
-| 4 Qui | ORQUESTRAR | Orgulho | Multi-agent com chat \+ cloud | CrewAI, Chainlit, LangFuse |
+| 3 Qua | AGENTE | Empolgação | Agente autônomo \+ AgentSpec modo Deus | LangChain, Chainlit, AgentSpec |
+| 4 Qui | MULTI-AGENT | Orgulho | Time de agentes \+ Frontend \+ Cloud | CrewAI, DeepEval, LangFuse |
 | 5 Sex | REFLETIR | Inspiração | Visão de futuro | Podcast |
 
 # **4\. Modelo de Dados E-Commerce**
