@@ -52,9 +52,14 @@ QUERIES = {
 }
 
 
-def run_query(name: str) -> list[tuple]:
+def run_query(name: str) -> tuple[list[str], list[tuple]]:
+    if name not in QUERIES:
+        raise KeyError(f"Unknown query '{name}'. Valid options: {list(QUERIES)}")
     sql = QUERIES[name]
-    conn = get_connection()
+    try:
+        conn = get_connection()
+    except (psycopg2.OperationalError, ValueError) as exc:
+        raise RuntimeError(f"Cannot connect to Postgres: {exc}") from exc
     try:
         with conn.cursor() as cur:
             cur.execute(sql)

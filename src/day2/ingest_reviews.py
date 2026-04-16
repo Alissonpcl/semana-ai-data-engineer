@@ -14,7 +14,16 @@ from llama_index.vector_stores.qdrant import QdrantVectorStore
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(PROJECT_ROOT / ".env")
 
-Settings.llm = Anthropic(model="claude-sonnet-4-20250514")
+_settings_initialized = False
+
+
+def _configure_settings() -> None:
+    global _settings_initialized
+    if _settings_initialized:
+        return
+    Settings.llm = Anthropic(model="claude-sonnet-4-20250514")
+    Settings.embed_model = FastEmbedEmbedding(model_name="BAAI/bge-base-en-v1.5")
+    _settings_initialized = True
 
 
 def ingest_reviews(
@@ -22,15 +31,17 @@ def ingest_reviews(
     qdrant_url: str | None = None,
     collection_name: str | None = None,
 ) -> VectorStoreIndex:
-    jsonl_path = jsonl_path or str(PROJECT_ROOT / "gen" / "data" / "reviews" / "reviews.jsonl")
+    _configure_settings()
+    path = Path(jsonl_path) if jsonl_path else PROJECT_ROOT / "gen" / "data" / "reviews" / "reviews.jsonl"
     qdrant_url = qdrant_url or os.environ.get("QDRANT_URL", "http://localhost:6333")
     collection_name = collection_name or os.environ.get("QDRANT_COLLECTION", "shopagent_reviews")
 
-    Settings.embed_model = FastEmbedEmbedding(model_name="BAAI/bge-base-en-v1.5")
+    if not path.exists():
+        raise FileNotFoundError(f"Reviews file not found: {path}")
 
     reader = JSONReader(is_jsonl=True, clean_json=True)
-    documents = reader.load_data(input_file=jsonl_path)
-    print(f"Loaded {len(documents)} reviews from {Path(jsonl_path).name}")
+    documents = reader.load_data(input_file=str(path))
+    print(f"Loaded {len(documents)} reviews from {path.name}")
 
     client = qdrant_client.QdrantClient(url=qdrant_url)
     vector_store = QdrantVectorStore(client=client, collection_name=collection_name)

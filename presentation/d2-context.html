@@ -2874,236 +2874,6 @@
 </section>
 
 <!-- ================================================================ -->
-<!-- SLIDE 23 — O PROJETO: Dados Reais de E-Commerce (Redesigned)    -->
-<!-- ================================================================ -->
-<section class="slide" style="justify-content:flex-start; padding-top:clamp(28px,4vh,48px); padding-bottom:clamp(18px,2.5vh,32px); background-image: radial-gradient(ellipse at 30% 25%, rgba(74,158,255,0.05) 0%, transparent 50%), radial-gradient(ellipse at 75% 75%, rgba(63,185,80,0.04) 0%, transparent 40%), radial-gradient(ellipse at 50% 50%, rgba(212,175,55,0.02) 0%, transparent 50%);">
-
-  <p class="slide__label reveal">O Projeto</p>
-  <h2 class="slide__heading reveal" style="font-size:clamp(30px,5.5vw,56px); font-style:italic; margin-bottom:clamp(4px,0.6vh,8px);">Dados Reais de <span style="color:var(--accent);">E-Commerce</span></h2>
-  <p class="reveal" style="font-family:var(--font-editorial); font-size:clamp(0.92rem,1.4vw,1.1rem); font-style:italic; color:var(--text-dim); line-height:1.5; margin-bottom:clamp(8px,1.2vh,14px);">Tudo roda no seu Docker agora. O Ledger guarda números exatos, a Memory guarda significado.</p>
-
-  <!-- Full-width SVG architecture diagram -->
-  <div class="reveal" style="flex:1; display:flex; align-items:center; justify-content:center;">
-    <svg viewBox="0 0 1100 480" style="width:100%; max-height:clamp(340px,60vh,520px);">
-      <defs>
-        <filter id="proj-glow-blue"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <filter id="proj-glow-green"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <filter id="proj-glow-orange"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <linearGradient id="proj-flow" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ef9000" stop-opacity="0.5"/><stop offset="100%" stop-color="#3fb950" stop-opacity="0.5"/></linearGradient>
-      </defs>
-
-      <!-- ═══════════════════════════════════════════════════════════ -->
-      <!-- COLUMN 1: THE LEDGER (Postgres) — left third               -->
-      <!-- ═══════════════════════════════════════════════════════════ -->
-      <rect x="20" y="10" width="340" height="460" rx="18" fill="rgba(74,158,255,0.03)" stroke="rgba(74,158,255,0.2)" stroke-width="1.5"/>
-      <rect x="20" y="10" width="340" height="5" rx="3" fill="#4a9eff" opacity="0.7"/>
-
-      <!-- Header -->
-      <text x="190" y="46" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="30" font-style="italic" fill="#4a9eff">The Ledger</text>
-      <rect x="130" y="56" width="120" height="22" rx="11" fill="rgba(74,158,255,0.1)" stroke="rgba(74,158,255,0.25)" stroke-width="1"/>
-      <circle cx="146" cy="67" r="4" fill="#4a9eff" opacity="0.5"/>
-      <text x="198" y="72" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="11" font-style="italic" fill="#4a9eff">Postgres</text>
-
-      <!-- Stats row -->
-      <text x="190" y="104" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#60a5fa">3 tabelas &middot; 19 campos &middot; SQL</text>
-
-      <!-- ── customers table ── -->
-      <rect x="42" y="122" width="146" height="110" rx="10" fill="rgba(176,190,197,0.05)" stroke="#b0bec5" stroke-width="1.2"/>
-      <rect x="42" y="122" width="146" height="24" rx="10" fill="rgba(176,190,197,0.1)"/>
-      <text x="115" y="139" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#cfd8dc">customers</text>
-      <text x="56" y="160" font-family="'Fira Code',monospace" font-size="10.5" fill="#c8d8e8">customer_id  <tspan fill="#60a5fa">PK</tspan></text>
-      <text x="56" y="176" font-family="'Fira Code',monospace" font-size="10.5" fill="#9aabb8">name, email</text>
-      <text x="56" y="192" font-family="'Fira Code',monospace" font-size="10.5" fill="#9aabb8">city, state</text>
-      <text x="56" y="208" font-family="'Fira Code',monospace" font-size="10.5" fill="#b0bec5">segment</text>
-
-      <!-- ── products table ── -->
-      <rect x="42" y="248" width="146" height="96" rx="10" fill="rgba(212,175,55,0.05)" stroke="#d4af37" stroke-width="1.2"/>
-      <rect x="42" y="248" width="146" height="24" rx="10" fill="rgba(212,175,55,0.1)"/>
-      <text x="115" y="265" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#e8cb6a">products</text>
-      <text x="56" y="286" font-family="'Fira Code',monospace" font-size="10.5" fill="#c8d8e8">product_id   <tspan fill="#d4af37">PK</tspan></text>
-      <text x="56" y="302" font-family="'Fira Code',monospace" font-size="10.5" fill="#9aabb8">name, category</text>
-      <text x="56" y="318" font-family="'Fira Code',monospace" font-size="10.5" fill="#d4af37">price, brand</text>
-
-      <!-- ── orders table (hero, larger) ── -->
-      <rect x="204" y="122" width="140" height="222" rx="12" fill="rgba(74,158,255,0.05)" stroke="#4a9eff" stroke-width="1.5" filter="url(#proj-glow-blue)"/>
-      <rect x="204" y="122" width="140" height="26" rx="12" fill="rgba(74,158,255,0.12)"/>
-      <text x="274" y="140" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" font-weight="600" fill="#4a9eff">orders</text>
-      <text x="218" y="164" font-family="'Fira Code',monospace" font-size="10.5" fill="#c8d8e8">order_id    <tspan fill="#4a9eff">UUID</tspan></text>
-      <text x="218" y="182" font-family="'Fira Code',monospace" font-size="10.5" fill="#60a5fa">customer_id <tspan fill="#60a5fa">FK</tspan></text>
-      <text x="218" y="200" font-family="'Fira Code',monospace" font-size="10.5" fill="#d4af37">product_id  <tspan fill="#d4af37">FK</tspan></text>
-      <text x="218" y="218" font-family="'Fira Code',monospace" font-size="10.5" fill="#9aabb8">qty         1-10</text>
-      <text x="218" y="236" font-family="'Fira Code',monospace" font-size="10.5" fill="#3fb950">total       R$</text>
-      <text x="218" y="254" font-family="'Fira Code',monospace" font-size="10.5" fill="#9aabb8">status      enum</text>
-      <text x="218" y="272" font-family="'Fira Code',monospace" font-size="10.5" fill="#9aabb8">payment     enum</text>
-      <text x="218" y="290" font-family="'Fira Code',monospace" font-size="10.5" fill="#9aabb8">created_at  TS</text>
-
-      <!-- FK relationship lines -->
-      <line x1="188" y1="170" x2="204" y2="180" stroke="#60a5fa" stroke-width="1.5" opacity="0.6"/>
-      <circle cx="204" cy="180" r="4" fill="#60a5fa" opacity="0.7"/>
-      <text x="190" y="165" font-family="'Fira Code',monospace" font-size="9" fill="#60a5fa" opacity="0.8">1:N</text>
-      <line x1="188" y1="296" x2="204" y2="198" stroke="#d4af37" stroke-width="1.5" opacity="0.6"/>
-      <circle cx="204" cy="198" r="4" fill="#d4af37" opacity="0.7"/>
-      <text x="190" y="284" font-family="'Fira Code',monospace" font-size="9" fill="#d4af37" opacity="0.8">1:N</text>
-
-      <!-- SQL example at bottom -->
-      <rect x="42" y="366" width="302" height="40" rx="10" fill="rgba(74,158,255,0.04)" stroke="rgba(74,158,255,0.12)" stroke-width="1"/>
-      <text x="190" y="391" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#60a5fa">SELECT SUM(total) FROM orders</text>
-
-      <!-- Bottom label -->
-      <text x="190" y="440" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#4a9eff">Dados exatos &mdash; revenue, counts, JOINs</text>
-
-
-      <!-- ═══════════════════════════════════════════════════════════ -->
-      <!-- COLUMN 2: THE MEMORY (Qdrant) — middle third               -->
-      <!-- ═══════════════════════════════════════════════════════════ -->
-      <rect x="384" y="10" width="340" height="460" rx="18" fill="rgba(63,185,80,0.03)" stroke="rgba(63,185,80,0.2)" stroke-width="1.5"/>
-      <rect x="384" y="10" width="340" height="5" rx="3" fill="#3fb950" opacity="0.7"/>
-
-      <!-- Header -->
-      <text x="554" y="46" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="30" font-style="italic" fill="#3fb950">The Memory</text>
-      <rect x="500" y="56" width="108" height="22" rx="11" fill="rgba(63,185,80,0.1)" stroke="rgba(63,185,80,0.25)" stroke-width="1"/>
-      <circle cx="516" cy="67" r="4" fill="#3fb950" opacity="0.5"/>
-      <text x="560" y="72" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="11" font-style="italic" fill="#3fb950">Qdrant</text>
-
-      <!-- Stats row -->
-      <text x="554" y="104" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#3fb950">203 reviews &middot; 768 dim &middot; RAG</text>
-
-      <!-- Embedding pipeline -->
-      <rect x="404" y="122" width="122" height="56" rx="10" fill="rgba(212,175,55,0.05)" stroke="#d4af37" stroke-width="1.2"/>
-      <text x="465" y="143" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#d4af37">Review</text>
-      <text x="465" y="164" text-anchor="middle" font-family="'Fira Code',monospace" font-size="9.5" fill="#c8d8e8">"Produto com defeito"</text>
-
-      <!-- Arrow → -->
-      <line x1="530" y1="150" x2="556" y2="150" stroke="#d4af37" stroke-width="1.5" opacity="0.5"/>
-      <polygon points="554,146 564,150 554,154" fill="#d4af37" opacity="0.6"/>
-
-      <!-- FastEmbed -->
-      <rect x="568" y="128" width="100" height="44" rx="10" fill="rgba(167,139,250,0.06)" stroke="#a78bfa" stroke-width="1.2"/>
-      <text x="618" y="149" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#a78bfa">FastEmbed</text>
-      <text x="618" y="165" text-anchor="middle" font-family="'Fira Code',monospace" font-size="9.5" fill="#9aabb8">bge-base</text>
-
-      <!-- Arrow → Vector -->
-      <line x1="618" y1="176" x2="618" y2="194" stroke="#a78bfa" stroke-width="1.5" opacity="0.5"/>
-      <polygon points="614,192 618,202 622,192" fill="#a78bfa" opacity="0.6"/>
-
-      <!-- Vector badge -->
-      <rect x="574" y="204" width="88" height="30" rx="8" fill="rgba(63,185,80,0.06)" stroke="#3fb950" stroke-width="1.2"/>
-      <text x="618" y="224" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#3fb950">[0.23, ...768]</text>
-
-      <!-- Vector Space visualization -->
-      <rect x="404" y="250" width="300" height="156" rx="14" fill="rgba(63,185,80,0.02)" stroke="rgba(63,185,80,0.12)" stroke-width="1.2" stroke-dasharray="6 4"/>
-      <text x="554" y="274" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#3fb950">Vector Space</text>
-
-      <!-- Cluster: negative (red) -->
-      <circle cx="450" cy="340" r="7" fill="#f85149" opacity="0.7"/>
-      <circle cx="434" cy="324" r="5.5" fill="#f85149" opacity="0.5"/>
-      <circle cx="466" cy="354" r="5" fill="#f85149" opacity="0.6"/>
-      <circle cx="424" cy="348" r="5" fill="#f85149" opacity="0.4"/>
-      <circle cx="460" cy="316" r="4" fill="#f85149" opacity="0.5"/>
-      <text x="448" y="380" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="12" font-style="italic" fill="#f85149" opacity="0.9">negativo</text>
-
-      <!-- Cluster: positive (green) -->
-      <circle cx="650" cy="320" r="7" fill="#3fb950" opacity="0.7"/>
-      <circle cx="634" cy="336" r="5.5" fill="#3fb950" opacity="0.5"/>
-      <circle cx="666" cy="310" r="5" fill="#3fb950" opacity="0.6"/>
-      <circle cx="662" cy="346" r="5" fill="#3fb950" opacity="0.4"/>
-      <circle cx="638" cy="304" r="4" fill="#3fb950" opacity="0.5"/>
-      <text x="650" y="380" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="12" font-style="italic" fill="#3fb950" opacity="0.9">positivo</text>
-
-      <!-- Cluster: neutral (silver) -->
-      <circle cx="554" cy="356" r="5.5" fill="#b0bec5" opacity="0.5"/>
-      <circle cx="570" cy="342" r="4.5" fill="#b0bec5" opacity="0.4"/>
-      <circle cx="540" cy="346" r="4" fill="#b0bec5" opacity="0.5"/>
-      <text x="554" y="380" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="12" font-style="italic" fill="#b0bec5" opacity="0.7">neutro</text>
-
-      <!-- Query point -->
-      <circle cx="450" cy="340" r="14" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.5" stroke-dasharray="4 3"/>
-      <text x="450" y="305" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37">query &#9733;</text>
-      <line x1="450" y1="340" x2="434" y2="324" stroke="#d4af37" stroke-width="1" opacity="0.4" stroke-dasharray="3 3"/>
-      <line x1="450" y1="340" x2="466" y2="354" stroke="#d4af37" stroke-width="1" opacity="0.4" stroke-dasharray="3 3"/>
-
-      <!-- Bottom label -->
-      <text x="554" y="440" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#3fb950">Significado &mdash; sentimento, temas, queixas</text>
-
-
-      <!-- ═══════════════════════════════════════════════════════════ -->
-      <!-- COLUMN 3: THE BRIDGE (LlamaIndex) — right third             -->
-      <!-- ═══════════════════════════════════════════════════════════ -->
-      <rect x="748" y="10" width="340" height="460" rx="18" fill="rgba(239,144,0,0.02)" stroke="rgba(239,144,0,0.15)" stroke-width="1.5"/>
-      <rect x="748" y="10" width="340" height="5" rx="3" fill="#ef9000" opacity="0.6"/>
-
-      <!-- Header -->
-      <text x="918" y="46" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="30" font-style="italic" fill="#ef9000">The Bridge</text>
-      <rect x="848" y="56" width="140" height="22" rx="11" fill="rgba(239,144,0,0.08)" stroke="rgba(239,144,0,0.2)" stroke-width="1"/>
-      <circle cx="864" cy="67" r="4" fill="#ef9000" opacity="0.5"/>
-      <text x="924" y="72" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="11" font-style="italic" fill="#ef9000">LlamaIndex</text>
-
-      <!-- Stats row -->
-      <text x="918" y="104" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#ef9000">ingest &rarr; embed &rarr; store &rarr; query</text>
-
-      <!-- PIPELINE: Vertical flow with numbered steps -->
-
-      <!-- Step 1: JSONL file -->
-      <rect x="820" y="126" width="196" height="50" rx="12" fill="rgba(239,144,0,0.05)" stroke="#ef9000" stroke-width="1.2"/>
-      <circle cx="840" cy="151" r="12" fill="rgba(239,144,0,0.15)" stroke="#ef9000" stroke-width="1.2"/>
-      <text x="840" y="156" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#ef9000">1</text>
-      <text x="918" y="147" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" fill="#ef9000">reviews.jsonl</text>
-      <text x="918" y="166" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#9aabb8">203 documentos</text>
-
-      <!-- Arrow down -->
-      <line x1="918" y1="180" x2="918" y2="200" stroke="#ef9000" stroke-width="1.5" opacity="0.5"/>
-      <polygon points="914,198 918,208 922,198" fill="#ef9000" opacity="0.6"/>
-
-      <!-- Step 2: JSONReader -->
-      <rect x="820" y="210" width="196" height="50" rx="12" fill="rgba(176,190,197,0.04)" stroke="#b0bec5" stroke-width="1.2"/>
-      <circle cx="840" cy="235" r="12" fill="rgba(176,190,197,0.12)" stroke="#b0bec5" stroke-width="1.2"/>
-      <text x="840" y="240" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#b0bec5">2</text>
-      <text x="918" y="231" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" fill="#cfd8dc">JSONReader</text>
-      <text x="918" y="250" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#9aabb8">parse + metadata</text>
-
-      <!-- Arrow down -->
-      <line x1="918" y1="264" x2="918" y2="284" stroke="#b0bec5" stroke-width="1.5" opacity="0.5"/>
-      <polygon points="914,282 918,292 922,282" fill="#b0bec5" opacity="0.6"/>
-
-      <!-- Step 3: FastEmbed -->
-      <rect x="820" y="294" width="196" height="50" rx="12" fill="rgba(167,139,250,0.04)" stroke="#a78bfa" stroke-width="1.2"/>
-      <circle cx="840" cy="319" r="12" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.2"/>
-      <text x="840" y="324" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#a78bfa">3</text>
-      <text x="918" y="315" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" fill="#a78bfa">FastEmbed</text>
-      <text x="918" y="334" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#9aabb8">bge-base &rarr; 768d</text>
-
-      <!-- Arrow down -->
-      <line x1="918" y1="348" x2="918" y2="368" stroke="#a78bfa" stroke-width="1.5" opacity="0.5"/>
-      <polygon points="914,366 918,376 922,366" fill="#a78bfa" opacity="0.6"/>
-
-      <!-- Step 4: Qdrant Store -->
-      <rect x="820" y="378" width="196" height="50" rx="12" fill="rgba(63,185,80,0.05)" stroke="#3fb950" stroke-width="1.5" filter="url(#proj-glow-green)"/>
-      <circle cx="840" cy="403" r="12" fill="rgba(63,185,80,0.15)" stroke="#3fb950" stroke-width="1.2"/>
-      <text x="840" y="408" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#3fb950">4</text>
-      <text x="918" y="399" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" font-weight="600" fill="#3fb950">Qdrant Store</text>
-      <text x="918" y="418" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#9aabb8">shopagent_reviews</text>
-
-      <!-- Bottom label -->
-      <text x="918" y="456" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#ef9000">Pipeline &mdash; JSONL to vectors em 4 passos</text>
-
-    </svg>
-  </div>
-
-  <!-- Bottom bar -->
-  <div class="reveal" style="margin-top:auto; padding-top:clamp(10px,1.5vh,16px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px);">
-    <p style="font-family:var(--font-editorial); font-size:clamp(0.95rem,1.5vw,1.15rem); font-style:italic; color:var(--text-dim); line-height:1.5; flex:1;">
-      Estes <strong style="color:var(--accent);">dados são reais</strong> e estão rodando no seu Docker agora. O Ledger guarda números exatos, a Memory guarda significado &mdash; juntos, o ShopAgent nunca inventa.
-    </p>
-    <div style="display:flex; gap:0.5rem; flex-shrink:0;">
-      <span class="tag tag-accent">3 Tabelas</span>
-      <span class="tag tag-green">203 Reviews</span>
-      <span class="tag tag-purple">768 Dimensões</span>
-    </div>
-  </div>
-</section>
-
-
-<!-- ================================================================ -->
 <!-- SLIDE 24 — HOOK QUOTE: CENTRAL QUESTION                        -->
 <!-- ================================================================ -->
 <section class="slide slide--quote" style="background-image: radial-gradient(ellipse at 50% 50%, rgba(74,158,255,0.06) 0%, transparent 60%);">
@@ -3119,273 +2889,279 @@
 
 <!-- ================================================================ -->
 <!-- ================================================================ -->
-<!-- SLIDE 25 — PIPELINE: O FLUXO RAG (Redesigned)                  -->
+<!-- SLIDE 25 — PIPELINE: O FLUXO RAG (Jaw-Dropping Redesign)       -->
 <!-- ================================================================ -->
-<section class="slide" style="justify-content:center; padding:clamp(18px,2.5vh,32px) clamp(36px,6vw,96px); background-image: radial-gradient(ellipse at 50% 40%, rgba(74,158,255,0.05) 0%, transparent 50%), radial-gradient(ellipse at 20% 80%, rgba(167,139,250,0.03) 0%, transparent 40%);">
+<section class="slide" style="justify-content:center; padding:clamp(16px,2.2vh,28px) clamp(36px,6vw,96px); background-image: radial-gradient(ellipse at 20% 20%, rgba(212,175,55,0.06) 0%, transparent 40%), radial-gradient(ellipse at 80% 80%, rgba(74,158,255,0.05) 0%, transparent 40%), radial-gradient(ellipse at 50% 50%, rgba(167,139,250,0.03) 0%, transparent 50%);">
 
-  <p class="slide__label reveal">RAG Pipeline</p>
-  <h2 class="slide__heading reveal" style="font-size:clamp(28px,5vw,52px); font-style:italic; margin-bottom:clamp(2px,0.4vh,6px);">O Fluxo RAG: <span style="color:var(--accent);">Como Funciona</span></h2>
-  <p class="reveal" style="font-family:var(--font-editorial); font-size:clamp(0.88rem,1.3vw,1.05rem); font-style:italic; color:var(--text-dim); margin-bottom:clamp(8px,1.2vh,14px); line-height:1.4;">Cada stage transforma o dado. Acompanhe a review real passando pelo pipeline.</p>
+  <p class="slide__label reveal">RAG PIPELINE</p>
+  <h2 class="slide__heading reveal" style="font-size:clamp(28px,5vw,52px); font-style:italic; margin-bottom:clamp(4px,0.6vh,8px);">O Fluxo RAG: <span class="shimmer-text">Como Funciona</span></h2>
 
-  <!-- 5-Stage Pipeline Grid -->
-  <div class="reveal" style="display:grid; grid-template-columns:repeat(5,1fr); gap:clamp(8px,1vw,14px); flex:1;">
+  <!-- PHASE LABELS -->
+  <div class="reveal" style="display:flex; align-items:center; gap:clamp(6px,0.8vw,10px); margin-bottom:clamp(6px,1vh,10px);">
+    <div style="display:flex; align-items:center; gap:0.3rem;">
+      <div style="width:10px; height:10px; border-radius:50%; background:var(--gold); box-shadow:0 0 8px rgba(212,175,55,0.4);"></div>
+      <p style="font-family:var(--font-editorial); font-size:clamp(0.78rem,1.05vw,0.92rem); font-style:italic; color:var(--gold);">Offline (uma vez)</p>
+    </div>
+    <div style="flex:1; height:1px; background:linear-gradient(90deg, rgba(212,175,55,0.3) 0%, rgba(74,158,255,0.3) 100%);"></div>
+    <div style="display:flex; align-items:center; gap:0.3rem;">
+      <div style="width:10px; height:10px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px rgba(74,158,255,0.4); animation:pulse-glow 3s ease-in-out infinite;"></div>
+      <p style="font-family:var(--font-editorial); font-size:clamp(0.78rem,1.05vw,0.92rem); font-style:italic; color:var(--accent);">Online (cada query)</p>
+    </div>
+  </div>
 
-    <!-- Stage 1 — Ingest (gold) -->
-    <div style="display:flex; flex-direction:column; gap:0;">
-      <div style="background:var(--surface); border:1.5px solid rgba(212,175,55,0.35); border-bottom:none; border-radius:14px 14px 0 0; padding:clamp(14px,2.2vh,24px) clamp(12px,1.5vw,18px); text-align:center; position:relative; transition:transform 0.3s, border-color 0.3s;"
-        onmouseenter="this.style.borderColor='rgba(212,175,55,0.6)';this.style.transform='translateY(-3px)'"
-        onmouseleave="this.style.borderColor='rgba(212,175,55,0.35)';this.style.transform='none'">
-        <div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:clamp(0.55rem,0.72vw,0.62rem); font-weight:700; padding:2px 10px; border-radius:6px; background:rgba(212,175,55,0.15); color:var(--gold);">STAGE 1</div>
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8" style="margin:0.2rem auto;">
-          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
-        <p style="font-family:var(--font-display); font-size:clamp(1.1rem,1.6vw,1.35rem); font-style:italic; color:var(--gold); margin-top:0.3rem;">Ingest</p>
-        <p style="font-family:var(--font-editorial); font-size:clamp(0.74rem,1vw,0.88rem); font-style:italic; color:var(--text-dim); margin-top:0.25rem; line-height:1.4;">Lê arquivo JSONL com reviews reais dos clientes</p>
+  <!-- 5-STAGE PIPELINE -->
+  <div class="reveal" style="display:grid; grid-template-columns:repeat(5,1fr); gap:0; flex:1; position:relative;">
+
+    <!-- ═══ STAGE 1 — Ingest (gold) ═══ -->
+    <div style="display:flex; flex-direction:column; position:relative; z-index:1; margin-right:-1px;">
+      <!-- Card header -->
+      <div style="background:linear-gradient(160deg, rgba(212,175,55,0.08) 0%, var(--surface) 100%); border:1.5px solid rgba(212,175,55,0.3); border-right:none; border-radius:16px 0 0 0; padding:clamp(14px,2vh,22px) clamp(12px,1.4vw,18px); position:relative;">
+        <div style="position:absolute; top:-11px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:clamp(0.52rem,0.68vw,0.6rem); font-weight:700; padding:3px 12px; border-radius:20px; background:rgba(212,175,55,0.2); color:var(--gold); border:1px solid rgba(212,175,55,0.3);">STAGE 1</div>
+        <div style="text-align:center;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8" style="margin:0 auto; filter:drop-shadow(0 0 6px rgba(212,175,55,0.3));">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <p style="font-family:var(--font-display); font-size:clamp(1.15rem,1.7vw,1.4rem); font-style:italic; color:var(--gold); margin-top:0.3rem;">Ingest</p>
+          <p style="font-family:var(--font-editorial); font-size:clamp(0.78rem,1.05vw,0.92rem); font-style:italic; color:var(--text-dim); margin-top:0.25rem; line-height:1.45;">Lê JSONL com reviews reais</p>
+        </div>
       </div>
-      <div style="background:var(--code-bg); border:1.5px solid rgba(212,175,55,0.20); border-top:none; border-radius:0 0 14px 14px; padding:clamp(10px,1.5vh,18px) clamp(10px,1.3vw,16px); flex:1; display:flex; flex-direction:column;">
-        <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.78vw,0.68rem); color:var(--gold); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem; font-weight:600;">reviews.jsonl</p>
-        <div style="font-family:var(--font-mono); font-size:clamp(0.6rem,0.82vw,0.72rem); color:var(--code-text); line-height:1.6;">
-          <span style="color:var(--text-dim);">{</span><br>
+      <!-- Data preview -->
+      <div style="background:var(--code-bg); border:1.5px solid rgba(212,175,55,0.15); border-top:none; border-right:none; border-radius:0 0 0 16px; padding:clamp(10px,1.5vh,16px) clamp(10px,1.2vw,14px); flex:1;">
+        <p style="font-family:var(--font-mono); font-size:clamp(0.62rem,0.82vw,0.72rem); color:var(--gold); letter-spacing:0.1em; font-weight:600; margin-bottom:0.5rem;">reviews.jsonl</p>
+        <div style="font-family:var(--font-mono); font-size:clamp(0.65rem,0.88vw,0.76rem); color:var(--code-text); line-height:1.7;">
+          {<br>
           &nbsp;&nbsp;<span style="color:var(--purple);">"rating"</span>: <span style="color:var(--gold);">4</span>,<br>
           &nbsp;&nbsp;<span style="color:var(--purple);">"comment"</span>:<br>
           &nbsp;&nbsp;&nbsp;<span style="color:var(--green);">"Produto chegou<br>&nbsp;&nbsp;&nbsp;&nbsp;antes do prazo"</span>,<br>
           &nbsp;&nbsp;<span style="color:var(--purple);">"sentiment"</span>:<br>
           &nbsp;&nbsp;&nbsp;<span style="color:var(--green);">"positive"</span><br>
-          <span style="color:var(--text-dim);">}</span>
+          }
         </div>
-        <p style="font-family:var(--font-mono); font-size:clamp(0.52rem,0.7vw,0.6rem); color:var(--text-dim); margin-top:auto; padding-top:0.4rem; text-align:center;">JSONReader(is_jsonl=True)</p>
       </div>
     </div>
 
-    <!-- Stage 2 — Chunk (blue) -->
-    <div style="display:flex; flex-direction:column; gap:0;">
-      <div style="background:var(--surface); border:1.5px solid rgba(74,158,255,0.35); border-bottom:none; border-radius:14px 14px 0 0; padding:clamp(14px,2.2vh,24px) clamp(12px,1.5vw,18px); text-align:center; position:relative; transition:transform 0.3s, border-color 0.3s;"
-        onmouseenter="this.style.borderColor='rgba(74,158,255,0.6)';this.style.transform='translateY(-3px)'"
-        onmouseleave="this.style.borderColor='rgba(74,158,255,0.35)';this.style.transform='none'">
-        <div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:clamp(0.55rem,0.72vw,0.62rem); font-weight:700; padding:2px 10px; border-radius:6px; background:rgba(74,158,255,0.15); color:var(--accent);">STAGE 2</div>
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" style="margin:0.2rem auto;">
-          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-        </svg>
-        <p style="font-family:var(--font-display); font-size:clamp(1.1rem,1.6vw,1.35rem); font-style:italic; color:var(--accent); margin-top:0.3rem;">Chunk</p>
-        <p style="font-family:var(--font-editorial); font-size:clamp(0.74rem,1vw,0.88rem); font-style:italic; color:var(--text-dim); margin-top:0.25rem; line-height:1.4;">Divide documentos em pedaços semânticos</p>
+    <!-- ═══ STAGE 2 — Chunk (blue) ═══ -->
+    <div style="display:flex; flex-direction:column; position:relative; z-index:1; margin-right:-1px;">
+      <div style="background:linear-gradient(160deg, rgba(74,158,255,0.08) 0%, var(--surface) 100%); border:1.5px solid rgba(74,158,255,0.3); border-left:none; border-right:none; padding:clamp(14px,2vh,22px) clamp(12px,1.4vw,18px); position:relative;">
+        <div style="position:absolute; top:-11px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:clamp(0.52rem,0.68vw,0.6rem); font-weight:700; padding:3px 12px; border-radius:20px; background:rgba(74,158,255,0.2); color:var(--accent); border:1px solid rgba(74,158,255,0.3);">STAGE 2</div>
+        <div style="text-align:center;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" style="margin:0 auto; filter:drop-shadow(0 0 6px rgba(74,158,255,0.3));">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+          </svg>
+          <p style="font-family:var(--font-display); font-size:clamp(1.15rem,1.7vw,1.4rem); font-style:italic; color:var(--accent); margin-top:0.3rem;">Chunk</p>
+          <p style="font-family:var(--font-editorial); font-size:clamp(0.78rem,1.05vw,0.92rem); font-style:italic; color:var(--text-dim); margin-top:0.25rem; line-height:1.45;">Divide em nós semânticos</p>
+        </div>
       </div>
-      <div style="background:var(--code-bg); border:1.5px solid rgba(74,158,255,0.20); border-top:none; border-radius:0 0 14px 14px; padding:clamp(10px,1.5vh,18px) clamp(10px,1.3vw,16px); flex:1; display:flex; flex-direction:column;">
-        <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.78vw,0.68rem); color:var(--accent); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem; font-weight:600;">Document Nodes</p>
-        <div style="font-family:var(--font-mono); font-size:clamp(0.6rem,0.82vw,0.72rem); color:var(--code-text); line-height:1.6;">
+      <div style="background:var(--code-bg); border:1.5px solid rgba(74,158,255,0.15); border-top:none; border-left:none; border-right:none; padding:clamp(10px,1.5vh,16px) clamp(10px,1.2vw,14px); flex:1;">
+        <p style="font-family:var(--font-mono); font-size:clamp(0.62rem,0.82vw,0.72rem); color:var(--accent); letter-spacing:0.1em; font-weight:600; margin-bottom:0.5rem;">Document Node</p>
+        <div style="font-family:var(--font-mono); font-size:clamp(0.65rem,0.88vw,0.76rem); color:var(--code-text); line-height:1.7;">
           <span style="color:var(--accent);">chunk_1:</span><br>
-          <span style="color:var(--green);">"Produto chegou<br>&nbsp;antes do prazo,<br>&nbsp;estou muito<br>&nbsp;satisfeito..."</span><br>
-          <span style="color:var(--text-dim);">metadata: {</span><br>
-          &nbsp;&nbsp;<span style="color:var(--purple);">rating</span>: <span style="color:var(--gold);">4</span>,<br>
+          <span style="color:var(--green);">"Produto chegou<br>&nbsp;antes do prazo,<br>&nbsp;estou satisfeito"</span><br>
+          <span style="color:var(--text-dim);">metadata:</span> {<br>
+          &nbsp;&nbsp;<span style="color:var(--purple);">rating</span>: <span style="color:var(--gold);">4</span><br>
           &nbsp;&nbsp;<span style="color:var(--purple);">sentiment</span>: <span style="color:var(--green);">"+"</span><br>
-          <span style="color:var(--text-dim);">}</span>
+          }
         </div>
-        <p style="font-family:var(--font-mono); font-size:clamp(0.52rem,0.7vw,0.6rem); color:var(--text-dim); margin-top:auto; padding-top:0.4rem; text-align:center;">1 review = 1 chunk</p>
       </div>
     </div>
 
-    <!-- Stage 3 — Embed (purple) -->
-    <div style="display:flex; flex-direction:column; gap:0;">
-      <div style="background:var(--surface); border:1.5px solid rgba(167,139,250,0.35); border-bottom:none; border-radius:14px 14px 0 0; padding:clamp(14px,2.2vh,24px) clamp(12px,1.5vw,18px); text-align:center; position:relative; transition:transform 0.3s, border-color 0.3s;"
-        onmouseenter="this.style.borderColor='rgba(167,139,250,0.6)';this.style.transform='translateY(-3px)'"
-        onmouseleave="this.style.borderColor='rgba(167,139,250,0.35)';this.style.transform='none'">
-        <div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:clamp(0.55rem,0.72vw,0.62rem); font-weight:700; padding:2px 10px; border-radius:6px; background:rgba(167,139,250,0.15); color:var(--purple);">STAGE 3</div>
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8" style="margin:0.2rem auto;">
-          <circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/>
-        </svg>
-        <p style="font-family:var(--font-display); font-size:clamp(1.1rem,1.6vw,1.35rem); font-style:italic; color:var(--purple); margin-top:0.3rem;">Embed</p>
-        <p style="font-family:var(--font-editorial); font-size:clamp(0.74rem,1vw,0.88rem); font-style:italic; color:var(--text-dim); margin-top:0.25rem; line-height:1.4;">Transforma texto em vetor numérico de 768 dimensões</p>
+    <!-- ═══ STAGE 3 — Embed (purple) ═══ -->
+    <div style="display:flex; flex-direction:column; position:relative; z-index:1; margin-right:-1px;">
+      <div style="background:linear-gradient(160deg, rgba(167,139,250,0.08) 0%, var(--surface) 100%); border:1.5px solid rgba(167,139,250,0.3); border-left:none; border-right:none; padding:clamp(14px,2vh,22px) clamp(12px,1.4vw,18px); position:relative;">
+        <div style="position:absolute; top:-11px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:clamp(0.52rem,0.68vw,0.6rem); font-weight:700; padding:3px 12px; border-radius:20px; background:rgba(167,139,250,0.2); color:var(--purple); border:1px solid rgba(167,139,250,0.3);">STAGE 3</div>
+        <div style="text-align:center;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8" style="margin:0 auto; filter:drop-shadow(0 0 6px rgba(167,139,250,0.3));">
+            <circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/>
+          </svg>
+          <p style="font-family:var(--font-display); font-size:clamp(1.15rem,1.7vw,1.4rem); font-style:italic; color:var(--purple); margin-top:0.3rem;">Embed</p>
+          <p style="font-family:var(--font-editorial); font-size:clamp(0.78rem,1.05vw,0.92rem); font-style:italic; color:var(--text-dim); margin-top:0.25rem; line-height:1.45;">Texto vira vetor 768-dim</p>
+        </div>
       </div>
-      <div style="background:var(--code-bg); border:1.5px solid rgba(167,139,250,0.20); border-top:none; border-radius:0 0 14px 14px; padding:clamp(10px,1.5vh,18px) clamp(10px,1.3vw,16px); flex:1; display:flex; flex-direction:column;">
-        <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.78vw,0.68rem); color:var(--purple); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem; font-weight:600;">Vector 768-dim</p>
-        <div style="font-family:var(--font-mono); font-size:clamp(0.6rem,0.82vw,0.72rem); color:var(--code-text); line-height:1.6;">
-          <span style="color:var(--text-dim);">[</span><br>
+      <div style="background:var(--code-bg); border:1.5px solid rgba(167,139,250,0.15); border-top:none; border-left:none; border-right:none; padding:clamp(10px,1.5vh,16px) clamp(10px,1.2vw,14px); flex:1;">
+        <p style="font-family:var(--font-mono); font-size:clamp(0.62rem,0.82vw,0.72rem); color:var(--purple); letter-spacing:0.1em; font-weight:600; margin-bottom:0.5rem;">Vector 768-dim</p>
+        <div style="font-family:var(--font-mono); font-size:clamp(0.65rem,0.88vw,0.76rem); color:var(--code-text); line-height:1.7;">
+          [<br>
           &nbsp;&nbsp;<span style="color:var(--purple);">0.0234</span>,<br>
           &nbsp;&nbsp;<span style="color:var(--purple);">-0.1892</span>,<br>
           &nbsp;&nbsp;<span style="color:var(--purple);">0.4517</span>,<br>
           &nbsp;&nbsp;<span style="color:var(--purple);">-0.0083</span>,<br>
-          &nbsp;&nbsp;<span style="color:var(--text-dim);">... (768 dims)</span><br>
+          &nbsp;&nbsp;<span style="color:var(--text-dim);">... (768)</span><br>
           &nbsp;&nbsp;<span style="color:var(--purple);">0.3291</span><br>
-          <span style="color:var(--text-dim);">]</span>
+          ]
         </div>
-        <p style="font-family:var(--font-mono); font-size:clamp(0.52rem,0.7vw,0.6rem); color:var(--text-dim); margin-top:auto; padding-top:0.4rem; text-align:center;">BAAI/bge-base-en-v1.5</p>
       </div>
     </div>
 
-    <!-- Stage 4 — Store (green) -->
-    <div style="display:flex; flex-direction:column; gap:0;">
-      <div style="background:var(--surface); border:1.5px solid rgba(63,185,80,0.35); border-bottom:none; border-radius:14px 14px 0 0; padding:clamp(14px,2.2vh,24px) clamp(12px,1.5vw,18px); text-align:center; position:relative; transition:transform 0.3s, border-color 0.3s;"
-        onmouseenter="this.style.borderColor='rgba(63,185,80,0.6)';this.style.transform='translateY(-3px)'"
-        onmouseleave="this.style.borderColor='rgba(63,185,80,0.35)';this.style.transform='none'">
-        <div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:clamp(0.55rem,0.72vw,0.62rem); font-weight:700; padding:2px 10px; border-radius:6px; background:rgba(63,185,80,0.15); color:var(--green);">STAGE 4</div>
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8" style="margin:0.2rem auto;">
-          <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
-        </svg>
-        <p style="font-family:var(--font-display); font-size:clamp(1.1rem,1.6vw,1.35rem); font-style:italic; color:var(--green); margin-top:0.3rem;">Store</p>
-        <p style="font-family:var(--font-editorial); font-size:clamp(0.74rem,1vw,0.88rem); font-style:italic; color:var(--text-dim); margin-top:0.25rem; line-height:1.4;">Persiste vetor + metadata na collection Qdrant</p>
+    <!-- ═══ STAGE 4 — Store (green) ═══ -->
+    <div style="display:flex; flex-direction:column; position:relative; z-index:1; margin-right:-1px;">
+      <div style="background:linear-gradient(160deg, rgba(63,185,80,0.08) 0%, var(--surface) 100%); border:1.5px solid rgba(63,185,80,0.3); border-left:none; border-right:none; padding:clamp(14px,2vh,22px) clamp(12px,1.4vw,18px); position:relative;">
+        <div style="position:absolute; top:-11px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:clamp(0.52rem,0.68vw,0.6rem); font-weight:700; padding:3px 12px; border-radius:20px; background:rgba(63,185,80,0.2); color:var(--green); border:1px solid rgba(63,185,80,0.3);">STAGE 4</div>
+        <div style="text-align:center;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8" style="margin:0 auto; filter:drop-shadow(0 0 6px rgba(63,185,80,0.3));">
+            <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+          </svg>
+          <p style="font-family:var(--font-display); font-size:clamp(1.15rem,1.7vw,1.4rem); font-style:italic; color:var(--green); margin-top:0.3rem;">Store</p>
+          <p style="font-family:var(--font-editorial); font-size:clamp(0.78rem,1.05vw,0.92rem); font-style:italic; color:var(--text-dim); margin-top:0.25rem; line-height:1.45;">Persiste no Qdrant</p>
+        </div>
       </div>
-      <div style="background:var(--code-bg); border:1.5px solid rgba(63,185,80,0.20); border-top:none; border-radius:0 0 14px 14px; padding:clamp(10px,1.5vh,18px) clamp(10px,1.3vw,16px); flex:1; display:flex; flex-direction:column;">
-        <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.78vw,0.68rem); color:var(--green); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem; font-weight:600;">Qdrant Point</p>
-        <div style="font-family:var(--font-mono); font-size:clamp(0.6rem,0.82vw,0.72rem); color:var(--code-text); line-height:1.6;">
-          <span style="color:var(--text-dim);">{</span><br>
+      <div style="background:var(--code-bg); border:1.5px solid rgba(63,185,80,0.15); border-top:none; border-left:none; border-right:none; padding:clamp(10px,1.5vh,16px) clamp(10px,1.2vw,14px); flex:1;">
+        <p style="font-family:var(--font-mono); font-size:clamp(0.62rem,0.82vw,0.72rem); color:var(--green); letter-spacing:0.1em; font-weight:600; margin-bottom:0.5rem;">Qdrant Point</p>
+        <div style="font-family:var(--font-mono); font-size:clamp(0.65rem,0.88vw,0.76rem); color:var(--code-text); line-height:1.7;">
+          {<br>
           &nbsp;&nbsp;<span style="color:var(--green);">id</span>: <span style="color:var(--text-dim);">uuid</span>,<br>
           &nbsp;&nbsp;<span style="color:var(--green);">vector</span>: <span style="color:var(--purple);">[768]</span>,<br>
           &nbsp;&nbsp;<span style="color:var(--green);">payload</span>: {<br>
           &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--purple);">text</span>: <span style="color:var(--green);">"..."</span>,<br>
           &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--purple);">rating</span>: <span style="color:var(--gold);">4</span>,<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--purple);">sentiment</span>: <span style="color:var(--green);">"+"</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--purple);">sent</span>: <span style="color:var(--green);">"+"</span><br>
           &nbsp;&nbsp;}<br>
-          <span style="color:var(--text-dim);">}</span>
+          }
         </div>
-        <p style="font-family:var(--font-mono); font-size:clamp(0.52rem,0.7vw,0.6rem); color:var(--text-dim); margin-top:auto; padding-top:0.4rem; text-align:center;">shopagent_reviews</p>
       </div>
     </div>
 
-    <!-- Stage 5 — Query (accent, pulse-glow) -->
-    <div style="display:flex; flex-direction:column; gap:0;">
-      <div style="background:linear-gradient(135deg, var(--surface) 0%, rgba(74,158,255,0.04) 100%); border:1.5px solid rgba(74,158,255,0.4); border-bottom:none; border-radius:14px 14px 0 0; padding:clamp(14px,2.2vh,24px) clamp(12px,1.5vw,18px); text-align:center; position:relative; animation:pulse-glow 4s ease-in-out infinite; transition:transform 0.3s, border-color 0.3s;"
-        onmouseenter="this.style.borderColor='rgba(74,158,255,0.7)';this.style.transform='translateY(-3px)'"
-        onmouseleave="this.style.borderColor='rgba(74,158,255,0.4)';this.style.transform='none'">
-        <div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:clamp(0.55rem,0.72vw,0.62rem); font-weight:700; padding:2px 10px; border-radius:6px; background:rgba(74,158,255,0.15); color:var(--accent);">STAGE 5</div>
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" style="margin:0.2rem auto;">
-          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-        </svg>
-        <p style="font-family:var(--font-display); font-size:clamp(1.1rem,1.6vw,1.35rem); font-style:italic; color:var(--accent); margin-top:0.3rem;">Query</p>
-        <p style="font-family:var(--font-editorial); font-size:clamp(0.74rem,1vw,0.88rem); font-style:italic; color:var(--text-dim); margin-top:0.25rem; line-height:1.4;">Busca os 5 chunks mais similares e Claude responde</p>
+    <!-- ═══ STAGE 5 — Query (accent, THE STAR) ═══ -->
+    <div style="display:flex; flex-direction:column; position:relative; z-index:2;">
+      <div style="background:linear-gradient(160deg, rgba(74,158,255,0.12) 0%, rgba(34,211,238,0.05) 100%); border:1.5px solid rgba(74,158,255,0.45); border-left:none; border-radius:0 16px 0 0; padding:clamp(14px,2vh,22px) clamp(12px,1.4vw,18px); position:relative; animation:pulse-glow 4s ease-in-out infinite;">
+        <div style="position:absolute; top:-11px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:clamp(0.52rem,0.68vw,0.6rem); font-weight:700; padding:3px 12px; border-radius:20px; background:rgba(74,158,255,0.25); color:var(--accent); border:1px solid rgba(74,158,255,0.4); box-shadow:0 0 12px rgba(74,158,255,0.15);">STAGE 5</div>
+        <div style="text-align:center;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" style="margin:0 auto; filter:drop-shadow(0 0 8px rgba(74,158,255,0.4));">
+            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <p style="font-family:var(--font-display); font-size:clamp(1.15rem,1.7vw,1.4rem); font-style:italic; color:var(--accent); margin-top:0.3rem;">Query</p>
+          <p style="font-family:var(--font-editorial); font-size:clamp(0.78rem,1.05vw,0.92rem); font-style:italic; color:var(--text-dim); margin-top:0.25rem; line-height:1.45;">Busca + Claude responde</p>
+        </div>
       </div>
-      <div style="background:var(--code-bg); border:1.5px solid rgba(74,158,255,0.25); border-top:none; border-radius:0 0 14px 14px; padding:clamp(10px,1.5vh,18px) clamp(10px,1.3vw,16px); flex:1; display:flex; flex-direction:column;">
-        <p style="font-family:var(--font-mono); font-size:clamp(0.58rem,0.78vw,0.68rem); color:var(--accent); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem; font-weight:600;">Similarity Search</p>
-        <div style="font-family:var(--font-mono); font-size:clamp(0.6rem,0.82vw,0.72rem); color:var(--code-text); line-height:1.6;">
+      <div style="background:linear-gradient(180deg, var(--code-bg) 0%, rgba(74,158,255,0.03) 100%); border:1.5px solid rgba(74,158,255,0.2); border-top:none; border-left:none; border-radius:0 0 16px 0; padding:clamp(10px,1.5vh,16px) clamp(10px,1.2vw,14px); flex:1;">
+        <p style="font-family:var(--font-mono); font-size:clamp(0.62rem,0.82vw,0.72rem); color:var(--accent); letter-spacing:0.1em; font-weight:600; margin-bottom:0.5rem;">Similarity Search</p>
+        <div style="font-family:var(--font-mono); font-size:clamp(0.65rem,0.88vw,0.76rem); color:var(--code-text); line-height:1.7;">
           <span style="color:var(--accent);">query:</span><br>
           &nbsp;<span style="color:var(--green);">"Clientes reclamando<br>&nbsp;&nbsp;de entrega"</span><br>
           <span style="color:var(--accent);">top_k:</span> <span style="color:var(--gold);">5</span><br><br>
-          <span style="color:var(--text-dim);">results:</span><br>
-          &nbsp;<span style="color:var(--green);">[0.92]</span> <span style="color:var(--silver);">"Demorou demais"</span><br>
-          &nbsp;<span style="color:var(--green);">[0.87]</span> <span style="color:var(--silver);">"Entrega atrasou"</span>
+          <span style="color:var(--silver);">results:</span><br>
+          &nbsp;<span style="color:var(--green);">0.92</span> <span style="color:var(--text);">"Demorou demais"</span><br>
+          &nbsp;<span style="color:var(--green);">0.87</span> <span style="color:var(--text);">"Entrega atrasou"</span>
         </div>
-        <p style="font-family:var(--font-mono); font-size:clamp(0.52rem,0.7vw,0.6rem); color:var(--text-dim); margin-top:auto; padding-top:0.4rem; text-align:center;">similarity_top_k=5</p>
       </div>
     </div>
+
+    <!-- FLOW CONNECTOR LINE (behind cards) -->
+    <div style="position:absolute; top:50%; left:0; right:0; height:2px; background:linear-gradient(90deg, rgba(212,175,55,0.4) 0%, rgba(74,158,255,0.3) 20%, rgba(167,139,250,0.3) 40%, rgba(63,185,80,0.3) 60%, rgba(74,158,255,0.5) 100%); z-index:0;"></div>
   </div>
 
-  <!-- Bottom bar -->
-  <div class="reveal" style="margin-top:clamp(8px,1.2vh,14px); padding-top:clamp(8px,1.2vh,14px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(12px,2vw,24px);">
-    <p style="font-family:var(--font-editorial); font-size:clamp(0.88rem,1.4vw,1.08rem); font-style:italic; color:var(--text-dim); line-height:1.4; flex:1;">
-      O <strong style="color:var(--accent);">RAG pipeline</strong> tem duas fases: <strong style="color:var(--gold);">offline</strong> (ingestão &mdash; stages 1-4, acontece uma vez) e <strong style="color:var(--accent);">online</strong> (query &mdash; stage 5, a cada pergunta). O texto vira número, o número vira busca, a busca vira resposta.
-    </p>
-    <div style="display:flex; gap:0.4rem; flex-shrink:0; flex-wrap:wrap;">
-      <span class="tag tag-gold">Offline</span>
-      <span class="tag tag-accent">Online</span>
-      <span class="tag tag-purple">768 dims</span>
+  <!-- BOTTOM — Tech stack + teaching note -->
+  <div class="reveal" style="margin-top:clamp(10px,1.5vh,16px); display:grid; grid-template-columns:auto 1fr; gap:clamp(16px,2vw,28px); align-items:center; padding-top:clamp(8px,1vh,12px); border-top:1px solid var(--border);">
+    <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
+      <span class="tag tag-gold">JSONL</span>
+      <span class="tag tag-accent">LlamaIndex</span>
+      <span class="tag tag-purple">FastEmbed</span>
+      <span class="tag tag-green">Qdrant</span>
+      <span class="tag tag-accent">Claude</span>
     </div>
+    <p style="font-family:var(--font-editorial); font-size:clamp(0.82rem,1.2vw,1rem); font-style:italic; color:var(--text-dim); line-height:1.45;">Duas fases: <strong style="color:var(--gold);">offline</strong> (stages 1-4, acontece uma vez) e <strong style="color:var(--accent);">online</strong> (stage 5, a cada pergunta). Texto vira número, número vira busca, busca vira resposta.</p>
   </div>
 </section>
 
 <!-- ================================================================ -->
 <!-- SLIDE 26 — FLOW ARCHITECTURE: RAG EVOLUTION                     -->
 <!-- ================================================================ -->
-<section class="slide" style="justify-content:center; padding-top:clamp(28px,4vh,48px); padding-bottom:clamp(18px,2.5vh,32px); background-image: radial-gradient(ellipse at 50% 30%, rgba(74,158,255,0.05) 0%, transparent 50%), radial-gradient(ellipse at 30% 80%, rgba(212,175,55,0.03) 0%, transparent 40%);">
+<section class="slide" style="justify-content:flex-start; padding-top:clamp(20px,3vh,36px); padding-bottom:clamp(8px,1.2vh,16px); background-image: radial-gradient(ellipse at 50% 30%, rgba(74,158,255,0.05) 0%, transparent 50%), radial-gradient(ellipse at 30% 80%, rgba(212,175,55,0.03) 0%, transparent 40%);">
 
   <p class="slide__label reveal">RAG Evolution</p>
-  <h2 class="slide__heading reveal" style="font-size:clamp(30px,5.5vw,56px); font-style:italic; margin-bottom:clamp(8px,1.2vh,14px);">O Futuro do RAG &mdash; <span style="color:var(--gold);">Tipos e Evolução</span></h2>
+  <h2 class="slide__heading reveal" style="font-size:clamp(26px,4vw,44px); font-style:italic; margin-bottom:clamp(4px,0.6vh,8px);">O Futuro do RAG &mdash; <span style="color:var(--gold);">Tipos e Evolução</span></h2>
 
   <div class="reveal" style="flex:1; display:flex; align-items:center; justify-content:center;">
-    <svg viewBox="0 0 1060 510" style="width:100%; max-height:clamp(340px,63vh,540px);">
+    <svg viewBox="0 0 960 460" style="width:100%; max-height:clamp(400px,72vh,600px);">
 
       <!-- ═══════ TIER 3: Agentic RAG (gold, top, aspirational) ═══════ -->
-      <rect x="40" y="10" width="980" height="150" rx="16" fill="rgba(212,175,55,0.06)" stroke="#d4af37" stroke-width="2"/>
-      <rect x="40" y="10" width="980" height="4" rx="2" fill="#d4af37" opacity="0.8"/>
+      <rect x="20" y="8" width="920" height="140" rx="14" fill="rgba(212,175,55,0.06)" stroke="#d4af37" stroke-width="2"/>
+      <rect x="20" y="8" width="920" height="4" rx="2" fill="#d4af37" opacity="0.8"/>
       <!-- Tier badge -->
-      <rect x="56" y="22" width="160" height="24" rx="8" fill="rgba(212,175,55,0.2)" stroke="#d4af37" stroke-width="1"/>
-      <text x="136" y="39" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#d4af37" font-weight="700" letter-spacing="1.5">TIER 3 · DIA 3</text>
+      <rect x="36" y="20" width="155" height="26" rx="8" fill="rgba(212,175,55,0.2)" stroke="#d4af37" stroke-width="1"/>
+      <text x="113" y="38" text-anchor="middle" font-family="'Fira Code',monospace" font-size="12" fill="#d4af37" font-weight="700" letter-spacing="1.5">TIER 3 · DIA 3</text>
       <!-- Title + description -->
-      <text x="80" y="68" font-family="'Instrument Serif',serif" font-size="28" fill="#d4af37" font-style="italic">Agentic RAG</text>
-      <text x="80" y="88" font-family="'Newsreader',serif" font-size="12.5" fill="#e8edf5" font-style="italic">O agente decide quando recuperar, o que buscar e como combinar RAG + SQL. Totalmente autônomo.</text>
+      <text x="60" y="68" font-family="'Instrument Serif',serif" font-size="26" fill="#d4af37" font-style="italic">Agentic RAG</text>
+      <text x="60" y="86" font-family="'Newsreader',serif" font-size="13" fill="#e8edf5" font-style="italic">O agente decide quando recuperar, o que buscar e como combinar RAG + SQL. Totalmente autônomo.</text>
       <!-- Flow: Agent Decides → [Qdrant | Postgres] → Combine → Respond -->
-      <rect x="360" y="100" width="130" height="34" rx="10" fill="rgba(212,175,55,0.15)" stroke="#d4af37" stroke-width="1.5"/>
-      <text x="425" y="122" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#d4af37">Agent Decides</text>
+      <rect x="300" y="98" width="140" height="38" rx="10" fill="rgba(212,175,55,0.15)" stroke="#d4af37" stroke-width="1.5"/>
+      <text x="370" y="122" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#d4af37">Agent Decides</text>
       <!-- Branch lines -->
-      <line x1="493" y1="110" x2="536" y2="104" stroke="#3fb950" stroke-width="1.2" opacity="0.6" stroke-dasharray="4 3"/>
-      <line x1="493" y1="124" x2="536" y2="130" stroke="#4a9eff" stroke-width="1.2" opacity="0.6" stroke-dasharray="4 3"/>
-      <rect x="538" y="88" width="94" height="32" rx="9" fill="rgba(63,185,80,0.1)" stroke="#3fb950" stroke-width="1.2"/>
-      <text x="585" y="109" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#3fb950">Qdrant</text>
-      <rect x="538" y="124" width="94" height="32" rx="9" fill="rgba(74,158,255,0.1)" stroke="#4a9eff" stroke-width="1.2"/>
-      <text x="585" y="145" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#4a9eff">Postgres</text>
+      <line x1="443" y1="110" x2="490" y2="104" stroke="#3fb950" stroke-width="1.5" opacity="0.7" stroke-dasharray="4 3"/>
+      <line x1="443" y1="124" x2="490" y2="130" stroke="#4a9eff" stroke-width="1.5" opacity="0.7" stroke-dasharray="4 3"/>
+      <rect x="494" y="86" width="100" height="36" rx="10" fill="rgba(63,185,80,0.1)" stroke="#3fb950" stroke-width="1.2"/>
+      <text x="544" y="110" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#3fb950">Qdrant</text>
+      <rect x="494" y="126" width="100" height="36" rx="10" fill="rgba(74,158,255,0.1)" stroke="#4a9eff" stroke-width="1.2"/>
+      <text x="544" y="150" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#4a9eff">Postgres</text>
       <!-- Merge lines -->
-      <line x1="635" y1="104" x2="678" y2="117" stroke="#d4af37" stroke-width="1.2" opacity="0.6" stroke-dasharray="4 3"/>
-      <line x1="635" y1="140" x2="678" y2="117" stroke="#d4af37" stroke-width="1.2" opacity="0.6" stroke-dasharray="4 3"/>
-      <rect x="680" y="100" width="104" height="34" rx="10" fill="rgba(212,175,55,0.12)" stroke="#d4af37" stroke-width="1.2"/>
-      <text x="732" y="122" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#d4af37">Combine</text>
-      <line x1="787" y1="117" x2="820" y2="117" stroke="#d4af37" stroke-width="1.5" opacity="0.5" stroke-dasharray="4 3"/>
-      <rect x="822" y="100" width="114" height="34" rx="10" fill="rgba(212,175,55,0.18)" stroke="#d4af37" stroke-width="1.5"/>
-      <text x="879" y="122" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" font-weight="600" fill="#d4af37">Respond</text>
-      <!-- Tags -->
-      <text x="80" y="148" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37" letter-spacing="1.2" opacity="0.8">LANGCHAIN · MULTI-TOOL · AUTÔNOMO</text>
+      <line x1="597" y1="104" x2="640" y2="117" stroke="#d4af37" stroke-width="1.5" opacity="0.7" stroke-dasharray="4 3"/>
+      <line x1="597" y1="144" x2="640" y2="117" stroke="#d4af37" stroke-width="1.5" opacity="0.7" stroke-dasharray="4 3"/>
+      <rect x="644" y="98" width="110" height="38" rx="10" fill="rgba(212,175,55,0.12)" stroke="#d4af37" stroke-width="1.2"/>
+      <text x="699" y="122" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#d4af37">Combine</text>
+      <line x1="757" y1="117" x2="788" y2="117" stroke="#d4af37" stroke-width="1.5" opacity="0.6" stroke-dasharray="4 3"/>
+      <rect x="792" y="98" width="120" height="38" rx="10" fill="rgba(212,175,55,0.18)" stroke="#d4af37" stroke-width="1.5"/>
+      <text x="852" y="122" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" font-weight="600" fill="#d4af37">Respond</text>
 
       <!-- ═══════ ARROW: T2 → T3 ═══════ -->
-      <rect x="490" y="163" width="80" height="26" rx="6" fill="rgba(212,175,55,0.1)" stroke="rgba(212,175,55,0.3)" stroke-width="1"/>
-      <text x="530" y="180" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#d4af37" opacity="0.8">↑ ASPIRAÇÃO</text>
+      <rect x="430" y="152" width="100" height="28" rx="7" fill="rgba(212,175,55,0.1)" stroke="rgba(212,175,55,0.3)" stroke-width="1"/>
+      <text x="480" y="170" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#d4af37">↑ ASPIRAÇÃO</text>
 
       <!-- ═══════ TIER 2: Advanced RAG (blue, middle, "you are here") ═══════ -->
-      <rect x="40" y="196" width="980" height="150" rx="16" fill="rgba(74,158,255,0.06)" stroke="#4a9eff" stroke-width="2"/>
-      <rect x="40" y="196" width="980" height="4" rx="2" fill="#4a9eff" opacity="0.7"/>
+      <rect x="20" y="186" width="920" height="140" rx="14" fill="rgba(74,158,255,0.06)" stroke="#4a9eff" stroke-width="2"/>
+      <rect x="20" y="186" width="920" height="4" rx="2" fill="#4a9eff" opacity="0.7"/>
       <!-- Tier badge -->
-      <rect x="56" y="208" width="175" height="24" rx="8" fill="rgba(74,158,255,0.18)" stroke="#4a9eff" stroke-width="1"/>
-      <text x="144" y="225" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#4a9eff" font-weight="700" letter-spacing="1.5">TIER 2 · HOJE</text>
+      <rect x="36" y="198" width="170" height="26" rx="8" fill="rgba(74,158,255,0.18)" stroke="#4a9eff" stroke-width="1"/>
+      <text x="121" y="216" text-anchor="middle" font-family="'Fira Code',monospace" font-size="12" fill="#4a9eff" font-weight="700" letter-spacing="1.5">TIER 2 · HOJE</text>
       <!-- Title + description -->
-      <text x="80" y="254" font-family="'Instrument Serif',serif" font-size="28" fill="#4a9eff" font-style="italic">Advanced RAG</text>
-      <text x="80" y="274" font-family="'Newsreader',serif" font-size="12.5" fill="#e8edf5" font-style="italic">Pre-retrieval (query expansion) + Post-retrieval (reranking). O que construímos hoje com LlamaIndex.</text>
+      <text x="60" y="248" font-family="'Instrument Serif',serif" font-size="26" fill="#4a9eff" font-style="italic">Advanced RAG</text>
+      <text x="60" y="266" font-family="'Newsreader',serif" font-size="13" fill="#e8edf5" font-style="italic">Pre-retrieval (query expansion) + Post-retrieval (reranking). O que construímos hoje com LlamaIndex.</text>
       <!-- Flow: Query Expand → Embed → Search → Rerank → Respond -->
-      <rect x="360" y="288" width="114" height="34" rx="10" fill="rgba(74,158,255,0.1)" stroke="#4a9eff" stroke-width="1.2"/>
-      <text x="417" y="310" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#4a9eff">Query Expand</text>
-      <line x1="477" y1="305" x2="500" y2="305" stroke="#4a9eff" stroke-width="1.5" opacity="0.4" stroke-dasharray="4 3"/>
-      <rect x="503" y="288" width="86" height="34" rx="10" fill="rgba(74,158,255,0.1)" stroke="#4a9eff" stroke-width="1.2"/>
-      <text x="546" y="310" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#4a9eff">Embed</text>
-      <line x1="592" y1="305" x2="615" y2="305" stroke="#4a9eff" stroke-width="1.5" opacity="0.4" stroke-dasharray="4 3"/>
-      <rect x="618" y="288" width="86" height="34" rx="10" fill="rgba(74,158,255,0.1)" stroke="#4a9eff" stroke-width="1.2"/>
-      <text x="661" y="310" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#4a9eff">Search</text>
-      <line x1="707" y1="305" x2="730" y2="305" stroke="#4a9eff" stroke-width="1.5" opacity="0.4" stroke-dasharray="4 3"/>
-      <rect x="733" y="288" width="86" height="34" rx="10" fill="rgba(74,158,255,0.1)" stroke="#4a9eff" stroke-width="1.2"/>
-      <text x="776" y="310" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#4a9eff">Rerank</text>
-      <line x1="822" y1="305" x2="845" y2="305" stroke="#4a9eff" stroke-width="1.5" opacity="0.4" stroke-dasharray="4 3"/>
-      <rect x="848" y="288" width="96" height="34" rx="10" fill="rgba(74,158,255,0.12)" stroke="#4a9eff" stroke-width="1.2"/>
-      <text x="896" y="310" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" font-weight="600" fill="#4a9eff">Respond</text>
-      <!-- Tags -->
-      <text x="80" y="336" font-family="'Fira Code',monospace" font-size="10" fill="#4a9eff" letter-spacing="1.2" opacity="0.8">LLAMAINDEX · FASTEMBED · DIA 2</text>
+      <rect x="260" y="278" width="120" height="38" rx="10" fill="rgba(74,158,255,0.1)" stroke="#4a9eff" stroke-width="1.2"/>
+      <text x="320" y="302" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" fill="#4a9eff">Query Expand</text>
+      <line x1="383" y1="297" x2="408" y2="297" stroke="#4a9eff" stroke-width="1.5" opacity="0.5" stroke-dasharray="4 3"/>
+      <rect x="412" y="278" width="96" height="38" rx="10" fill="rgba(74,158,255,0.1)" stroke="#4a9eff" stroke-width="1.2"/>
+      <text x="460" y="302" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#4a9eff">Embed</text>
+      <line x1="511" y1="297" x2="536" y2="297" stroke="#4a9eff" stroke-width="1.5" opacity="0.5" stroke-dasharray="4 3"/>
+      <rect x="540" y="278" width="96" height="38" rx="10" fill="rgba(74,158,255,0.1)" stroke="#4a9eff" stroke-width="1.2"/>
+      <text x="588" y="302" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#4a9eff">Search</text>
+      <line x1="639" y1="297" x2="664" y2="297" stroke="#4a9eff" stroke-width="1.5" opacity="0.5" stroke-dasharray="4 3"/>
+      <rect x="668" y="278" width="96" height="38" rx="10" fill="rgba(74,158,255,0.1)" stroke="#4a9eff" stroke-width="1.2"/>
+      <text x="716" y="302" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#4a9eff">Rerank</text>
+      <line x1="767" y1="297" x2="792" y2="297" stroke="#4a9eff" stroke-width="1.5" opacity="0.5" stroke-dasharray="4 3"/>
+      <rect x="796" y="278" width="110" height="38" rx="10" fill="rgba(74,158,255,0.12)" stroke="#4a9eff" stroke-width="1.2"/>
+      <text x="851" y="302" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" font-weight="600" fill="#4a9eff">Respond</text>
 
       <!-- ═══════ ARROW: T1 → T2 ═══════ -->
-      <rect x="490" y="352" width="80" height="26" rx="6" fill="rgba(74,158,255,0.08)" stroke="rgba(74,158,255,0.25)" stroke-width="1"/>
-      <text x="530" y="369" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#4a9eff" opacity="0.7">↑ EVOLUÇÃO</text>
+      <rect x="430" y="330" width="100" height="28" rx="7" fill="rgba(74,158,255,0.08)" stroke="rgba(74,158,255,0.25)" stroke-width="1"/>
+      <text x="480" y="348" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#4a9eff" opacity="0.8">↑ EVOLUÇÃO</text>
 
       <!-- ═══════ TIER 1: Naive RAG (silver, bottom, faded) ═══════ -->
-      <rect x="40" y="384" width="980" height="110" rx="16" fill="rgba(176,190,197,0.03)" stroke="rgba(176,190,197,0.2)" stroke-width="1"/>
+      <rect x="20" y="364" width="920" height="90" rx="14" fill="rgba(176,190,197,0.03)" stroke="rgba(176,190,197,0.2)" stroke-width="1"/>
       <!-- Tier badge -->
-      <rect x="56" y="394" width="100" height="22" rx="7" fill="rgba(176,190,197,0.08)"/>
-      <text x="106" y="409" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#7a8898" font-weight="600" letter-spacing="1.5">TIER 1</text>
+      <rect x="36" y="374" width="100" height="24" rx="7" fill="rgba(176,190,197,0.08)"/>
+      <text x="86" y="391" text-anchor="middle" font-family="'Fira Code',monospace" font-size="11" fill="#7a8898" font-weight="600" letter-spacing="1.5">TIER 1</text>
       <!-- Title + description -->
-      <text x="80" y="438" font-family="'Instrument Serif',serif" font-size="24" fill="#7a8898" font-style="italic">Naive RAG</text>
-      <text x="280" y="438" font-family="'Newsreader',serif" font-size="12" fill="#8a98a8" font-style="italic">Chunk tudo, busca direta, sem refinamento. Ponto de partida — funciona, mas é limitado.</text>
+      <text x="60" y="418" font-family="'Instrument Serif',serif" font-size="22" fill="#7a8898" font-style="italic">Naive RAG</text>
+      <text x="230" y="418" font-family="'Newsreader',serif" font-size="12" fill="#9aabb8" font-style="italic">Chunk tudo, busca direta, sem refinamento. Ponto de partida — funciona, mas é limitado.</text>
       <!-- Flow: Chunk → Embed → Search → Respond -->
-      <rect x="360" y="452" width="86" height="30" rx="9" fill="rgba(176,190,197,0.04)" stroke="rgba(176,190,197,0.18)" stroke-width="1"/>
-      <text x="403" y="472" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#7a8898">Chunk</text>
-      <line x1="449" y1="467" x2="475" y2="467" stroke="rgba(176,190,197,0.25)" stroke-width="1.2" stroke-dasharray="4 3"/>
-      <rect x="478" y="452" width="86" height="30" rx="9" fill="rgba(176,190,197,0.04)" stroke="rgba(176,190,197,0.18)" stroke-width="1"/>
-      <text x="521" y="472" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#7a8898">Embed</text>
-      <line x1="567" y1="467" x2="593" y2="467" stroke="rgba(176,190,197,0.25)" stroke-width="1.2" stroke-dasharray="4 3"/>
-      <rect x="596" y="452" width="86" height="30" rx="9" fill="rgba(176,190,197,0.04)" stroke="rgba(176,190,197,0.18)" stroke-width="1"/>
-      <text x="639" y="472" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#7a8898">Search</text>
-      <line x1="685" y1="467" x2="711" y2="467" stroke="rgba(176,190,197,0.25)" stroke-width="1.2" stroke-dasharray="4 3"/>
-      <rect x="714" y="452" width="96" height="30" rx="9" fill="rgba(176,190,197,0.04)" stroke="rgba(176,190,197,0.18)" stroke-width="1"/>
-      <text x="762" y="472" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="13" font-style="italic" fill="#7a8898">Respond</text>
-      <!-- Tags -->
-      <text x="80" y="484" font-family="'Fira Code',monospace" font-size="10" fill="#555f6c" letter-spacing="1.2">SIMPLES · LIMITADO · PONTO DE PARTIDA</text>
+      <rect x="320" y="430" width="96" height="34" rx="10" fill="rgba(176,190,197,0.04)" stroke="rgba(176,190,197,0.2)" stroke-width="1"/>
+      <text x="368" y="452" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" fill="#7a8898">Chunk</text>
+      <line x1="419" y1="447" x2="444" y2="447" stroke="rgba(176,190,197,0.3)" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <rect x="448" y="430" width="96" height="34" rx="10" fill="rgba(176,190,197,0.04)" stroke="rgba(176,190,197,0.2)" stroke-width="1"/>
+      <text x="496" y="452" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" fill="#7a8898">Embed</text>
+      <line x1="547" y1="447" x2="572" y2="447" stroke="rgba(176,190,197,0.3)" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <rect x="576" y="430" width="96" height="34" rx="10" fill="rgba(176,190,197,0.04)" stroke="rgba(176,190,197,0.2)" stroke-width="1"/>
+      <text x="624" y="452" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" fill="#7a8898">Search</text>
+      <line x1="675" y1="447" x2="700" y2="447" stroke="rgba(176,190,197,0.3)" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <rect x="704" y="430" width="110" height="34" rx="10" fill="rgba(176,190,197,0.04)" stroke="rgba(176,190,197,0.2)" stroke-width="1"/>
+      <text x="759" y="452" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="15" font-style="italic" fill="#7a8898">Respond</text>
 
     </svg>
   </div>
 
   <!-- Bottom bar -->
-  <div class="reveal" style="margin-top:auto; padding-top:clamp(10px,1.5vh,16px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px);">
-    <p style="font-family:var(--font-editorial); font-size:clamp(0.92rem,1.5vw,1.15rem); font-style:italic; color:var(--text-dim); line-height:1.5; flex:1;">
-      O <strong style="color:var(--gold);">Agentic RAG</strong> não é ficção científica &mdash; é o que o ShopAgent vai fazer no Dia 3: o agente decide sozinho se consulta o Qdrant, o Postgres, ou os dois.
+  <div class="reveal" style="margin-top:auto; padding-top:clamp(6px,1vh,12px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(12px,2vw,24px);">
+    <p style="font-family:var(--font-editorial); font-size:clamp(0.85rem,1.3vw,1.05rem); font-style:italic; color:var(--text-dim); line-height:1.4; flex:1;">
+      O <strong style="color:var(--gold);">Agentic RAG</strong> do Dia 3: o agente decide sozinho se consulta Qdrant, Postgres, ou os dois.
     </p>
     <div style="display:flex; gap:0.5rem; flex-shrink:0;">
       <span class="tag tag-silver">Naive RAG</span>
@@ -3869,18 +3645,32 @@
       </div>
 
       <!-- SQL Code Block -->
-      <div style="background:var(--code-bg); border:1.5px solid rgba(74,158,255,0.15); border-radius:12px; padding:clamp(14px,2vh,24px) clamp(16px,2vw,24px); flex:1;">
-        <div style="font-family:var(--font-mono); font-size:clamp(0.72rem,1vw,0.88rem); line-height:1.7; color:var(--code-text);">
-          <span style="color:var(--purple);">SELECT</span> <span style="color:var(--silver-bright);">AVG</span>(<span style="color:var(--silver);">o.total</span>)<br>
-          <span style="color:var(--purple);">FROM</span> <span style="color:var(--accent);">orders</span> o<br>
-          <span style="color:var(--purple);">JOIN</span> <span style="color:var(--accent);">customers</span> c<br>
-          &nbsp;&nbsp;<span style="color:var(--purple);">ON</span> <span style="color:var(--silver);">o.customer_id</span> = <span style="color:var(--silver);">c.customer_id</span><br>
-          <span style="color:var(--purple);">WHERE</span> <span style="color:var(--silver);">c.segment</span> = <span style="color:var(--green);">'premium'</span><br>
-          <span style="color:var(--purple);">AND</span> <span style="color:var(--silver);">c.state</span> <span style="color:var(--purple);">IN</span> (<span style="color:var(--green);">'SP','RJ','MG','ES'</span>)
+      <div style="background:var(--code-bg); border:1.5px solid rgba(74,158,255,0.2); border-radius:12px; overflow:hidden; flex:1; display:flex; flex-direction:column; box-shadow:0 4px 24px rgba(0,0,0,0.4);">
+        <!-- Terminal chrome -->
+        <div style="background:linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%); padding:clamp(6px,0.8vh,10px) clamp(12px,1.5vw,18px); display:flex; align-items:center; gap:6px; border-bottom:1px solid var(--border);">
+          <div style="width:9px; height:9px; border-radius:50%; background:var(--red); box-shadow:0 0 4px rgba(248,81,73,0.3);"></div>
+          <div style="width:9px; height:9px; border-radius:50%; background:var(--gold); box-shadow:0 0 4px rgba(212,175,55,0.3);"></div>
+          <div style="width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 4px rgba(63,185,80,0.3);"></div>
+          <span style="font-family:var(--font-mono); font-size:clamp(0.52rem,0.7vw,0.6rem); color:var(--text-dim); margin-left:8px; letter-spacing:0.06em;">shopagent_ledger.sql</span>
         </div>
-        <div style="margin-top:clamp(10px,1.5vh,16px); padding-top:clamp(8px,1vh,12px); border-top:1px solid rgba(74,158,255,0.1);">
-          <p style="font-family:var(--font-mono); font-size:clamp(0.6rem,0.82vw,0.72rem); color:var(--text-dim); line-height:1.5;"><span style="color:var(--text-dim);">--</span> executa no Postgres via MCP Supabase</p>
-          <p style="font-family:var(--font-mono); font-size:clamp(0.6rem,0.82vw,0.72rem); color:var(--green); line-height:1.5;"><span style="color:var(--green);">--</span> retorna: AVG = 347.82, COUNT = 23</p>
+        <div style="padding:clamp(16px,2.5vh,28px) clamp(18px,2.5vw,28px); flex:1; display:flex; flex-direction:column; justify-content:center;">
+          <div style="font-family:var(--font-mono); font-size:clamp(0.85rem,1.2vw,1.02rem); line-height:1.85; color:var(--code-text);">
+            <span style="color:var(--purple); font-weight:600;">SELECT</span> <span style="color:var(--silver-bright);">AVG</span><span style="color:var(--text-dim);">(</span><span style="color:var(--silver);">o.total</span><span style="color:var(--text-dim);">)</span><br>
+            <span style="color:var(--purple); font-weight:600;">FROM</span> <span style="color:var(--accent);">orders</span> <span style="color:var(--text-dim);">o</span><br>
+            <span style="color:var(--purple); font-weight:600;">JOIN</span> <span style="color:var(--accent);">customers</span> <span style="color:var(--text-dim);">c</span><br>
+            &nbsp;&nbsp;<span style="color:var(--purple); font-weight:600;">ON</span> <span style="color:var(--silver);">o.customer_id</span> <span style="color:var(--text-dim);">=</span> <span style="color:var(--silver);">c.customer_id</span><br>
+            <span style="color:var(--purple); font-weight:600;">WHERE</span> <span style="color:var(--silver);">c.segment</span> <span style="color:var(--text-dim);">=</span> <span style="color:var(--green);">'premium'</span><br>
+            <span style="color:var(--purple); font-weight:600;">AND</span> <span style="color:var(--silver);">c.state</span> <span style="color:var(--purple); font-weight:600;">IN</span> <span style="color:var(--text-dim);">(</span><span style="color:var(--green);">'SP'</span><span style="color:var(--text-dim);">,</span> <span style="color:var(--green);">'RJ'</span><span style="color:var(--text-dim);">,</span> <span style="color:var(--green);">'MG'</span><span style="color:var(--text-dim);">,</span> <span style="color:var(--green);">'ES'</span><span style="color:var(--text-dim);">)</span>
+          </div>
+          <div style="margin-top:clamp(12px,1.8vh,18px); padding-top:clamp(10px,1.2vh,14px); border-top:1px solid rgba(74,158,255,0.1); display:flex; align-items:center; gap:clamp(8px,1vw,14px); flex-wrap:wrap;">
+            <div style="display:flex; align-items:center; gap:0.3rem;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <p style="font-family:var(--font-mono); font-size:clamp(0.68rem,0.95vw,0.82rem); color:var(--green); font-weight:600;">AVG = 347.82</p>
+            </div>
+            <div style="width:1px; height:14px; background:var(--border);"></div>
+            <p style="font-family:var(--font-mono); font-size:clamp(0.65rem,0.9vw,0.78rem); color:var(--text-dim);">23 customers &middot; 98 orders</p>
+            <p style="font-family:var(--font-mono); font-size:clamp(0.52rem,0.72vw,0.62rem); color:var(--accent); opacity:0.7; letter-spacing:0.08em; margin-left:auto;">via MCP Supabase</p>
+          </div>
         </div>
       </div>
 
@@ -4053,89 +3843,194 @@
 </section>
 
 <!-- ================================================================ -->
-<!-- SLIDE 34 — METHOD GRID: RAG em Ação                             -->
+<!-- SLIDE 34 — RAG EM AÇÃO: Full SVG Pipeline Flow (Redesigned)     -->
 <!-- ================================================================ -->
-<section class="slide" style="justify-content:flex-start; padding-top:clamp(28px,4vh,48px); background-image: radial-gradient(ellipse at 30% 20%, rgba(63,185,80,0.05) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(74,158,255,0.02) 0%, transparent 40%);">
+<section class="slide" style="justify-content:flex-start; padding-top:clamp(28px,4vh,48px); background-image: radial-gradient(ellipse at 20% 20%, rgba(63,185,80,0.06) 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, rgba(74,158,255,0.04) 0%, transparent 40%), radial-gradient(ellipse at 50% 50%, rgba(212,175,55,0.02) 0%, transparent 50%);">
   <p class="slide__label reveal" style="color:var(--green);">RAG EM AÇÃO</p>
-  <h2 class="slide__heading reveal" style="font-style:italic; font-size:clamp(32px,6vw,60px);">Pergunta <span style="color:var(--green);">Semântica</span> &rarr; Contexto &rarr; <span style="color:var(--accent);">Resposta</span></h2>
+  <h2 class="slide__heading reveal" style="font-style:italic; font-size:clamp(32px,6vw,60px); margin-bottom:clamp(2px,0.4vh,6px);">Pergunta <span style="color:var(--green);">Semântica</span> &rarr; Contexto &rarr; <span style="color:var(--accent);">Resposta</span></h2>
+  <p class="reveal" style="font-family:var(--font-editorial); font-size:clamp(0.92rem,1.4vw,1.1rem); font-style:italic; color:var(--text-dim); line-height:1.5; margin-bottom:clamp(6px,1vh,10px);">A mesma pergunta que antes gerava alucinação &mdash; agora retorna dados reais do Qdrant.</p>
 
-  <div class="reveal" style="display:grid; grid-template-columns:1fr 64px 1fr; gap:0; flex:1; margin-top:clamp(12px,2vh,20px);">
+  <!-- Full-width SVG RAG Pipeline -->
+  <div class="reveal" style="flex:1; display:flex; align-items:center; justify-content:center;">
+    <svg viewBox="0 0 1100 460" style="width:100%; max-height:clamp(320px,58vh,500px);">
+      <defs>
+        <filter id="rag-glow-green"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="rag-glow-blue"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="rag-glow-gold"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <linearGradient id="rag-flow-1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#3fb950" stop-opacity="0.6"/><stop offset="100%" stop-color="#a78bfa" stop-opacity="0.5"/></linearGradient>
+        <linearGradient id="rag-flow-2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#a78bfa" stop-opacity="0.5"/><stop offset="100%" stop-color="#3fb950" stop-opacity="0.6"/></linearGradient>
+        <linearGradient id="rag-flow-3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#3fb950" stop-opacity="0.5"/><stop offset="100%" stop-color="#ef9000" stop-opacity="0.6"/></linearGradient>
+        <linearGradient id="rag-flow-4" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ef9000" stop-opacity="0.5"/><stop offset="100%" stop-color="#4a9eff" stop-opacity="0.6"/></linearGradient>
+      </defs>
 
-    <!-- LEFT: Query Semântica -->
-    <div style="background:var(--surface); border:1px solid rgba(63,185,80,0.15); border-radius:16px; padding:clamp(22px,3.5vh,36px) clamp(20px,3vw,32px); display:flex; flex-direction:column; transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;"
-      onmouseenter="this.style.borderColor='rgba(63,185,80,0.3)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(63,185,80,0.06)'"
-      onmouseleave="this.style.borderColor='rgba(63,185,80,0.15)';this.style.transform='none';this.style.boxShadow='none'">
-      <p style="font-family:var(--font-mono); font-size:clamp(0.65rem,0.9vw,0.75rem); font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:var(--green); margin-bottom:clamp(12px,2vh,18px);">Query Semântica</p>
+      <!-- ═══ STAGE 1: User Query (green, left) ═══ -->
+      <rect x="20" y="30" width="210" height="180" rx="18" fill="rgba(63,185,80,0.04)" stroke="#3fb950" stroke-width="2" filter="url(#rag-glow-green)"/>
+      <rect x="20" y="30" width="210" height="5" rx="3" fill="#3fb950" opacity="0.7"/>
+      <!-- Terminal header -->
+      <rect x="32" y="46" width="186" height="24" rx="8" fill="rgba(63,185,80,0.08)"/>
+      <circle cx="46" cy="58" r="4" fill="#f85149" opacity="0.6"/><circle cx="58" cy="58" r="4" fill="#d4af37" opacity="0.6"/><circle cx="70" cy="58" r="4" fill="#3fb950" opacity="0.6"/>
+      <text x="90" y="62" font-family="'Fira Code',monospace" font-size="9.5" fill="#6e7a8c">query</text>
 
-      <!-- Terminal box -->
-      <div style="background:var(--code-bg); border:1px solid rgba(63,185,80,0.12); border-radius:10px; padding:clamp(12px,1.8vh,18px) clamp(14px,2vw,20px); margin-bottom:clamp(14px,2vh,20px);">
-        <p style="font-family:var(--font-mono); font-size:clamp(0.72rem,1vw,0.85rem); color:var(--code-text); line-height:1.6;">
-          <span style="color:var(--green);">query_engine</span><span style="color:var(--text-dim);">.</span><span style="color:var(--accent);">query</span><span style="color:var(--text-dim);">(</span><span style="color:var(--green);">&quot;Clientes reclamando de entrega&quot;</span><span style="color:var(--text-dim);">)</span>
-        </p>
-      </div>
+      <text x="125" y="100" text-anchor="middle" font-family="'Newsreader',serif" font-size="14" font-style="italic" fill="#e8edf5">&ldquo;Clientes reclamando</text>
+      <text x="125" y="120" text-anchor="middle" font-family="'Newsreader',serif" font-size="14" font-style="italic" fill="#e8edf5">de entrega&rdquo;</text>
 
-      <!-- Process flow -->
-      <div style="display:flex; flex-direction:column; gap:clamp(8px,1.2vh,12px); flex:1;">
-        <div style="display:flex; align-items:center; gap:clamp(8px,1vw,12px);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" style="flex-shrink:0;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          <span style="font-family:var(--font-editorial); font-size:clamp(0.88rem,1.2vw,1.02rem); font-style:italic; color:var(--text-dim);">embed query &rarr; <strong style="color:var(--text);">vetor 768-dim</strong></span>
-        </div>
-        <div style="display:flex; align-items:center; gap:clamp(8px,1vw,12px);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" style="flex-shrink:0;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          <span style="font-family:var(--font-editorial); font-size:clamp(0.88rem,1.2vw,1.02rem); font-style:italic; color:var(--text-dim);">qdrant.search(<strong style="color:var(--text);">k=5</strong>) &rarr; top docs</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:clamp(8px,1vw,12px);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" style="flex-shrink:0;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          <span style="font-family:var(--font-editorial); font-size:clamp(0.88rem,1.2vw,1.02rem); font-style:italic; color:var(--text-dim);">retrieve &rarr; <strong style="color:var(--green);">contexto fundamentado</strong></span>
-        </div>
-      </div>
+      <!-- Query badge -->
+      <rect x="55" y="140" width="140" height="26" rx="13" fill="rgba(63,185,80,0.12)" stroke="rgba(63,185,80,0.3)" stroke-width="1"/>
+      <circle cx="73" cy="153" r="4" fill="#3fb950" opacity="0.6"/>
+      <text x="132" y="158" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="12" font-style="italic" fill="#3fb950">Linguagem Natural</text>
 
-      <!-- Result -->
-      <div style="margin-top:auto; padding-top:clamp(12px,1.8vh,18px); border-top:1px solid var(--border);">
-        <p style="font-family:var(--font-display); font-size:clamp(1.6rem,3vw,2.4rem); font-style:italic; color:var(--green); line-height:1;">23 reviews</p>
-        <p style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-dim); letter-spacing:0.08em; margin-top:clamp(4px,0.5vh,6px);">TEMA: ENTREGA ENCONTRADAS</p>
-      </div>
-    </div>
+      <!-- Stage number -->
+      <circle cx="125" cy="194" r="14" fill="rgba(63,185,80,0.15)" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="125" y="199" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#3fb950">1</text>
+      <text x="125" y="228" text-anchor="middle" font-family="'Fira Code',monospace" font-size="9.5" fill="#3fb950" letter-spacing="1.5">PERGUNTA</text>
 
-    <!-- CENTER DIVIDER with green search circle -->
-    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem;">
-      <div style="width:2px; flex:1; background:linear-gradient(180deg,transparent,rgba(63,185,80,0.3),transparent); max-height:30%"></div>
-      <div style="width:clamp(44px,5vh,56px); height:clamp(44px,5vh,56px); border-radius:50%; background:var(--green-dim); border:2px solid rgba(63,185,80,0.3); display:flex; align-items:center; justify-content:center; animation:pulse-green 4s ease-in-out infinite;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      </div>
-      <div style="width:2px; flex:1; background:linear-gradient(180deg,transparent,rgba(63,185,80,0.3),transparent); max-height:30%"></div>
-    </div>
 
-    <!-- RIGHT: Resposta com Contexto -->
-    <div style="background:linear-gradient(135deg, var(--surface) 0%, rgba(74,158,255,0.04) 100%); border:1px solid rgba(74,158,255,0.18); border-radius:16px; padding:clamp(22px,3.5vh,36px) clamp(20px,3vw,32px); display:flex; flex-direction:column; animation:pulse-glow 4s ease-in-out infinite; transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;"
-      onmouseenter="this.style.borderColor='rgba(74,158,255,0.35)';this.style.transform='translateY(-3px)'"
-      onmouseleave="this.style.borderColor='rgba(74,158,255,0.18)';this.style.transform='none'">
-      <p style="font-family:var(--font-mono); font-size:clamp(0.65rem,0.9vw,0.75rem); font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:var(--accent); margin-bottom:clamp(12px,2vh,18px);">Resposta com Contexto</p>
+      <!-- ═══ Flow Arrow 1→2 ═══ -->
+      <path d="M234,120 C260,120 270,120 290,120" stroke="url(#rag-flow-1)" stroke-width="2.5" fill="none" stroke-dasharray="6 4" class="flow-r"/>
 
-      <!-- Claude response -->
-      <div style="background:rgba(74,158,255,0.03); border:1px solid rgba(74,158,255,0.1); border-radius:12px; padding:clamp(16px,2.5vh,24px) clamp(14px,2vw,22px); flex:1;">
-        <p style="font-family:var(--font-editorial); font-size:clamp(0.92rem,1.3vw,1.08rem); font-style:italic; color:var(--text); line-height:1.7;">
-          &ldquo;Encontrei <strong style="color:var(--green);">23 reviews</strong> relacionadas a entrega. Temas principais: <strong style="color:var(--accent);">&lsquo;demorou 15 dias&rsquo;</strong> (15 ocorrências), <strong style="color:var(--orange);">&lsquo;ainda não recebi&rsquo;</strong> (5), <strong style="color:var(--red);">&lsquo;frete caro&rsquo;</strong> (3). Sentimento: <strong style="color:var(--red);">78% negativo</strong>.&rdquo;
-        </p>
-      </div>
 
-      <!-- Na prática -->
-      <div style="margin-top:auto; padding-top:clamp(10px,1.5vh,14px);">
-        <p style="font-family:var(--font-mono); font-size:clamp(0.62rem,0.8vw,0.72rem); color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.3rem;">Na prática:</p>
-        <div style="background:rgba(74,158,255,0.05); border:1px solid rgba(74,158,255,0.12); border-radius:8px; padding:0.5rem 0.6rem;">
-          <p style="font-family:var(--font-editorial); font-size:clamp(0.72rem,0.95vw,0.82rem); font-style:italic; color:var(--text-dim); line-height:1.45;">Claude <strong style="color:var(--text);">não inventou</strong> &lsquo;demorou 15 dias&rsquo;. Ele leu das reviews reais armazenadas no Qdrant.</p>
-        </div>
-      </div>
-    </div>
+      <!-- ═══ STAGE 2: Embed (purple, circle) ═══ -->
+      <circle cx="360" cy="120" r="68" fill="rgba(167,139,250,0.04)" stroke="#a78bfa" stroke-width="2"/>
+      <circle cx="360" cy="120" r="48" fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.2)" stroke-width="1"/>
+
+      <text x="360" y="102" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="18" font-style="italic" fill="#a78bfa">Embed</text>
+      <text x="360" y="122" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#c8d8e8">FastEmbed</text>
+      <text x="360" y="138" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#9aabb8">bge-base</text>
+
+      <!-- Vector output below -->
+      <rect x="316" y="156" width="88" height="22" rx="6" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.25)" stroke-width="1"/>
+      <text x="360" y="171" text-anchor="middle" font-family="'Fira Code',monospace" font-size="9.5" fill="#a78bfa">[0.23, ...768]</text>
+
+      <!-- Stage number -->
+      <circle cx="360" cy="200" r="14" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.5"/>
+      <text x="360" y="205" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#a78bfa">2</text>
+      <text x="360" y="228" text-anchor="middle" font-family="'Fira Code',monospace" font-size="9.5" fill="#a78bfa" letter-spacing="1.5">VETORIZAR</text>
+
+
+      <!-- ═══ Flow Arrow 2→3 ═══ -->
+      <path d="M432,120 C458,120 468,120 488,120" stroke="url(#rag-flow-2)" stroke-width="2.5" fill="none" stroke-dasharray="6 4" class="flow-r"/>
+
+
+      <!-- ═══ STAGE 3: Qdrant Search (green, large) ═══ -->
+      <rect x="494" y="20" width="220" height="200" rx="18" fill="rgba(63,185,80,0.03)" stroke="#3fb950" stroke-width="2"/>
+      <rect x="494" y="20" width="220" height="5" rx="3" fill="#3fb950" opacity="0.7"/>
+
+      <text x="604" y="54" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="20" font-style="italic" fill="#3fb950">Qdrant Search</text>
+      <text x="604" y="74" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#9aabb8">shopagent_reviews &middot; top_k=5</text>
+
+      <!-- Vector space mini-viz -->
+      <rect x="514" y="88" width="180" height="110" rx="12" fill="rgba(63,185,80,0.02)" stroke="rgba(63,185,80,0.1)" stroke-width="1" stroke-dasharray="4 3"/>
+
+      <!-- Matching docs (green dots) -->
+      <circle cx="554" cy="140" r="6" fill="#3fb950" opacity="0.7"/>
+      <circle cx="540" cy="125" r="5" fill="#3fb950" opacity="0.5"/>
+      <circle cx="568" cy="155" r="5" fill="#3fb950" opacity="0.6"/>
+      <circle cx="534" cy="152" r="4.5" fill="#3fb950" opacity="0.4"/>
+      <circle cx="562" cy="118" r="4" fill="#3fb950" opacity="0.5"/>
+      <!-- Query point -->
+      <circle cx="554" cy="140" r="14" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.5" stroke-dasharray="3 3"/>
+      <text x="554" y="108" text-anchor="middle" font-family="'Fira Code',monospace" font-size="9" fill="#d4af37">query</text>
+      <!-- Non-matching (dim) -->
+      <circle cx="650" cy="130" r="4" fill="#6e7a8c" opacity="0.3"/>
+      <circle cx="662" cy="148" r="3.5" fill="#6e7a8c" opacity="0.25"/>
+      <circle cx="670" cy="120" r="3" fill="#6e7a8c" opacity="0.2"/>
+      <!-- Similarity lines -->
+      <line x1="554" y1="140" x2="540" y2="125" stroke="#d4af37" stroke-width="1" opacity="0.3" stroke-dasharray="3 3"/>
+      <line x1="554" y1="140" x2="568" y2="155" stroke="#d4af37" stroke-width="1" opacity="0.3" stroke-dasharray="3 3"/>
+      <line x1="554" y1="140" x2="562" y2="118" stroke="#d4af37" stroke-width="1" opacity="0.3" stroke-dasharray="3 3"/>
+
+      <!-- Match count -->
+      <text x="626" y="180" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="24" font-style="italic" fill="#3fb950">23</text>
+      <text x="676" y="180" font-family="'Newsreader',serif" font-size="12" font-style="italic" fill="#c8d8e8">matches</text>
+
+      <!-- Stage number -->
+      <circle cx="604" cy="240" r="14" fill="rgba(63,185,80,0.12)" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="604" y="245" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#3fb950">3</text>
+      <text x="604" y="272" text-anchor="middle" font-family="'Fira Code',monospace" font-size="9.5" fill="#3fb950" letter-spacing="1.5">BUSCAR</text>
+
+
+      <!-- ═══ Flow Arrow 3→4 ═══ -->
+      <path d="M718,120 C744,120 754,120 774,120" stroke="url(#rag-flow-3)" stroke-width="2.5" fill="none" stroke-dasharray="6 4" class="flow-r"/>
+
+
+      <!-- ═══ STAGE 4: Context Assembly (orange) ═══ -->
+      <rect x="780" y="38" width="140" height="164" rx="16" fill="rgba(239,144,0,0.04)" stroke="#ef9000" stroke-width="1.5" filter="url(#rag-glow-gold)"/>
+      <rect x="780" y="38" width="140" height="5" rx="3" fill="#ef9000" opacity="0.6"/>
+
+      <text x="850" y="68" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#ef9000">Context</text>
+      <text x="850" y="86" text-anchor="middle" font-family="'Fira Code',monospace" font-size="10" fill="#9aabb8">assembly</text>
+
+      <!-- Stacked doc cards -->
+      <rect x="796" y="100" width="108" height="24" rx="6" fill="rgba(63,185,80,0.08)" stroke="rgba(63,185,80,0.2)" stroke-width="1"/>
+      <text x="850" y="116" text-anchor="middle" font-family="'Fira Code',monospace" font-size="9.5" fill="#3fb950">"demorou 15 dias"</text>
+      <rect x="796" y="128" width="108" height="24" rx="6" fill="rgba(63,185,80,0.06)" stroke="rgba(63,185,80,0.15)" stroke-width="1"/>
+      <text x="850" y="144" text-anchor="middle" font-family="'Fira Code',monospace" font-size="9.5" fill="#3fb950">"não recebi"</text>
+      <rect x="796" y="156" width="108" height="24" rx="6" fill="rgba(63,185,80,0.04)" stroke="rgba(63,185,80,0.12)" stroke-width="1"/>
+      <text x="850" y="172" text-anchor="middle" font-family="'Fira Code',monospace" font-size="9.5" fill="#9aabb8">"frete caro"</text>
+
+      <!-- Stage number -->
+      <circle cx="850" cy="220" r="14" fill="rgba(239,144,0,0.12)" stroke="#ef9000" stroke-width="1.5"/>
+      <text x="850" y="225" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#ef9000">4</text>
+      <text x="850" y="252" text-anchor="middle" font-family="'Fira Code',monospace" font-size="9.5" fill="#ef9000" letter-spacing="1.5">MONTAR</text>
+
+
+      <!-- ═══ Flow Arrow 4→5 ═══ -->
+      <path d="M924,120 C950,120 960,120 976,120" stroke="url(#rag-flow-4)" stroke-width="2.5" fill="none" stroke-dasharray="6 4" class="flow-r"/>
+
+
+      <!-- ═══ STAGE 5: Claude Response (blue, hero) ═══ -->
+      <rect x="982" y="22" width="108" height="196" rx="16" fill="rgba(74,158,255,0.05)" stroke="#4a9eff" stroke-width="2" filter="url(#rag-glow-blue)"/>
+      <rect x="982" y="22" width="108" height="5" rx="3" fill="#4a9eff" opacity="0.7"/>
+
+      <image href="claude-icon.png" x="1018" y="36" width="20" height="20" opacity="0.8"/>
+      <text x="1036" y="72" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="17" font-style="italic" fill="#4a9eff">Resposta</text>
+
+      <!-- Response content -->
+      <text x="1000" y="100" font-family="'Fira Code',monospace" font-size="10" fill="#3fb950">23 reviews</text>
+      <text x="1000" y="118" font-family="'Fira Code',monospace" font-size="10" fill="#4a9eff">"15 dias" (15x)</text>
+      <text x="1000" y="136" font-family="'Fira Code',monospace" font-size="10" fill="#ef9000">"não recebi" (5x)</text>
+      <text x="1000" y="154" font-family="'Fira Code',monospace" font-size="10" fill="#f85149">"frete caro" (3x)</text>
+
+      <!-- Sentiment bar -->
+      <rect x="1000" y="170" width="72" height="14" rx="4" fill="rgba(248,81,73,0.15)"/>
+      <rect x="1000" y="170" width="56" height="14" rx="4" fill="rgba(248,81,73,0.4)"/>
+      <text x="1036" y="181" text-anchor="middle" font-family="'Fira Code',monospace" font-size="8.5" fill="#f85149" font-weight="600">78% neg</text>
+
+      <!-- SUCCESS badge -->
+      <rect x="998" y="192" width="76" height="18" rx="9" fill="rgba(63,185,80,0.12)" stroke="rgba(63,185,80,0.3)" stroke-width="1"/>
+      <text x="1036" y="205" text-anchor="middle" font-family="'Fira Code',monospace" font-size="8.5" fill="#3fb950" font-weight="600">GROUNDED</text>
+
+      <!-- Stage number -->
+      <circle cx="1036" cy="236" r="14" fill="rgba(74,158,255,0.12)" stroke="#4a9eff" stroke-width="1.5"/>
+      <text x="1036" y="241" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#4a9eff">5</text>
+      <text x="1036" y="268" text-anchor="middle" font-family="'Fira Code',monospace" font-size="9.5" fill="#4a9eff" letter-spacing="1.5">RESPONDER</text>
+
+
+      <!-- ═══ BOTTOM: Full-width response card ═══ -->
+      <rect x="20" y="294" width="1070" height="150" rx="18" fill="rgba(74,158,255,0.03)" stroke="rgba(74,158,255,0.15)" stroke-width="1.5"/>
+      <rect x="20" y="294" width="1070" height="4" rx="2" fill="rgba(74,158,255,0.3)"/>
+
+      <!-- Claude's response quote -->
+      <text x="50" y="326" font-family="'Instrument Serif',serif" font-size="16" font-style="italic" fill="#4a9eff">Resposta Fundamentada</text>
+      <text x="50" y="354" font-family="'Newsreader',serif" font-size="14" font-style="italic" fill="#e8edf5">&ldquo;Encontrei 23 reviews sobre entrega. Temas: &lsquo;demorou 15 dias&rsquo; (15x),</text>
+      <text x="50" y="374" font-family="'Newsreader',serif" font-size="14" font-style="italic" fill="#e8edf5">&lsquo;ainda não recebi&rsquo; (5x), &lsquo;frete caro&rsquo; (3x). Sentimento: 78% negativo.&rdquo;</text>
+
+      <!-- Key insight -->
+      <rect x="780" y="310" width="290" height="118" rx="14" fill="rgba(63,185,80,0.04)" stroke="rgba(63,185,80,0.15)" stroke-width="1"/>
+      <text x="925" y="338" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#3fb950">Por que isso importa?</text>
+      <text x="925" y="362" text-anchor="middle" font-family="'Newsreader',serif" font-size="12.5" font-style="italic" fill="#c8d8e8">Claude não inventou &ldquo;demorou 15 dias&rdquo;.</text>
+      <text x="925" y="380" text-anchor="middle" font-family="'Newsreader',serif" font-size="12.5" font-style="italic" fill="#c8d8e8">Ele leu das reviews reais do Qdrant.</text>
+      <text x="925" y="404" text-anchor="middle" font-family="'Instrument Serif',serif" font-size="14" font-style="italic" fill="#3fb950">Fundamentação > Alucinação</text>
+    </svg>
   </div>
 
   <!-- Bottom bar -->
-  <div class="reveal" style="margin-top:auto; padding-top:clamp(12px,2vh,20px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px);">
+  <div class="reveal" style="margin-top:auto; padding-top:clamp(10px,1.5vh,16px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px);">
     <p style="font-family:var(--font-editorial); font-size:clamp(0.92rem,1.5vw,1.15rem); font-style:italic; color:var(--text-dim); line-height:1.5; flex:1;">
       A diferença do RAG: <strong style="color:var(--green);">Claude não inventou</strong> &lsquo;demorou 15 dias&rsquo;. Ele leu das reviews reais. Isso é a diferença entre <strong style="color:var(--red);">hallucination</strong> e <strong style="color:var(--green);">fundamentação</strong>.
     </p>
     <div style="display:flex; gap:0.5rem; flex-shrink:0; flex-wrap:wrap;">
-      <span class="tag tag-green">Grounded Response</span>
+      <span class="tag tag-green">Grounded</span>
       <span class="tag tag-accent">No Hallucination</span>
       <span class="tag tag-gold">Real Data</span>
     </div>
@@ -4257,13 +4152,13 @@
 <!-- ================================================================ -->
 <!-- SLIDE 37 — FLOW ARCHITECTURE: Demo Híbrida                      -->
 <!-- ================================================================ -->
-<section class="slide" style="justify-content:flex-start; padding-top:clamp(28px,4vh,48px); background-image: radial-gradient(ellipse at 40% 20%, rgba(63,185,80,0.05) 0%, transparent 50%), radial-gradient(ellipse at 70% 75%, rgba(74,158,255,0.04) 0%, transparent 40%);">
+<section class="slide" style="justify-content:flex-start; padding-top:clamp(16px,2.5vh,28px); padding-bottom:clamp(6px,1vh,12px); background-image: radial-gradient(ellipse at 40% 20%, rgba(63,185,80,0.05) 0%, transparent 50%), radial-gradient(ellipse at 70% 75%, rgba(74,158,255,0.04) 0%, transparent 40%);">
   <p class="slide__label reveal" style="color:var(--gold);">DEMO HÍBRIDA</p>
-  <h2 class="slide__heading reveal" style="font-style:italic; font-size:clamp(32px,6vw,60px);">As Duas <span style="color:var(--gold);">Pernas</span> Juntas</h2>
+  <h2 class="slide__heading reveal" style="font-style:italic; font-size:clamp(26px,4.5vw,48px); margin-bottom:clamp(2px,0.4vh,6px);">As Duas <span style="color:var(--gold);">Pernas</span> Juntas</h2>
 
   <!-- SVG Architecture: Two rivers merging — THE ARCHITECTURAL CLIMAX of Day 2 -->
-  <div class="reveal" style="flex:1; display:flex; align-items:center; justify-content:center; margin-top:clamp(6px,1vh,12px);">
-    <svg viewBox="-10 -10 1220 530" style="width:100%; max-height:clamp(340px,62vh,520px);">
+  <div class="reveal" style="flex:1; display:flex; align-items:center; justify-content:center;">
+    <svg viewBox="40 -10 1120 530" style="width:100%; max-height:clamp(420px,75vh,640px);">
       <defs>
         <filter id="h35-glow-gold">
           <feGaussianBlur stdDeviation="8" result="b"/>
@@ -4377,17 +4272,16 @@
   </div>
 
   <!-- Bottom bar -->
-  <div class="reveal" style="margin-top:auto; padding-top:clamp(10px,1.5vh,16px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,3vw,32px);">
-    <p style="font-family:var(--font-editorial); font-size:clamp(0.92rem,1.5vw,1.15rem); font-style:italic; color:var(--text-dim); line-height:1.5; flex:1;">
-      <strong style="color:var(--gold);">Pergunta híbrida = as duas pernas juntas</strong>. Sozinha, nenhuma resolveria: Qdrant encontra <strong style="color:var(--green);">quem reclama</strong>; Postgres calcula <strong style="color:var(--accent);">quanto gastam</strong>.
+  <div class="reveal" style="margin-top:auto; padding-top:clamp(6px,1vh,10px); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:clamp(12px,2vw,24px);">
+    <p style="font-family:var(--font-editorial); font-size:clamp(0.85rem,1.3vw,1.05rem); font-style:italic; color:var(--text-dim); line-height:1.4; flex:1;">
+      <strong style="color:var(--gold);">Pergunta híbrida = as duas pernas juntas.</strong> Qdrant encontra <strong style="color:var(--green);">quem reclama</strong>; Postgres calcula <strong style="color:var(--accent);">quanto gastam</strong>.
     </p>
     <div style="display:flex; gap:0.5rem; flex-shrink:0; flex-wrap:wrap;">
-      <span class="tag tag-gold">Hybrid Query</span>
-      <span class="tag tag-green">The Memory</span>
-      <span class="tag tag-accent">The Ledger</span>
+      <span class="tag tag-gold">Hybrid</span>
+      <span class="tag tag-green">Memory</span>
+      <span class="tag tag-accent">Ledger</span>
     </div>
   </div>
-  <p class="reveal" style="font-family:var(--font-mono); font-size:clamp(0.6rem,0.8vw,0.7rem); color:var(--text-dim); margin-top:clamp(6px,1vh,10px); opacity:0.7;">&rarr; prompts/d2-context/07-hybrid-query.md</p>
 </section>
 
 <!-- ================================================================ -->

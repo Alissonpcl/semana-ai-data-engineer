@@ -20,8 +20,8 @@ class Customer(BaseModel):
 class Product(BaseModel):
     product_id: UUID
     name: str
-    category: str | None = None
-    price: Decimal | None = None
+    category: str
+    price: Decimal = Field(gt=0)
     brand: str | None = None
 
 
