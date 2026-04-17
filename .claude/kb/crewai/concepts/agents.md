@@ -1,6 +1,6 @@
 # Agents
 
-> **Purpose**: Define autonomous AI agents with roles, goals, and tools for DataOps workflows
+> **Purpose**: Define autonomous AI agents with roles, goals, and tools for ShopAgent e-commerce workflows
 > **Confidence**: 0.95
 > **MCP Validated**: 2026-02-17
 
@@ -13,21 +13,20 @@ A CrewAI Agent is an LLM-powered autonomous unit defined by a role, goal, and ba
 ```python
 from crewai import Agent
 
-# DataOps monitoring agent
-pipeline_monitor = Agent(
-    role="Pipeline Monitor",
-    goal="Detect anomalies in data pipeline execution and report failures",
+analyst = Agent(
+    role="E-Commerce Data Analyst",
+    goal="Extract precise revenue, order, and customer metrics via SQL queries",
     backstory=(
-        "You are a senior DataOps engineer with 10 years of experience "
-        "monitoring ETL pipelines. You excel at identifying root causes "
-        "of pipeline failures from logs and metrics."
+        "You are an expert SQL analyst specialized in e-commerce data. "
+        "You query Supabase Postgres for exact numbers: revenue, order counts, "
+        "payment distributions, and customer segment metrics. You never guess "
+        "numbers — every figure comes from a SQL query result."
     ),
-    tools=[log_reader_tool, metrics_tool],
-    llm="openai/gpt-4o",
+    tools=[supabase_tool],
+    llm="anthropic/claude-sonnet-4-20250514",
     memory=True,
     verbose=True,
     max_iter=5,
-    max_rpm=10,
     allow_delegation=False,
 )
 ```
@@ -35,7 +34,7 @@ pipeline_monitor = Agent(
 ## Quick Reference
 
 | Parameter | Type | Default | Notes |
-|-----------|------|---------|-------|
+| --------- | ---- | ------- | ----- |
 | `role` | str | required | Agent's job title / function |
 | `goal` | str | required | What the agent aims to achieve |
 | `backstory` | str | required | Context for persona consistency |
@@ -53,12 +52,21 @@ pipeline_monitor = Agent(
 
 ```yaml
 # config/agents.yaml
-pipeline_monitor:
-  role: "Pipeline Monitor"
-  goal: "Detect anomalies in data pipeline execution"
+analyst:
+  role: "E-Commerce Data Analyst"
+  goal: "Extract precise revenue, order, and customer metrics via SQL queries"
   backstory: >
-    You are a senior DataOps engineer with deep expertise
-    in monitoring ETL pipelines and identifying root causes.
+    You are an expert SQL analyst specialized in e-commerce data.
+    You query Supabase Postgres for exact numbers and never guess figures.
+  max_iter: 5
+  verbose: true
+
+researcher:
+  role: "Customer Experience Researcher"
+  goal: "Surface customer sentiment and complaint themes from review vectors"
+  backstory: >
+    You search Qdrant for review embeddings and synthesize sentiment patterns,
+    recurring complaints, and satisfaction drivers from customer feedback.
   max_iter: 5
   verbose: true
 ```
@@ -67,14 +75,21 @@ pipeline_monitor:
 from crewai import Agent, CrewBase, agent
 
 @CrewBase
-class DataOpsCrew:
+class ShopAgentCrew:
     agents_config = "config/agents.yaml"
 
     @agent
-    def pipeline_monitor(self) -> Agent:
+    def analyst(self) -> Agent:
         return Agent(
-            config=self.agents_config["pipeline_monitor"],
-            tools=[log_reader_tool, metrics_tool],
+            config=self.agents_config["analyst"],
+            tools=[supabase_tool],
+        )
+
+    @agent
+    def researcher(self) -> Agent:
+        return Agent(
+            config=self.agents_config["researcher"],
+            tools=[qdrant_tool],
         )
 ```
 
@@ -85,8 +100,8 @@ class DataOpsCrew:
 ```python
 # Missing backstory leads to generic, unfocused responses
 agent = Agent(
-    role="Monitor",
-    goal="Monitor things",
+    role="Analyst",
+    goal="Analyze things",
 )
 ```
 
@@ -95,13 +110,13 @@ agent = Agent(
 ```python
 # Specific role, goal, and backstory produce focused behavior
 agent = Agent(
-    role="BigQuery Pipeline Monitor",
-    goal="Detect row count anomalies exceeding 15% deviation in BigQuery loads",
+    role="E-Commerce Data Analyst",
+    goal="Return exact revenue totals and order counts from Supabase Postgres",
     backstory=(
-        "You specialize in BigQuery data quality. You compare daily "
-        "row counts against 7-day rolling averages to catch anomalies."
+        "You specialize in e-commerce SQL. You query orders, customers, and "
+        "products tables to return precise figures — never estimates."
     ),
-    tools=[bigquery_tool],
+    tools=[supabase_tool],
     max_iter=5,
 )
 ```
@@ -111,4 +126,4 @@ agent = Agent(
 - [Tasks](../concepts/tasks.md)
 - [Crews](../concepts/crews.md)
 - [Tools](../concepts/tools.md)
-- [Triage Pattern](../patterns/triage-investigation-report.md)
+- [ShopAgent Crew Pattern](../patterns/shopagent-crew.md)

@@ -12,21 +12,21 @@ CrewAI Tools are external capabilities registered to agents at runtime. Tools gi
 
 ```python
 from crewai.tools import tool
+import psycopg2
+import os
 
-@tool("BigQuery Row Counter")
-def bigquery_row_count(dataset: str, table: str, date: str) -> str:
-    """Count rows loaded into a BigQuery table for a given date.
-    Use this when you need to verify data completeness after ETL runs."""
-    from google.cloud import bigquery
-    client = bigquery.Client()
-    query = f"""
-        SELECT COUNT(*) as row_count
-        FROM `{dataset}.{table}`
-        WHERE DATE(load_timestamp) = '{date}'
-    """
-    result = client.query(query).result()
-    row = list(result)[0]
-    return f"Table {dataset}.{table} has {row.row_count} rows for {date}"
+@tool("Supabase SQL Executor")
+def supabase_execute_sql(query: str) -> str:
+    """Execute a SQL query against the Supabase Postgres Ledger and return results.
+    Use this when you need exact revenue totals, order counts, customer segments,
+    or any structured e-commerce metric that requires a SQL query."""
+    conn = psycopg2.connect(os.environ["SUPABASE_DB_URL"])
+    with conn.cursor() as cur:
+        cur.execute(query)
+        rows = cur.fetchall()
+        columns = [desc[0] for desc in cur.description]
+    conn.close()
+    return str([dict(zip(columns, row)) for row in rows])
 ```
 
 ## Quick Reference
@@ -42,28 +42,33 @@ def bigquery_row_count(dataset: str, table: str, date: str) -> str:
 ```python
 from crewai.tools import BaseTool
 from pydantic import BaseModel, Field
+from qdrant_client import QdrantClient
+from qdrant_client.models import Filter
+import os
 
-class PipelineStatusInput(BaseModel):
-    pipeline_id: str = Field(description="Unique pipeline identifier")
-    environment: str = Field(default="production", description="Target environment")
+class QdrantSearchInput(BaseModel):
+    query: str = Field(description="Natural language query to search review vectors")
+    top_k: int = Field(default=5, description="Number of top results to return")
 
-class PipelineStatusTool(BaseTool):
-    name: str = "Pipeline Status Checker"
+class QdrantSemanticSearch(BaseTool):
+    name: str = "Qdrant Semantic Search"
     description: str = (
-        "Check the current execution status of a data pipeline. "
-        "Returns status, last run time, and error details if failed."
+        "Search customer review vectors in Qdrant (The Memory) using semantic similarity. "
+        "Returns the most relevant reviews for a given topic, complaint, or sentiment query."
     )
-    args_schema: type[BaseModel] = PipelineStatusInput
+    args_schema: type[BaseModel] = QdrantSearchInput
 
-    def _run(self, pipeline_id: str, environment: str = "production") -> str:
-        # Query pipeline orchestrator API
-        import requests
-        resp = requests.get(
-            f"https://orchestrator.internal/api/pipelines/{pipeline_id}",
-            params={"env": environment},
+    def _run(self, query: str, top_k: int = 5) -> str:
+        client = QdrantClient(url=os.environ["QDRANT_URL"])
+        results = client.query(
+            collection_name="reviews",
+            query_text=query,
+            limit=top_k,
         )
-        data = resp.json()
-        return f"Pipeline {pipeline_id}: {data['status']} (last run: {data['last_run']})"
+        return str([
+            {"score": r.score, "comment": r.document, "sentiment": r.metadata.get("sentiment")}
+            for r in results
+        ])
 ```
 
 ## Built-in Tools
@@ -82,20 +87,28 @@ class PipelineStatusTool(BaseTool):
 ```python
 from crewai import Agent
 
-# Tools registered at agent level
-monitor = Agent(
-    role="Pipeline Monitor",
-    goal="Check pipeline health",
+# AnalystAgent: SQL access to The Ledger
+analyst = Agent(
+    role="E-Commerce Data Analyst",
+    goal="Query Supabase for exact revenue and order metrics",
     backstory="...",
-    tools=[bigquery_row_count, PipelineStatusTool()],
+    tools=[supabase_execute_sql],
+)
+
+# ResearchAgent: semantic search in The Memory
+researcher = Agent(
+    role="Customer Experience Researcher",
+    goal="Surface sentiment and complaint themes from review vectors",
+    backstory="...",
+    tools=[QdrantSemanticSearch()],
 )
 
 # Tools can also be set at task level (overrides agent tools)
 task = Task(
-    description="Check row counts",
-    expected_output="Row count report",
-    agent=monitor,
-    tools=[bigquery_row_count],  # Only this tool available
+    description="Query total revenue for the last 30 days",
+    expected_output="Revenue total from Supabase SQL",
+    agent=analyst,
+    tools=[supabase_execute_sql],  # Only this tool available
 )
 ```
 
@@ -113,15 +126,15 @@ def my_tool(x: str) -> str:
 ### Correct
 
 ```python
-@tool("Text Normalizer")
-def normalize_text(text: str) -> str:
-    """Normalize text by converting to uppercase and stripping whitespace.
-    Use this when pipeline field values need standardization before loading."""
-    return text.upper().strip()
+@tool("Supabase SQL Executor")
+def supabase_execute_sql(query: str) -> str:
+    """Execute a SQL query against Supabase Postgres and return row results as a list of dicts.
+    Use this when you need exact figures: revenue totals, order counts, or segment breakdowns."""
+    ...
 ```
 
 ## Related
 
 - [Agents](../concepts/agents.md)
 - [Tasks](../concepts/tasks.md)
-- [Log Analysis Agent](../patterns/log-analysis-agent.md)
+- [ShopAgent Crew Pattern](../patterns/shopagent-crew.md)

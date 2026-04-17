@@ -1,6 +1,6 @@
 # Memory
 
-> **Purpose**: Enable agents to retain context across tasks and sessions for continuous DataOps learning
+> **Purpose**: Enable agents to retain context across tasks and sessions for ShopAgent cross-session learning
 > **Confidence**: 0.95
 > **MCP Validated**: 2026-02-17
 
@@ -13,27 +13,31 @@ CrewAI Memory allows agents to retain historical context during and across task 
 ```python
 from crewai import Crew, Agent, Task, Process
 
-monitor = Agent(
-    role="Pipeline Monitor",
-    goal="Detect recurring pipeline failures and learn from past incidents",
-    backstory="You track data pipeline health and remember past failure patterns.",
+analyst = Agent(
+    role="E-Commerce Data Analyst",
+    goal="Extract revenue and order metrics, learning which SQL queries produce reliable results",
+    backstory="You query Supabase Postgres and remember which queries returned accurate figures.",
+    tools=[supabase_tool],
+    llm="anthropic/claude-sonnet-4-20250514",
 )
 
-investigate = Agent(
-    role="Incident Analyst",
-    goal="Correlate current failures with historical incidents",
-    backstory="You analyze incidents and recall similar past events.",
+researcher = Agent(
+    role="Customer Experience Researcher",
+    goal="Surface complaint themes from reviews, recalling patterns from past searches",
+    backstory="You search Qdrant and remember which review themes recur across analysis runs.",
+    tools=[qdrant_tool],
+    llm="anthropic/claude-sonnet-4-20250514",
 )
 
 crew = Crew(
-    agents=[monitor, investigate],
+    agents=[analyst, researcher],
     tasks=[...],
     process=Process.sequential,
     memory=True,  # Enables STM, LTM, and Entity memory
     verbose=True,
 )
 
-result = crew.kickoff(inputs={"pipeline": "daily_sales_etl"})
+result = crew.kickoff(inputs={"time_period": "last 30 days"})
 ```
 
 ## Quick Reference
@@ -48,7 +52,7 @@ result = crew.kickoff(inputs={"pipeline": "daily_sales_etl"})
 
 ```python
 crew = Crew(
-    agents=[monitor, investigate],
+    agents=[analyst, researcher],
     tasks=[...],
     process=Process.sequential,
     memory=True,
@@ -80,17 +84,16 @@ crew.reset_memories(command_type="knowledge") # Knowledge store
 export CREWAI_STORAGE_DIR="/data/crewai/memory"
 ```
 
-## DataOps Memory Use Case
+## ShopAgent Memory Use Case
 
 ```python
-# Agents learn from past pipeline failures
-# STM: Current investigation context
-# LTM: Historical failure patterns persisted across runs
-# Entity: Knowledge about specific pipelines, tables, owners
+# STM: current analysis session context (SQL results, review themes found)
+# LTM: cross-run learning (which SQL queries work, which complaint themes recur)
+# Entity: knowledge about segments (e.g., "Premium segment drives 40% of revenue")
 
 crew = Crew(
-    agents=[monitor, investigate],
-    tasks=[detect_task, correlate_task, report_task],
+    agents=[analyst, researcher, reporter],
+    tasks=[analysis_task, research_task, report_task],
     process=Process.sequential,
     memory=True,
     embedder={
@@ -99,11 +102,12 @@ crew = Crew(
     },
 )
 
-# First run: learns about daily_sales_etl failures
-crew.kickoff(inputs={"pipeline": "daily_sales_etl"})
+# First run: learns revenue patterns and top complaint themes
+crew.kickoff(inputs={"time_period": "last 30 days"})
 
-# Second run: recalls past daily_sales_etl incidents
-crew.kickoff(inputs={"pipeline": "daily_sales_etl"})
+# Second run: recalls which SQL queries were reliable and which
+# complaint themes appeared before — faster, more focused analysis
+crew.kickoff(inputs={"time_period": "last 7 days"})
 ```
 
 ## Common Mistakes
@@ -112,7 +116,7 @@ crew.kickoff(inputs={"pipeline": "daily_sales_etl"})
 
 ```python
 # Enabling memory without an embedder when using non-OpenAI models
-crew = Crew(agents=[a], tasks=[t], memory=True, llm="anthropic/claude-3")
+crew = Crew(agents=[a], tasks=[t], memory=True, llm="anthropic/claude-sonnet-4-20250514")
 ```
 
 ### Correct
@@ -129,4 +133,4 @@ crew = Crew(
 
 - [Crews](../concepts/crews.md)
 - [Agents](../concepts/agents.md)
-- [Triage Pattern](../patterns/triage-investigation-report.md)
+- [ShopAgent Crew Pattern](../patterns/shopagent-crew.md)

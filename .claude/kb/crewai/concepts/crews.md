@@ -1,6 +1,6 @@
 # Crews
 
-> **Purpose**: Compose teams of agents that collaborate to solve DataOps monitoring tasks
+> **Purpose**: Compose teams of agents that collaborate to solve ShopAgent e-commerce analysis
 > **Confidence**: 0.95
 > **MCP Validated**: 2026-02-17
 
@@ -13,30 +13,54 @@ A Crew is a team of agents working together on a list of tasks through a defined
 ```python
 from crewai import Agent, Task, Crew, Process
 
-monitor = Agent(role="Pipeline Monitor", goal="Detect failures", backstory="...")
-investigator = Agent(role="Root Cause Analyst", goal="Find root cause", backstory="...")
-
-detect_task = Task(
-    description="Check pipeline {pipeline_name} for failures in the last hour",
-    expected_output="List of failed jobs with timestamps and error codes",
-    agent=monitor,
+analyst = Agent(
+    role="E-Commerce Data Analyst",
+    goal="Extract revenue and order metrics via SQL",
+    backstory="Expert SQL analyst querying Supabase for exact e-commerce figures.",
+    tools=[supabase_tool],
+    llm="anthropic/claude-sonnet-4-20250514",
 )
-investigate_task = Task(
-    description="Analyze failures and determine root cause",
-    expected_output="Root cause analysis with remediation steps",
-    agent=investigator,
-    context=[detect_task],
+researcher = Agent(
+    role="Customer Experience Researcher",
+    goal="Surface sentiment and complaint themes from review vectors",
+    backstory="Searches Qdrant embeddings to identify recurring customer issues.",
+    tools=[qdrant_tool],
+    llm="anthropic/claude-sonnet-4-20250514",
+)
+reporter = Agent(
+    role="Executive Report Writer",
+    goal="Synthesize SQL metrics and review insights into an actionable report",
+    backstory="Combines structured data and qualitative feedback into clear briefs.",
+    llm="anthropic/claude-sonnet-4-20250514",
+)
+
+analysis_task = Task(
+    description="Query revenue totals and order counts for {time_period}",
+    expected_output="Revenue, order count, and top customer segments by SQL result",
+    agent=analyst,
+)
+research_task = Task(
+    description="Search reviews for sentiment and complaints in {time_period}",
+    expected_output="Top complaint themes and satisfaction drivers with evidence",
+    agent=researcher,
+    context=[analysis_task],
+)
+report_task = Task(
+    description="Write an executive e-commerce report combining metrics and sentiment",
+    expected_output="Structured report with revenue, sentiment, and recommendations",
+    agent=reporter,
+    context=[analysis_task, research_task],
 )
 
 crew = Crew(
-    agents=[monitor, investigator],
-    tasks=[detect_task, investigate_task],
+    agents=[analyst, researcher, reporter],
+    tasks=[analysis_task, research_task, report_task],
     process=Process.sequential,
     memory=True,
     verbose=True,
 )
 
-result = crew.kickoff(inputs={"pipeline_name": "daily_sales_etl"})
+result = crew.kickoff(inputs={"time_period": "last 30 days"})
 print(result.raw)
 ```
 
@@ -59,61 +83,42 @@ print(result.raw)
 | `step_callback` | callable | `None` | Hook after each step |
 | `task_callback` | callable | `None` | Hook after each task |
 
-## YAML Configuration
+## YAML Configuration (@CrewBase)
 
 ```python
 from crewai import CrewBase, agent, task, crew, Agent, Task, Crew, Process
 
 @CrewBase
-class DataOpsCrew:
+class ShopAgentCrew:
     agents_config = "config/agents.yaml"
     tasks_config = "config/tasks.yaml"
 
     @agent
-    def pipeline_monitor(self) -> Agent:
-        return Agent(config=self.agents_config["pipeline_monitor"])
+    def analyst(self) -> Agent:
+        return Agent(config=self.agents_config["analyst"], tools=[supabase_tool])
 
     @agent
-    def root_cause_analyst(self) -> Agent:
-        return Agent(config=self.agents_config["root_cause_analyst"])
+    def researcher(self) -> Agent:
+        return Agent(config=self.agents_config["researcher"], tools=[qdrant_tool])
 
-    @task
-    def detect_failures(self) -> Task:
-        return Task(config=self.tasks_config["detect_failures"])
-
-    @task
-    def analyze_root_cause(self) -> Task:
-        return Task(config=self.tasks_config["analyze_root_cause"])
+    @agent
+    def reporter(self) -> Agent:
+        return Agent(config=self.agents_config["reporter"])
 
     @crew
     def crew(self) -> Crew:
-        return Crew(
-            agents=self.agents,
-            tasks=self.tasks,
-            process=Process.sequential,
-            memory=True,
-            verbose=True,
-        )
+        return Crew(agents=self.agents, tasks=self.tasks, process=Process.sequential, memory=True)
 ```
+
+> Full YAML config: see [patterns/yaml-configuration.md](../patterns/yaml-configuration.md)
 
 ## Execution Methods
 
-| Method | Type | Use Case |
-|--------|------|----------|
-| `kickoff(inputs={})` | sync | Standard execution |
-| `kickoff_for_each(inputs=[])` | sync | Batch processing |
-| `akickoff(inputs={})` | async | Async execution |
-| `akickoff_for_each(inputs=[])` | async | Async batch |
-
-## CrewOutput Attributes
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `raw` | str | Default string output |
-| `pydantic` | BaseModel | Structured Pydantic output |
-| `json_dict` | dict | Dictionary representation |
-| `tasks_output` | list | Per-task output list |
-| `token_usage` | dict | LLM token metrics |
+| Method | Use Case |
+|--------|----------|
+| `kickoff(inputs={})` | Standard sync execution |
+| `kickoff_for_each(inputs=[])` | Batch processing multiple inputs |
+| `akickoff(inputs={})` | Async execution |
 
 ## Common Mistakes
 
@@ -131,7 +136,7 @@ crew = Crew(
     agents=[a1, a2],
     tasks=[t1],
     process=Process.hierarchical,
-    manager_llm="openai/gpt-4o",
+    manager_llm="anthropic/claude-sonnet-4-20250514",
 )
 ```
 
@@ -140,4 +145,4 @@ crew = Crew(
 - [Agents](../concepts/agents.md)
 - [Tasks](../concepts/tasks.md)
 - [Processes](../concepts/processes.md)
-- [Crew Coordination](../patterns/crew-coordination.md)
+- [ShopAgent Crew Pattern](../patterns/shopagent-crew.md)

@@ -1,6 +1,6 @@
 # CrewAI Knowledge Base
 
-> **Purpose**: Multi-agent AI orchestration framework for autonomous DataOps monitoring and self-healing pipelines
+> **Purpose**: Multi-agent AI orchestration framework for ShopAgent e-commerce analysis
 > **MCP Validated**: 2026-02-17
 
 ## Quick Navigation
@@ -20,12 +20,11 @@
 
 | File | Purpose |
 |------|---------|
-| [patterns/triage-investigation-report.md](patterns/triage-investigation-report.md) | Three-phase DataOps triage workflow |
-| [patterns/log-analysis-agent.md](patterns/log-analysis-agent.md) | Automated pipeline log analysis |
-| [patterns/escalation-workflow.md](patterns/escalation-workflow.md) | Severity-based escalation with human-in-loop |
-| [patterns/slack-integration.md](patterns/slack-integration.md) | Slack notification for pipeline alerts |
-| [patterns/circuit-breaker.md](patterns/circuit-breaker.md) | Cost and failure circuit breaker |
-| [patterns/crew-coordination.md](patterns/crew-coordination.md) | Multi-crew orchestration via Flows |
+| [patterns/shopagent-crew.md](patterns/shopagent-crew.md) | 3-agent ShopAgent crew (Analyst + Researcher + Reporter) |
+| [patterns/shopagent-tools.md](patterns/shopagent-tools.md) | MCP tools for Supabase SQL and Qdrant semantic search |
+| [patterns/yaml-configuration.md](patterns/yaml-configuration.md) | agents.yaml and tasks.yaml configuration |
+| [patterns/chainlit-crewai.md](patterns/chainlit-crewai.md) | Chainlit conversational UI integration |
+| [patterns/evaluation-observability.md](patterns/evaluation-observability.md) | DeepEval testing + LangFuse traces |
 
 ### Specs (Machine-Readable)
 
@@ -48,9 +47,19 @@
 | **Agent** | LLM-powered process with role, goal, backstory, and tools |
 | **Task** | Actionable unit assigned to an agent with expected output |
 | **Crew** | Team of agents collaborating on tasks via a process |
-| **Flow** | Event-driven workflow orchestrating multiple crews |
-| **Tool** | External capability registered to agents at runtime |
+| **Tool** | External capability registered to agents (SQL, semantic search) |
 | **Memory** | Persistent context across short-term, long-term, entity stores |
+| **Process** | Execution strategy: sequential or hierarchical |
+
+---
+
+## ShopAgent Architecture
+
+| Agent | Role | Tool | Store |
+|-------|------|------|-------|
+| AnalystAgent | SQL data analyst | supabase_execute_sql | The Ledger (Postgres) |
+| ResearchAgent | Customer experience researcher | qdrant_semantic_search | The Memory (Qdrant) |
+| ReporterAgent | Executive report writer | (synthesis only) | Both via context |
 
 ---
 
@@ -60,7 +69,7 @@
 |-------|-------|
 | **Beginner** | concepts/agents.md, concepts/tasks.md, concepts/crews.md |
 | **Intermediate** | concepts/tools.md, concepts/memory.md, concepts/processes.md |
-| **Advanced** | patterns/triage-investigation-report.md, patterns/crew-coordination.md |
+| **Advanced** | patterns/shopagent-crew.md, patterns/evaluation-observability.md |
 
 ---
 
@@ -68,6 +77,6 @@
 
 | Agent | Primary Files | Use Case |
 |-------|---------------|----------|
-| KB-Architect | index.md, quick-reference.md | Navigation and discovery |
-| DataOps-Agent | patterns/triage-investigation-report.md | Pipeline monitoring |
-| Code-Gen | concepts/agents.md, concepts/tools.md | CrewAI implementation |
+| crewai-specialist | All files | CrewAI implementation and debugging |
+| shopagent-builder | patterns/shopagent-crew.md | ShopAgent Day 4 build |
+| genai-architect | patterns/shopagent-crew.md | Multi-agent architecture design |

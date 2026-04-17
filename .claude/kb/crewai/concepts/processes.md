@@ -15,18 +15,18 @@ from crewai import Crew, Process
 
 # Sequential: tasks execute in list order
 sequential_crew = Crew(
-    agents=[collector, analyzer, reporter],
-    tasks=[collect_task, analyze_task, report_task],
+    agents=[analyst, researcher, reporter],
+    tasks=[analysis_task, research_task, report_task],
     process=Process.sequential,
     verbose=True,
 )
 
 # Hierarchical: manager delegates tasks to best-fit agents
 hierarchical_crew = Crew(
-    agents=[collector, analyzer, reporter],
-    tasks=[collect_task, analyze_task, report_task],
+    agents=[analyst, researcher, reporter],
+    tasks=[analysis_task, research_task, report_task],
     process=Process.hierarchical,
-    manager_llm="openai/gpt-4o",
+    manager_llm="anthropic/claude-sonnet-4-20250514",
     verbose=True,
 )
 ```
@@ -48,34 +48,38 @@ hierarchical_crew = Crew(
 ```python
 from crewai import Agent, Task, Crew, Process
 
-# Agents execute tasks in defined order
-# Each task output is available to subsequent tasks via context
-collector = Agent(
-    role="Metrics Collector",
-    goal="Gather pipeline execution metrics from BigQuery and Airflow",
-    backstory="You collect raw metrics from monitoring systems.",
+# ShopAgent: analyst → researcher → reporter (fixed order)
+analyst = Agent(
+    role="E-Commerce Data Analyst",
+    goal="Query Supabase Postgres for revenue, order counts, and customer segments",
+    backstory="Expert SQL analyst — every number comes from a verified query result.",
+    tools=[supabase_tool],
+    llm="anthropic/claude-sonnet-4-20250514",
 )
-analyzer = Agent(
-    role="Anomaly Detector",
-    goal="Identify statistical anomalies in collected metrics",
-    backstory="You apply statistical analysis to find deviations.",
+researcher = Agent(
+    role="Customer Experience Researcher",
+    goal="Surface sentiment and complaint themes from Qdrant review vectors",
+    backstory="Searches The Memory to identify recurring customer issues.",
+    tools=[qdrant_tool],
+    llm="anthropic/claude-sonnet-4-20250514",
 )
 reporter = Agent(
-    role="Incident Reporter",
-    goal="Generate actionable incident reports for the on-call team",
-    backstory="You write clear, actionable incident reports.",
+    role="Executive Report Writer",
+    goal="Synthesize SQL metrics and review insights into actionable executive reports",
+    backstory="Combines structured ledger data and qualitative feedback into clear briefs.",
+    llm="anthropic/claude-sonnet-4-20250514",
 )
 
-collect = Task(description="Collect metrics for last 4 hours", expected_output="...", agent=collector)
-analyze = Task(description="Detect anomalies", expected_output="...", agent=analyzer, context=[collect])
-report = Task(description="Write incident report", expected_output="...", agent=reporter, context=[analyze])
+analysis_task = Task(description="Query revenue and orders for last 30 days", expected_output="...", agent=analyst)
+research_task = Task(description="Search reviews for complaint themes", expected_output="...", agent=researcher, context=[analysis_task])
+report_task = Task(description="Write executive e-commerce report", expected_output="...", agent=reporter, context=[analysis_task, research_task])
 
 crew = Crew(
-    agents=[collector, analyzer, reporter],
-    tasks=[collect, analyze, report],
+    agents=[analyst, researcher, reporter],
+    tasks=[analysis_task, research_task, report_task],
     process=Process.sequential,
 )
-result = crew.kickoff()
+result = crew.kickoff(inputs={"time_period": "last 30 days"})
 ```
 
 ## Hierarchical Process
@@ -83,28 +87,24 @@ result = crew.kickoff()
 ```python
 from crewai import Agent, Task, Crew, Process
 
-# Manager agent decides which agent handles each task
-# Manager can reassign tasks if results are unsatisfactory
+# Manager decides which specialist handles each analysis need
 crew = Crew(
-    agents=[collector, analyzer, reporter],
-    tasks=[collect, analyze, report],
+    agents=[analyst, researcher, reporter],
+    tasks=[analysis_task, research_task, report_task],
     process=Process.hierarchical,
-    manager_llm="openai/gpt-4o",
+    manager_llm="anthropic/claude-sonnet-4-20250514",
     verbose=True,
 )
 
 # Or use a custom manager agent
-manager = Agent(
-    role="DataOps Lead",
-    goal="Coordinate incident response and ensure thorough analysis",
-    backstory="You are the on-call DataOps lead managing incident response.",
+shop_manager = Agent(
+    role="ShopAgent Orchestrator",
+    goal="Coordinate e-commerce analysis and ensure complete reports",
+    backstory="You oversee the ShopAgent crew, delegating to specialists.",
 )
-
 crew = Crew(
-    agents=[collector, analyzer, reporter],
-    tasks=[collect, analyze, report],
-    process=Process.hierarchical,
-    manager_agent=manager,
+    agents=[analyst, researcher, reporter], tasks=[analysis_task, research_task, report_task],
+    process=Process.hierarchical, manager_agent=shop_manager,
 )
 ```
 
@@ -112,12 +112,10 @@ crew = Crew(
 
 | Scenario | Recommended |
 |----------|-------------|
-| ETL pipeline monitoring (collect-analyze-report) | Sequential |
-| Multi-source investigation with unknowns | Hierarchical |
+| Standard e-commerce report (SQL → reviews → report) | Sequential |
+| Open-ended investigation with unknown data sources | Hierarchical |
 | Cost-sensitive production workloads | Sequential |
-| Complex triage with possible reassignment | Hierarchical |
-| Deterministic, auditable workflows | Sequential |
-| Tasks that may need re-routing on failure | Hierarchical |
+| Ad-hoc queries where agent selection varies by input | Hierarchical |
 
 ## Common Mistakes
 
@@ -137,7 +135,7 @@ crew = Crew(
 crew = Crew(
     agents=[a1, a2], tasks=[t1, t2],
     process=Process.hierarchical,
-    manager_llm="openai/gpt-4o",
+    manager_llm="anthropic/claude-sonnet-4-20250514",
 )
 ```
 
@@ -145,5 +143,4 @@ crew = Crew(
 
 - [Crews](../concepts/crews.md)
 - [Agents](../concepts/agents.md)
-- [Crew Coordination](../patterns/crew-coordination.md)
-- [Escalation Workflow](../patterns/escalation-workflow.md)
+- [ShopAgent Crew Pattern](../patterns/shopagent-crew.md)

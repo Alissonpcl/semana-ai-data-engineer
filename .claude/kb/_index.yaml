@@ -115,6 +115,7 @@ domains:
     status: complete
     agents:
       - genai-architect
+      - crewai-specialist
     entry_points:
       index: index.md
       quick_reference: quick-reference.md
@@ -138,20 +139,16 @@ domains:
         path: concepts/processes.md
         confidence: 0.95
     patterns:
-      - name: triage-investigation-report
-        path: patterns/triage-investigation-report.md
-      - name: log-analysis-agent
-        path: patterns/log-analysis-agent.md
-      - name: escalation-workflow
-        path: patterns/escalation-workflow.md
-      - name: slack-integration
-        path: patterns/slack-integration.md
-      - name: circuit-breaker
-        path: patterns/circuit-breaker.md
-      - name: crew-coordination
-        path: patterns/crew-coordination.md
       - name: shopagent-crew
         path: patterns/shopagent-crew.md
+      - name: shopagent-tools
+        path: patterns/shopagent-tools.md
+      - name: yaml-configuration
+        path: patterns/yaml-configuration.md
+      - name: chainlit-crewai
+        path: patterns/chainlit-crewai.md
+      - name: evaluation-observability
+        path: patterns/evaluation-observability.md
     specs:
       - name: crewai-config
         path: specs/crewai-config.yaml

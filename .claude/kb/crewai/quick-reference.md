@@ -18,14 +18,21 @@
 | Agent | `Agent` | `role`, `goal`, `backstory`, `tools`, `llm`, `memory` |
 | Task | `Task` | `description`, `expected_output`, `agent`, `tools`, `context` |
 | Crew | `Crew` | `agents`, `tasks`, `process`, `memory`, `verbose` |
-| Flow | `Flow` | `@start`, `@listen`, `@router`, state management |
+
+## ShopAgent Crew
+
+| Agent | Tool | Store |
+|-------|------|-------|
+| AnalystAgent | `supabase_execute_sql` | Postgres (The Ledger) |
+| ResearchAgent | `qdrant_semantic_search` | Qdrant (The Memory) |
+| ReporterAgent | (none — synthesis) | Both via task context |
 
 ## Process Types
 
 | Process | Use Case | Manager Required |
 |---------|----------|------------------|
-| `Process.sequential` | Linear pipeline steps | No |
-| `Process.hierarchical` | Manager delegates to agents | Yes (`manager_llm`) |
+| `Process.sequential` | ShopAgent default (Analyst → Researcher → Reporter) | No |
+| `Process.hierarchical` | Manager delegates to agents dynamically | Yes (`manager_llm`) |
 
 ## Memory Types
 
@@ -33,7 +40,7 @@
 |------|---------|-------|
 | Short-Term | ChromaDB + RAG | Current session |
 | Long-Term | SQLite3 | Cross-session persistence |
-| Entity | ChromaDB + RAG | People, places, concepts |
+| Entity | ChromaDB + RAG | Products, customers, segments |
 
 ## Key Decorators
 
@@ -44,19 +51,15 @@
 | `@task` | Method | Define task from config |
 | `@crew` | Method | Define crew assembly |
 | `@tool` | Function | Create custom tool |
-| `@start()` | Method | Flow entry point |
-| `@listen()` | Method | Flow event listener |
-| `@router()` | Method | Flow conditional branching |
 
 ## Decision Matrix
 
 | Use Case | Choose |
 |----------|--------|
-| Simple linear pipeline | Sequential process, single crew |
-| Requires delegation/oversight | Hierarchical process with manager |
-| Multi-phase workflow | Flows orchestrating multiple crews |
-| Need session memory | `memory=True` on Crew |
-| Custom external integration | BaseTool or @tool decorator |
+| ShopAgent standard report | Sequential, single crew |
+| Complex open-ended investigation | Hierarchical with manager |
+| Need agents to remember past queries | `memory=True` on Crew |
+| Custom Supabase/Qdrant integration | `@tool` or `BaseTool` |
 
 ## Common Pitfalls
 
@@ -64,13 +67,16 @@
 |-------|-----|
 | Skip `expected_output` on tasks | Always define structured output |
 | Use hierarchical without `manager_llm` | Set `manager_llm` or `manager_agent` |
-| Ignore token costs in loops | Implement circuit breaker pattern |
-| Hardcode LLM in agents | Use env vars or config for LLM selection |
+| Give all tools to all agents | Register tools to specialist agents only |
+| Enable memory without embedder config | Set embedder when using non-OpenAI LLMs |
+| Hardcode LLM in agents | Use env vars or YAML config |
 
 ## Related Documentation
 
 | Topic | Path |
 |-------|------|
-| Agent Definition | `concepts/agents.md` |
-| Crew Composition | `concepts/crews.md` |
-| Full Index | `index.md` |
+| ShopAgent Crew | `patterns/shopagent-crew.md` |
+| MCP Tools | `patterns/shopagent-tools.md` |
+| YAML Config | `patterns/yaml-configuration.md` |
+| Chainlit Integration | `patterns/chainlit-crewai.md` |
+| Evaluation + Observability | `patterns/evaluation-observability.md` |

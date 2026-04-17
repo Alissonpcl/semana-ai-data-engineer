@@ -15,26 +15,25 @@ from crewai import Task, Agent
 from pydantic import BaseModel
 from typing import List
 
-class PipelineReport(BaseModel):
-    pipeline_name: str
-    status: str
-    failed_jobs: List[str]
-    root_cause: str
-    recommended_action: str
+class ShopAgentReport(BaseModel):
+    time_period: str
+    total_revenue: float
+    order_count: int
+    top_segment: str
+    top_complaint: str
+    recommendations: List[str]
 
-monitor_agent = Agent(role="Pipeline Monitor", goal="...", backstory="...")
+analyst = Agent(role="E-Commerce Data Analyst", goal="...", backstory="...")
 
-check_pipeline = Task(
+analysis_task = Task(
     description=(
-        "Check the {pipeline_name} pipeline for failures in the last {hours} hours. "
-        "Query the execution logs and identify any jobs that failed or timed out."
+        "Query Supabase Postgres for revenue totals, order counts, and top customer "
+        "segments for {time_period}. Return exact figures from SQL results only."
     ),
-    expected_output="Structured report with pipeline status and failed jobs",
-    agent=monitor_agent,
-    output_pydantic=PipelineReport,
+    expected_output="Revenue total, order count, and top segment with SQL evidence",
+    agent=analyst,
+    output_pydantic=ShopAgentReport,
 )
-
-result = check_pipeline.execute()
 ```
 
 ## Quick Reference
@@ -57,63 +56,71 @@ result = check_pipeline.execute()
 
 ```yaml
 # config/tasks.yaml
-check_pipeline:
+analysis_task:
   description: >
-    Check the {pipeline_name} pipeline for failures
-    in the last {hours} hours. Query execution logs
-    and identify failed or timed-out jobs.
+    Query Supabase Postgres for revenue totals, order counts, and top customer
+    segments for {time_period}. Return exact SQL results — no estimates.
   expected_output: >
-    Structured report including pipeline status,
-    list of failed jobs, and error messages.
-  agent: pipeline_monitor
+    Revenue total, order count, payment method distribution,
+    and top customer segment with supporting SQL query result.
+  agent: analyst
 
-investigate_failure:
+research_task:
   description: >
-    Investigate the root cause of failures found in
-    {pipeline_name}. Analyze logs and dependency graph.
+    Search Qdrant review vectors for customer complaints and sentiment
+    themes in {time_period}. Surface top issues with supporting evidence.
   expected_output: >
-    Root cause analysis with remediation steps.
-  agent: root_cause_analyst
+    Top 3 complaint themes, average sentiment score, and satisfaction drivers
+    with representative review excerpts.
+  agent: researcher
   context:
-    - check_pipeline
+    - analysis_task
+
+report_task:
+  description: >
+    Write an executive e-commerce report combining SQL metrics and review insights.
+    Include revenue highlights, sentiment summary, and actionable recommendations.
+  expected_output: >
+    Structured executive report with revenue section, customer sentiment section,
+    and 3-5 prioritized recommendations.
+  agent: reporter
+  context:
+    - analysis_task
+    - research_task
 ```
 
-## Task Context (Dependencies)
+## Task Context and Structured Output
 
 ```python
-# Task B receives Task A output as context
-task_a = Task(
-    description="Collect pipeline metrics for the last 24 hours",
-    expected_output="JSON metrics summary",
-    agent=collector,
-)
-
-task_b = Task(
-    description="Analyze metrics and flag anomalies above 2 std deviations",
-    expected_output="List of anomalous metrics with severity",
-    agent=analyst,
-    context=[task_a],  # task_b receives task_a output
-)
-```
-
-## Structured Output
-
-```python
+# ShopAgent flow: analysis → research → report (with Pydantic output)
 from pydantic import BaseModel, Field
 from typing import List, Literal
 
-class AnomalyReport(BaseModel):
-    metric_name: str = Field(description="Name of the metric")
-    current_value: float = Field(description="Current observed value")
-    expected_range: str = Field(description="Expected min-max range")
-    severity: Literal["low", "medium", "high", "critical"]
-    recommendation: str = Field(description="Suggested remediation")
+class ShopAgentReport(BaseModel):
+    total_revenue: float = Field(description="Total revenue in BRL")
+    order_count: int = Field(description="Total confirmed orders")
+    top_segment: str = Field(description="Highest-revenue customer segment")
+    sentiment: Literal["positive", "neutral", "negative"]
+    top_complaint: str = Field(description="Most frequent complaint theme")
+    recommendations: List[str] = Field(description="Prioritized action items")
 
-task = Task(
-    description="Analyze BigQuery load metrics and detect anomalies",
-    expected_output="Anomaly report with severity ratings",
+analysis_task = Task(
+    description="Query revenue and order metrics for {time_period}",
+    expected_output="Revenue totals and order counts from SQL",
     agent=analyst,
-    output_pydantic=AnomalyReport,
+)
+research_task = Task(
+    description="Search reviews for sentiment and complaint themes",
+    expected_output="Top complaint themes with sentiment scores",
+    agent=researcher,
+    context=[analysis_task],  # receives SQL metrics as context
+)
+report_task = Task(
+    description="Synthesize metrics and sentiment into executive report",
+    expected_output="Structured report with revenue, sentiment, recommendations",
+    agent=reporter,
+    context=[analysis_task, research_task],  # receives both outputs
+    output_pydantic=ShopAgentReport,
 )
 ```
 
@@ -123,16 +130,16 @@ task = Task(
 
 ```python
 # Missing expected_output leads to unfocused agent behavior
-task = Task(description="Check the pipeline", agent=monitor)
+task = Task(description="Check the orders", agent=analyst)
 ```
 
 ### Correct
 
 ```python
 task = Task(
-    description="Check the daily_sales_etl pipeline for failures in the last 2 hours",
-    expected_output="JSON list of failed jobs with error codes and timestamps",
-    agent=monitor,
+    description="Query total revenue and order count for the last 30 days from Supabase",
+    expected_output="JSON with total_revenue (float), order_count (int), and top_segment (str)",
+    agent=analyst,
 )
 ```
 
@@ -140,4 +147,4 @@ task = Task(
 
 - [Agents](../concepts/agents.md)
 - [Crews](../concepts/crews.md)
-- [Triage Pattern](../patterns/triage-investigation-report.md)
+- [ShopAgent Crew Pattern](../patterns/shopagent-crew.md)
